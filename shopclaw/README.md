@@ -1,57 +1,27 @@
-# ShopClaw
+# mastra-test
 
-Phase 01 scaffold for the ShopClaw implementation. This repo starts from `create-mastra`, keeps the required folder layout, and now implements the orchestrator entrypoint plus clarification gating.
+Welcome to your new [Mastra](https://mastra.ai/) project! We're excited to see what you'll build.
 
-## Runtime
+## Getting Started
 
-- Node.js `20+`
-- TypeScript
-- Mastra
-- Zod
-- local CLI runner for the orchestrator
-- `pnpm` preferred by the phase docs, but it is not installed in this environment
+Start the development server:
 
-## Structure
-
-```text
-shopclaw/
-  mastra/
-    agents/
-    tools/
-    memory/
-    workflows/
-    index.ts
-  docs/
-  test/
-  README.md
-  DESIGN.md
-  DEMO.md
-  CHANGELOG.md
-```
-
-## Commands
-
-```sh
+```shell
 npm run dev
-npm run build
-npm test
-npm run phase1:run -- --prompt "I want to launch a premium tea brand"
-npm run phase1:logs
 ```
 
-Mastra is pointed at `./mastra` with `--dir` so the runtime layout matches the phase requirement instead of the default `src/mastra` scaffold.
+Open [http://localhost:4111](http://localhost:4111) in your browser to access [Mastra Studio](https://mastra.ai/docs/getting-started/studio). It provides an interactive UI for building and testing your agents, along with a REST API that exposes your Mastra application as a local service. This lets you start building without worrying about integration right away.
 
-## Phase 01 Status
+You can start editing files inside the `src/mastra` directory. The development server will automatically reload whenever you make changes.
 
-- Founder prompt validation is implemented
-- Run-scoped launch records persist to `.mastra/state/launch-runs.json`
-- Clarification is batched and blocks downstream agents until complete
-- Operator logs are written to `.mastra/logs/phase-01.log`
+## Learn more
 
-See [`docs/runtime.md`](./docs/runtime.md) for scaffold notes.
+To learn more about Mastra, visit our [documentation](https://mastra.ai/docs/). Your bootstrapped project includes example code for [agents](https://mastra.ai/docs/agents/overview), [tools](https://mastra.ai/docs/agents/using-tools), [workflows](https://mastra.ai/docs/workflows/overview), [scorers](https://mastra.ai/docs/evals/overview), and [observability](https://mastra.ai/docs/observability/overview).
 
-Additional docs:
+If you're new to AI agents, check out our [course](https://mastra.ai/course) and [YouTube videos](https://youtube.com/@mastra-ai). You can also join our [Discord](https://discord.gg/BTYqqHKUrf) community to get help and share your projects.
 
-- [`docs/code-walkthrough.md`](./docs/code-walkthrough.md)
-- [`docs/testing.md`](./docs/testing.md)
-- [`docs/example-phase-01-run.md`](./docs/example-phase-01-run.md)
+## Deploy on Mastra Cloud
+
+[Mastra Cloud](https://cloud.mastra.ai/) gives you a serverless agent environment with atomic deployments. Access your agents from anywhere and monitor performance. Make sure they don't go off the rails with evals and tracing.
+
+Check out the [deployment guide](https://mastra.ai/docs/deployment/overview) for more details.
