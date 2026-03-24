@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "mastra dev",
-    "build": "mastra build",
-    "start": "mastra start"
+    "test": "node ./node_modules/typescript/lib/_tsc.js -p tsconfig.test.json && node --test \"$PWD/node_modules/.cache/openclaw-test-dist/test/openclaw.e2e.test.js\"",
+    "dev": "node ./node_modules/mastra/dist/index.js dev",
+    "build": "node ./node_modules/mastra/dist/index.js build",
+    "start": "node ./node_modules/mastra/dist/index.js start",
+    "typecheck": "node ./node_modules/typescript/lib/_tsc.js -p tsconfig.json"
   },
   "keywords": [],
   "author": "",

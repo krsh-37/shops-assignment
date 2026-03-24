@@ -1,20 +1,60 @@
-
+import { resolve } from 'node:path';
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 import { Observability, DefaultExporter, CloudExporter, SensitiveDataFilter } from '@mastra/observability';
-import { weatherWorkflow } from './workflows/weather-workflow';
-import { weatherAgent } from './agents/weather-agent';
-import { toolCallAppropriatenessScorer, completenessScorer, translationScorer } from './scorers/weather-scorer';
+import { openclawApiRoutes } from './api/openclaw-routes.js';
+import {
+  adsAgent,
+  domainAgent,
+  gtmAgent,
+  launchReportAgent,
+  orchestratorAgent,
+  researchAgent,
+  seoAgent,
+  shopifyAgent,
+  visualAgent,
+} from './agents/index.js';
+import {
+  adsStrategyTool,
+  domainRankingTool,
+  gtmPlanTool,
+  launchReportTool,
+  researchTool,
+  seoGeoTool,
+  shopifyAssetsTool,
+  visualDirectionTool,
+} from './tools/index.js';
+import { openclawWorkflow } from './workflows/openclaw.js';
+
+const storagePath = `file:${resolve(process.cwd(), 'mastra.db')}`;
 
 export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent },
-  scorers: { toolCallAppropriatenessScorer, completenessScorer, translationScorer },
+  workflows: { openclawWorkflow },
+  agents: {
+    orchestratorAgent,
+    researchAgent,
+    domainAgent,
+    visualAgent,
+    gtmAgent,
+    shopifyAgent,
+    adsAgent,
+    seoAgent,
+    launchReportAgent,
+  },
+  tools: {
+    researchTool,
+    domainRankingTool,
+    visualDirectionTool,
+    gtmPlanTool,
+    shopifyAssetsTool,
+    adsStrategyTool,
+    seoGeoTool,
+    launchReportTool,
+  },
   storage: new LibSQLStore({
-    id: "mastra-storage",
-    // stores observability, scores, ... into persistent file storage
-    url: "file:./mastra.db",
+    id: 'mastra-storage',
+    url: storagePath,
   }),
   logger: new PinoLogger({
     name: 'Mastra',
@@ -34,4 +74,7 @@ export const mastra = new Mastra({
       },
     },
   }),
+  server: {
+    apiRoutes: openclawApiRoutes,
+  },
 });
