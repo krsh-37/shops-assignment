@@ -1,26 +1,20 @@
 {
-  "name": "shopclaw",
+  "name": "mastra-test",
   "version": "1.0.0",
-  "description": "Phase 01 scaffold for the ShopClaw Mastra implementation.",
-  "main": "mastra/index.ts",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "tsc -p tsconfig.runtime.json && node --test dist/test/*.test.js",
-    "dev": "mastra dev --dir ./mastra",
-    "build": "mastra build --dir ./mastra",
-    "start": "mastra start --dir ./mastra",
-    "phase1:run": "tsc -p tsconfig.runtime.json && node dist/scripts/run-phase-01.js",
-    "phase1:logs": "tsc -p tsconfig.runtime.json && node dist/scripts/show-phase-01-log.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "mastra dev",
+    "build": "mastra build",
+    "start": "mastra start"
   },
-  "keywords": [
-    "mastra",
-    "shopclaw",
-    "phase-01"
-  ],
+  "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.13.0"
   },
   "dependencies": {
     "@mastra/core": "^1.15.0",
