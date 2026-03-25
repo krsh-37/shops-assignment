@@ -16,8 +16,10 @@ export const getLaunchStatusTool = createTool({
     return {
       launchId: run.id,
       status: run.status,
+      phase: run.phase,
       pending_questions: run.pendingQuestions,
       answers: run.clarificationAnswers,
+      next_action: run.status === 'awaiting-user-input' ? 'answer-clarifications' : undefined,
     };
   },
 });

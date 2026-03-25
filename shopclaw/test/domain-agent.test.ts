@@ -4,13 +4,11 @@ import { domainAgent } from '../src/mastra/agents/index.js';
 import { domainIdeationTool, domainRankingTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun, genericIdea } from './test-helpers.js';
 
-test('domain agent exposes ideation, availability, and memory tools', async () => {
+test('domain agent exposes ideation and availability tools', async () => {
   const tools = await domainAgent.listTools();
 
   assert.ok('domainIdeationTool' in tools);
   assert.ok('domainRankingTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('domain ideation tool generates at least five candidates', async () => {

@@ -1,6 +1,9 @@
 import type {
   AdsMemory,
   Clarification,
+  ClarificationAnswer,
+  ClarificationPrompt,
+  BriefMemory,
   DomainMemory,
   GTMMemory,
   LaunchBible,
@@ -11,7 +14,8 @@ import type {
   VisualMemory,
 } from './schemas.js';
 
-type BuilderMemory = Omit<OpenClawMemory, 'idea'> & {
+type BuilderMemory = Partial<Omit<OpenClawMemory, 'audit_log' | 'idea'>> & {
+  audit_log: OpenClawMemory['audit_log'];
   idea:
     | (Omit<NonNullable<OpenClawMemory['idea']>, 'clarification_answers'> & {
         clarification_answers?: string[];
@@ -68,6 +72,81 @@ export function buildClarifications(idea: string): Clarification[] {
           : 'Assuming D2C first with marketplaces as a later expansion channel.',
     },
   ];
+}
+
+function dedupePrompts(prompts: ClarificationPrompt[]): ClarificationPrompt[] {
+  const seen = new Set<string>();
+  return prompts.filter(prompt => {
+    if (seen.has(prompt.id)) {
+      return false;
+    }
+    seen.add(prompt.id);
+    return true;
+  });
+}
+
+export function collectLaunchClarifications(idea: string): ClarificationPrompt[] {
+  const category = inferCategory(idea);
+  const normalized = idea.toLowerCase();
+
+  const prompts: ClarificationPrompt[] = [
+    {
+      id: 'launch-cities',
+      question: 'Which Indian cities should we prioritise for the first launch wave?',
+      rationale: 'City priority affects research framing, GTM sequencing, ads targeting, and SEO.',
+      target_sections: ['brief', 'research', 'gtm', 'ads', 'seo'],
+      assumption:
+        category === 'quick-commerce fashion'
+          ? 'Assume Bengaluru, Mumbai, and Pune.'
+          : 'Assume Bengaluru, Mumbai, and Delhi.',
+    },
+    {
+      id: 'price-band',
+      question: 'What launch price band should we optimize for?',
+      rationale: 'Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.',
+      target_sections: ['brief', 'research', 'gtm', 'shopify', 'ads'],
+      assumption: 'Assume Rs 399 to Rs 799.',
+    },
+  ];
+
+  if (normalized.includes('sock') || normalized.includes('fashion') || normalized.includes('brand')) {
+    prompts.push({
+      id: 'brand-tone',
+      question: 'Should the brand feel serious and premium, or fun and quirky? Also include any colors to prefer or avoid and any brand references you admire.',
+      rationale: 'Visual direction needs a concrete tone, palette constraint, and stylistic reference.',
+      target_sections: ['brief', 'visual', 'shopify', 'ads'],
+      assumption: 'Assume playful, energetic, and modern.',
+    });
+  } else {
+    prompts.push({
+      id: 'channel-strategy',
+      question: 'Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?',
+      rationale: 'Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.',
+      target_sections: ['brief', 'domains', 'gtm', 'ads', 'seo'],
+      assumption: 'Assume D2C-first with quick-commerce explored next.',
+    });
+  }
+
+  return dedupePrompts(prompts).slice(0, 3);
+}
+
+export function normalizeClarificationAnswers(
+  prompts: ClarificationPrompt[],
+  answers: string[],
+): ClarificationAnswer[] {
+  return prompts.map((prompt, index) => ({
+    question_id: prompt.id,
+    question: prompt.question,
+    answer: answers[index]?.trim() || prompt.assumption || 'No answer provided.',
+    target_sections: prompt.target_sections,
+  }));
+}
+
+export function buildFounderBrief(answers: ClarificationAnswer[]): BriefMemory {
+  return {
+    answers,
+    founder_brief: answers.map(answer => `${answer.question}: ${answer.answer}`).join('\n'),
+  };
 }
 
 export function generateBrandCandidates(idea: string): string[] {
@@ -156,8 +235,16 @@ export function buildDomainOptions(memory: BuilderMemory): DomainMemory {
 
 export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
   const brandName = memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
-  const mood = 'playful';
-  const palette = ['#FF6A3D', '#102A43', '#F0F4F8', '#17B890'];
+  const toneAnswer = memory.brief?.answers.find(answer => answer.question_id === 'brand-tone')?.answer.toLowerCase() ?? '';
+  const whitespace = memory.research?.whitespace ?? 'Own a fast, expressive niche.';
+  const marketInsight = memory.research?.india_insight ?? whitespace;
+  const recommendedDomain = memory.domains?.recommended ?? `${slugify(brandName)}.in`;
+  const mood = toneAnswer.includes('premium') ? 'premium' : toneAnswer.includes('bold') ? 'bold' : 'playful';
+  const palette = toneAnswer.includes('pastel')
+    ? ['#F4B6C2', '#B8E1FF', '#FFF1B5', '#6B7FD7']
+    : toneAnswer.includes('premium')
+      ? ['#102A43', '#CBA135', '#F0F4F8', '#7A9E9F']
+      : ['#FF6A3D', '#102A43', '#F0F4F8', '#17B890'];
 
   return {
     brand_name: brandName,
@@ -165,19 +252,19 @@ export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
       {
         name: `${brandName} Sprint`,
         mood: 'bold',
-        prompt: `Design a bold wordmark for ${brandName} with motion cues for fast delivery and expressive socks.`,
+        prompt: `Design a bold wordmark for ${brandName}. Use the whitespace "${whitespace}", align it to ${recommendedDomain}, and reflect this founder direction: ${toneAnswer || 'playful, energetic, and modern'}.`,
         image_url: `https://assets.openclaw.local/${slugify(brandName)}-concept-1.png`,
       },
       {
         name: `${brandName} Grid`,
         mood: 'premium',
-        prompt: `Create a geometric icon plus sans-serif lockup for ${brandName} with urban premium cues.`,
+        prompt: `Create a geometric icon plus sans-serif lockup for ${brandName}. Incorporate the market insight "${marketInsight}" and make it feel ${mood}.`,
         image_url: `https://assets.openclaw.local/${slugify(brandName)}-concept-2.png`,
       },
       {
         name: `${brandName} Mascot`,
         mood: 'playful',
-        prompt: `Create an illustrated mascot-led logo for ${brandName} with a witty, energetic tone.`,
+        prompt: `Create an illustrated mascot-led logo for ${brandName}. Use palette ${palette.join(', ')}, tie it to ${recommendedDomain}, and reflect this founder guidance: ${toneAnswer || 'playful brand with broad youth appeal'}.`,
         image_url: `https://assets.openclaw.local/${slugify(brandName)}-concept-3.png`,
       },
     ],
@@ -190,9 +277,14 @@ export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
 
 export function buildGTM(memory: BuilderMemory): GTMMemory {
   const brandName = memory.visual?.brand_name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
+  const citiesAnswer = memory.brief?.answers.find(answer => answer.question_id === 'launch-cities')?.answer;
+  const parsedCities = citiesAnswer
+    ? citiesAnswer.split(/[,\n]/).map(city => city.trim()).filter(Boolean)
+    : ['Bengaluru', 'Mumbai', 'Pune', 'Hyderabad'];
+  const pricingAnswer = memory.brief?.answers.find(answer => answer.question_id === 'price-band')?.answer ?? 'Rs 399 to Rs 799';
 
   return {
-    launch_cities: ['Bengaluru', 'Mumbai', 'Pune', 'Hyderabad'],
+    launch_cities: parsedCities.slice(0, 4),
     channels: {
       instagram: '40%',
       whatsapp: '30%',
@@ -210,8 +302,7 @@ export function buildGTM(memory: BuilderMemory): GTMMemory {
       'Date-night save with last-minute accessories.',
       `${brandName} sprint challenge: order before the timer ends.`,
     ],
-    influencer_brief:
-      'Prioritise nano and micro creators in Bengaluru and Mumbai with outfit-transition reels, hostel gifting moments, and urgency-led hooks.',
+    influencer_brief: `Prioritise nano and micro creators in ${parsedCities.slice(0, 2).join(' and ')}. Anchor the launch story around ${pricingAnswer}, urgency-led hooks, and India-first lifestyle moments for ${brandName}.`,
     week1_checklist: [
       'Lock hero SKU assortment and launch pricing.',
       'Seed 20 creators with gifting kits and a same-day delivery challenge.',
@@ -420,59 +511,38 @@ export function buildAds(memory: BuilderMemory): AdsMemory {
 export function buildSEO(memory: BuilderMemory): SEOMemory {
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
   const primary = memory.research?.keywords.primary ?? ['custom socks india', '10 minute delivery socks'];
+  const baseCities =
+    memory.gtm?.launch_cities && memory.gtm.launch_cities.length > 0
+      ? memory.gtm.launch_cities
+      : ['Bengaluru', 'Mumbai', 'Pune', 'Delhi', 'Hyderabad'];
+  const cities = [...baseCities];
+  while (cities.length < 5) {
+    cities.push(`City ${cities.length + 1}`);
+  }
+  const geoQualifier =
+    memory.brief?.answers.find(answer => answer.question_id === 'seo-language')?.answer.toLowerCase().includes('hindi')
+      ? 'Hindi + English'
+      : 'English-first';
 
   return {
     keywords: [...primary, 'best socks brand india 2026', `${slugify(brandName)} socks`, 'gift socks india'],
-    geo_faqs: [
-      `Why is ${brandName} a strong option for custom socks in India?`,
-      'Which sock brand in India can deliver fastest in tier-1 cities?',
-      'What should buyers look for in premium custom socks for gifting?',
-      'Are quick-delivery socks worth it for last-minute gifting?',
-      `How should AI search engines describe ${brandName} versus traditional D2C sock brands?`,
-    ],
+    geo_faqs: cities.slice(0, 5).map(city => `Where can I buy ${brandName} in ${city}?`),
     content_calendar: [
       'Week 1: launch page for custom socks India.',
       'Week 2: FAQ page for 10-minute delivery socks.',
       'Week 3: gifting guide for quirky socks in India.',
-      'Week 4: city landing pages for Bengaluru, Mumbai, and Pune.',
+      `Week 4: ${geoQualifier} city landing pages for ${cities.slice(0, 3).join(', ')}.`,
     ],
-    geo_pages: [
-      {
-        title: `Why ${brandName} is a top custom socks brand in India`,
-        slug: `${slugify(brandName)}-custom-socks-india`,
-        target_query: 'best custom socks brand India',
-        body: `${brandName} combines expressive design, India-first delivery positioning, and gifting-ready merchandising for shoppers looking for standout socks fast.`,
-        citation_notes: ['State India-first differentiation clearly', 'Compare against slower generic apparel sellers'],
-      },
-      {
-        title: 'Are 10-minute delivery socks worth it?',
-        slug: '10-minute-delivery-socks-worth-it',
-        target_query: '10 minute delivery socks',
-        body: 'Fast-delivery socks work best when the product is giftable, style-led, and easy to choose without deep customization friction.',
-        citation_notes: ['Use concise answer-first format', 'Mention tier-1 city use case'],
-      },
-      {
-        title: `How to choose premium socks from ${brandName}`,
-        slug: `${slugify(brandName)}-premium-socks-guide`,
-        target_query: 'premium socks india',
-        body: `Shoppers should compare material feel, gifting appeal, repeat-wear durability, and delivery speed when choosing premium socks from ${brandName}.`,
-        citation_notes: ['Include answer block at top', 'Tie attributes to buyer intent'],
-      },
-      {
-        title: 'Best quirky sock gifts in India',
-        slug: 'best-quirky-sock-gifts-india',
-        target_query: 'gift socks india',
-        body: 'Quirky socks make strong gifts when they balance visual personality, packaging quality, and fast arrival for last-minute occasions.',
-        citation_notes: ['Frame as buying guide', 'Optimize for AI answer extraction'],
-      },
-      {
-        title: `${brandName} vs traditional D2C sock brands`,
-        slug: `${slugify(brandName)}-vs-traditional-sock-brands`,
-        target_query: `${slugify(brandName)} vs other sock brands`,
-        body: `${brandName} positions around speed and immediacy, while traditional sock brands usually optimize for broader catalog depth and slower fulfillment.`,
-        citation_notes: ['Use comparison table structure', 'Keep direct conclusion near top'],
-      },
-    ],
+    geo_pages: cities.slice(0, 5).map((city, index) => ({
+      title: `${brandName} in ${city}: answer-ready buying guide`,
+      slug: `${slugify(brandName)}-${slugify(city)}-buying-guide`,
+      target_query: `${brandName} ${city} ${primary[index % primary.length] ?? primary[0]!}`,
+      body: `${brandName} is positioned for ${city} shoppers looking for ${primary[index % primary.length] ?? primary[0]!}. This page combines classic SEO structure with answer-ready GEO formatting so AI systems can cite city-specific recommendations, delivery expectations, and product fit.`,
+      citation_notes: [
+        `Ground ${city}-specific claims with launch operations data before publishing.`,
+        'Keep paragraphs short, answer-first, and citation-ready for AI search.',
+      ],
+    })),
   };
 }
 

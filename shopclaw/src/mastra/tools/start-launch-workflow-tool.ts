@@ -4,14 +4,17 @@ import { startWorkflowInputSchema, workflowControlOutputSchema } from '../domain
 
 export const startLaunchWorkflowTool = createTool({
   id: 'openclaw-start-launch-workflow-tool',
-  description: 'Start the OpenClaw launch workflow for a founder idea.',
+  description: 'Create a draft launch, generate the upfront clarification batch, and return the pending questions. This does not start the workflow yet.',
   inputSchema: startWorkflowInputSchema,
   outputSchema: workflowControlOutputSchema,
   execute: async ({ idea }) => {
-    const run = startLaunch(idea);
+    const run = await startLaunch(idea);
     return {
       launchId: run.id,
       status: run.status,
+      phase: run.phase,
+      pending_questions: run.pendingQuestions,
+      next_action: 'answer-clarifications',
     };
   },
 });

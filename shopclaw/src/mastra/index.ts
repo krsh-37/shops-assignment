@@ -1,9 +1,8 @@
-import { tmpdir } from 'node:os';
-import { resolve } from 'node:path';
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
-import { isDevMode } from './config/openclaw-config.js';
+import { Observability, DefaultExporter } from '@mastra/observability';
+import { getMastraStorageUrl, isDevMode } from './config/openclaw-config.js';
 import { openclawApiRoutes } from './api/openclaw-routes.js';
 import {
   adsAgent,
@@ -38,7 +37,7 @@ import {
 } from './tools/index.js';
 import { openclawWorkflow } from './workflows/openclaw.js';
 
-const storagePath = `file:${resolve(tmpdir(), `openclaw-mastra-${process.pid}.db`)}`;
+const storagePath = getMastraStorageUrl();
 const exposeAgents = isDevMode();
 
 export const mastra = new Mastra({
@@ -81,6 +80,14 @@ export const mastra = new Mastra({
   storage: new LibSQLStore({
     id: 'mastra-storage',
     url: storagePath,
+  }),
+  observability: new Observability({
+    configs: {
+      default: {
+        serviceName: 'openclaw',
+        exporters: [new DefaultExporter()],
+      },
+    },
   }),
   logger: new PinoLogger({
     name: 'Mastra',

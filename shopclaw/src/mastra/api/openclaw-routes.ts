@@ -12,7 +12,7 @@ export const openclawApiRoutes = [
     requiresAuth: false,
     handler: async c => {
       const body = launchRequestSchema.parse(await c.req.json());
-      const run = startLaunch(body.idea);
+      const run = await startLaunch(body.idea);
 
       return c.json(
         {

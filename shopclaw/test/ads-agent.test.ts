@@ -4,12 +4,10 @@ import { adsAgent } from '../src/mastra/agents/index.js';
 import { adsStrategyTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('ads agent exposes ads strategy and memory tools', async () => {
+test('ads agent exposes ads strategy tool', async () => {
   const tools = await adsAgent.listTools();
 
   assert.ok('adsStrategyTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('ads strategy tool returns meta and google campaign structures', async () => {

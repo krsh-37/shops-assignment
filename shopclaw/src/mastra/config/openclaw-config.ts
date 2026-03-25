@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import { mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, resolve } from 'node:path';
 
 const modeSchema = z.enum(['staging', 'dev']).default('staging');
 
@@ -72,4 +75,14 @@ export function assertStagingMode(toolId: string): void {
   if (isDevMode()) {
     throw new Error(`${toolId} is staging-only. In dev mode, use the real agent/workflow execution path instead of stub tools.`);
   }
+}
+
+export function getMastraStorageUrl(): string {
+  if (isDevMode()) {
+    const path = resolve(process.cwd(), '.openclaw', 'mastra-dev.db');
+    mkdirSync(dirname(path), { recursive: true });
+    return `file:${path}`;
+  }
+
+  return `file:${resolve(tmpdir(), `openclaw-mastra-${process.pid}.db`)}`;
 }

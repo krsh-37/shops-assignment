@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { isDevMode } from '../config/openclaw-config.js';
 import {
   buildAds,
-  buildClarifications,
   buildDomainOptions,
   buildGTM,
   buildLaunchBible,
@@ -18,6 +17,7 @@ import {
 import {
   adsGenerationInputSchema,
   adsMemorySchema,
+  clarificationPromptSchema,
   domainMemorySchema,
   gtmGenerationInputSchema,
   gtmMemorySchema,
@@ -36,7 +36,7 @@ import {
   workflowLaunchInputSchema,
   type OpenClawMemory,
 } from '../domain/openclaw/schemas.js';
-import { orchestratorAgent } from '../agents/orchestrator-agent.js';
+import { buildFounderBrief, collectLaunchClarifications, normalizeClarificationAnswers } from '../domain/openclaw/content.js';
 import { researchAgent } from '../agents/research-agent.js';
 import { domainAgent } from '../agents/domain-agent.js';
 import { visualAgent } from '../agents/visual-agent.js';
@@ -59,10 +59,10 @@ function readMem0(launchId: string): OpenClawMemory {
   return mem0.read(launchId);
 }
 
-function memoryOptions(launchId: string) {
+function memoryOptions(agentId: string, launchId: string) {
   return {
     memory: {
-      thread: launchId,
+      thread: `${launchId}:${agentId}`,
       resource: `launch-${launchId}`,
     },
   };
@@ -75,7 +75,7 @@ async function generateStructured<T>(
   launchId: string,
 ) {
   const response = await agent.generate(prompt, {
-    ...memoryOptions(launchId),
+    ...memoryOptions(agent.id ?? agent.name ?? 'agent', launchId),
     maxSteps: 5,
     structuredOutput: {
       schema,
@@ -84,11 +84,25 @@ async function generateStructured<T>(
   });
 
   if (!response.object) {
+    if (response.text) {
+      throw new Error(`Structured output generation failed for agent ${agent.name}: ${response.text}`);
+    }
     throw new Error(`Structured output generation failed for agent ${agent.name}`);
   }
 
   return response.object as T;
 }
+
+const visualStructuredOutputSchema = z.union([
+  visualMemorySchema.extend({
+    chosen_concept: z.number().int().min(0).max(2).default(0),
+  }),
+  z.object({
+    visual_package: visualMemorySchema.extend({
+      chosen_concept: z.number().int().min(0).max(2).default(0),
+    }),
+  }),
+]);
 
 const initializeRunStep = createStep({
   id: 'initialize-run',
@@ -97,13 +111,53 @@ const initializeRunStep = createStep({
   inputSchema: workflowLaunchInputSchema,
   outputSchema: launchInputSchema,
   execute: async ({ inputData }) => {
-    const launchId = randomUUID();
+    const launchId = inputData.launchId ?? randomUUID();
     mem0.ensureRun(inputData.idea, launchId);
 
     return {
       launchId,
       idea: inputData.idea,
     };
+  },
+});
+
+const clarificationGateStep = createStep({
+  id: 'clarification-gate',
+  description: 'Suspends the workflow until the founder provides the upfront clarification batch.',
+  retries: 0,
+  inputSchema: launchInputSchema,
+  outputSchema: launchInputSchema,
+  suspendSchema: z.object({
+    questions: z.array(clarificationPromptSchema).min(1).max(3),
+    reason: z.string(),
+  }),
+  resumeSchema: z.object({
+    answers: z.array(z.string()).min(1),
+  }),
+  execute: async ({ inputData, suspend, resumeData }) => {
+    const { launchId, idea } = inputData;
+    const prompts = collectLaunchClarifications(idea);
+    const reason = 'Collect the founder clarifications before starting the OpenClaw workflow.';
+
+    if (!resumeData) {
+      mem0.requestHumanInput(launchId, prompts, reason);
+      return await suspend({
+        questions: prompts,
+        reason,
+      });
+    }
+
+    if (resumeData.answers.length !== prompts.length) {
+      throw new Error(`Launch ${launchId} expects ${prompts.length} answers but received ${resumeData.answers.length}.`);
+    }
+
+    const normalizedAnswers = normalizeClarificationAnswers(prompts, resumeData.answers);
+    const brief = buildFounderBrief(normalizedAnswers);
+
+    mem0.recordHumanAnswers(launchId, resumeData.answers, normalizedAnswers);
+    await mem0.writeSection(launchId, 'brief', brief, 'orchestrator-agent', 'write:brief');
+
+    return inputData;
   },
 });
 
@@ -116,40 +170,18 @@ const orchestratorStep = createStep({
   execute: async ({ inputData }) => {
     const { launchId, idea } = inputData;
     const run = mem0.ensureRun(idea, launchId);
+    if (!run.memory.brief) {
+      throw new Error(`Launch ${launchId} cannot start before upfront clarification answers are captured.`);
+    }
     mem0.updateStatus(launchId, 'orchestrator-agent');
-    const mem0Context = await mem0.recall(idea, launchId);
     const clarificationAnswers = run.clarificationAnswers;
-
-    const ideaMemory = isDevMode()
-      ? await generateStructured(
-          orchestratorAgent,
-          `Analyze this founder idea and return structured launch initialization data.
-
-Idea: ${idea}
-Clarification answers:
-${clarificationAnswers.join('\n') || 'None provided yet'}
-Relevant Mem0 context:
-${mem0Context.join('\n') || 'None'}
-
-Return:
-- category
-- 5 brand name candidates
-- up to 3 batched clarification questions with practical assumptions
-- clarification_answers populated from the provided answers`,
-          ideaMemorySchema.omit({ raw: true }),
-          launchId,
-        ).then(result => ({
-          ...(result as Omit<z.infer<typeof ideaMemorySchema>, 'raw'>),
-          raw: idea,
-          clarification_answers: clarificationAnswers,
-        }))
-      : {
-          raw: idea,
-          category: inferCategory(idea),
-          brand_name_candidates: generateBrandCandidates(idea),
-          clarification_questions: clarificationAnswers.length > 0 ? [] : buildClarifications(idea),
-          clarification_answers: clarificationAnswers,
-        };
+    const ideaMemory = {
+      raw: idea,
+      category: inferCategory(idea),
+      brand_name_candidates: generateBrandCandidates(idea),
+      clarification_questions: [],
+      clarification_answers: clarificationAnswers,
+    } satisfies z.infer<typeof ideaMemorySchema>;
 
     await mem0.write(launchId, 'idea', ideaMemory, 'orchestrator-agent');
     mem0.markAgentCompleted(launchId, 'orchestrator-agent');
@@ -246,17 +278,33 @@ ${JSON.stringify(
     idea: memory.idea?.raw,
     research: memory.research,
     domains: memory.domains,
-    mem0_context: mem0Context,
+    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
   }),
 )}
 
-Return 3 logo concepts with prompts and placeholder image URLs that represent likely generated assets.`,
-          visualMemorySchema,
+Use the founder brief to shape mood, palette, and references.
+Return the object at the top level with exactly these keys:
+- brand_name
+- logo_concepts
+- chosen_concept
+- palette
+- font_pairing
+- mood
+Do not wrap the result inside visual_package or any other object.`,
+          visualStructuredOutputSchema,
           launchId,
         )
       : await (visualDirectionTool.execute as any)({ memory }, {});
 
-    await mem0.write(launchId, 'visual', visual, 'visual-agent');
+    const normalizedVisual = isDevMode()
+      ? visualMemorySchema.parse('visual_package' in (visual as any) ? (visual as any).visual_package : visual)
+      : visual;
+
+    if (mem0.requireRun(launchId).selectedVisualConcept !== null) {
+      normalizedVisual.chosen_concept = mem0.requireRun(launchId).selectedVisualConcept!;
+    }
+
+    await mem0.write(launchId, 'visual', normalizedVisual, 'visual-agent');
     mem0.markAgentCompleted(launchId, 'visual-agent');
     return { launchId };
   },
@@ -284,11 +332,11 @@ ${JSON.stringify(
     research: memory.research,
     visual: memory.visual,
     domains: memory.domains,
-    mem0_context: mem0Context,
+    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
   }),
 )}
 
-Return only structured output.`,
+Use the founder brief for city focus, pricing, and channel constraints. Return only structured output.`,
           gtmMemorySchema,
           inputData.launchId,
         )
@@ -403,11 +451,11 @@ ${JSON.stringify(
     visual: memory.visual,
     shopify: memory.shopify,
     ads: memory.ads,
-    mem0_context: mem0Context,
+    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
   }),
 )}
 
-Return only structured output.`,
+Differentiate classic SEO from GEO, and use the founder brief plus upstream memory to make city-aware, citation-ready pages. Return only structured output.`,
           seoMemorySchema,
           launchId,
         )
@@ -474,6 +522,7 @@ export const openclawWorkflow = createWorkflow({
   outputSchema: launchBibleSchema,
 })
   .then(initializeRunStep)
+  .then(clarificationGateStep)
   .then(internalOpenclawWorkflow);
 
 openclawWorkflow.commit();

@@ -4,16 +4,18 @@ import { resumeWorkflowInputSchema, workflowControlOutputSchema } from '../domai
 
 export const resumeLaunchWorkflowTool = createTool({
   id: 'openclaw-resume-launch-workflow-tool',
-  description: 'Resume a paused launch workflow with the user clarification answers.',
+  description: 'Submit the clarification answers for an awaiting launch and immediately start the workflow.',
   inputSchema: resumeWorkflowInputSchema,
   outputSchema: workflowControlOutputSchema,
   execute: async ({ launchId, answers }) => {
-    const run = resumeLaunch(launchId, answers);
+    const run = await resumeLaunch(launchId, answers);
     return {
       launchId: run.id,
       status: run.status,
+      phase: run.phase,
       pending_questions: run.pendingQuestions,
-      answers: run.clarificationAnswers,
+      answers,
+      next_action: 'workflow-running',
     };
   },
 });

@@ -24,12 +24,13 @@ export const orchestratorAgent = createOpenClawAgent({
   instructions: `You coordinate OpenClaw discovery and delegation.
 
 When the user gives a founder idea:
-1. Ask at most 3 clarification questions in one batch if critical information is missing.
-2. Read shared memory before delegating or starting a workflow.
-3. Do not start any workflow automatically.
-4. Only propose or run a workflow if the user explicitly asks you to run it or confirms a batched clarification round.
+1. Create one upfront bulk clarification batch before starting the workflow.
+2. Ask at most 3 high-signal clarification questions in one batch.
+3. Do not start the workflow until those answers are captured.
+4. Read shared memory before delegating or starting a workflow.
 5. If the user asks for a specific sub-task, delegate to the most appropriate specialist agent.
-6. Report status clearly after each specialist completes.`,
+6. If there is already a launch in awaiting-user-input state and the user answers the pending questions, call resumeLaunchWorkflowTool immediately instead of replying with a promise to proceed.
+7. Report status clearly after each specialist completes.`,
   model: defaultModel,
   tools: {
     askUserTool,

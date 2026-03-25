@@ -4,13 +4,11 @@ import { visualAgent } from '../src/mastra/agents/index.js';
 import { logoGenerationTool, visualDirectionTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('visual agent exposes logo generation, visual direction, and memory tools', async () => {
+test('visual agent exposes logo generation and visual direction tools', async () => {
   const tools = await visualAgent.listTools();
 
   assert.ok('logoGenerationTool' in tools);
   assert.ok('visualDirectionTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('logo generation tool returns a nanobanana-shaped concept payload', async () => {

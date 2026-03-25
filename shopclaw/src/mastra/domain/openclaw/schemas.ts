@@ -5,6 +5,33 @@ export const clarificationSchema = z.object({
   assumption: z.string(),
 });
 
+export const clarificationTargetSchema = z.enum([
+  'idea',
+  'brief',
+  'research',
+  'visual',
+  'domains',
+  'gtm',
+  'shopify',
+  'ads',
+  'seo',
+]);
+
+export const clarificationPromptSchema = z.object({
+  id: z.string(),
+  question: z.string(),
+  rationale: z.string(),
+  target_sections: z.array(clarificationTargetSchema).min(1),
+  assumption: z.string().optional(),
+});
+
+export const clarificationAnswerSchema = z.object({
+  question_id: z.string(),
+  question: z.string(),
+  answer: z.string(),
+  target_sections: z.array(clarificationTargetSchema).min(1),
+});
+
 export const competitorSchema = z.object({
   name: z.string(),
   region: z.string(),
@@ -153,6 +180,11 @@ export const seoMemorySchema = z.object({
   ).length(5),
 });
 
+export const briefMemorySchema = z.object({
+  answers: z.array(clarificationAnswerSchema).min(1),
+  founder_brief: z.string(),
+});
+
 export const researchSourceSchema = z.object({
   title: z.string(),
   url: z.string().url(),
@@ -278,10 +310,11 @@ export const domainIdeationInputSchema = z.object({
 });
 
 export const memorySectionSchema = z.enum(['idea', 'research', 'visual', 'domains', 'gtm', 'shopify', 'ads', 'seo']);
+export const launchMemorySectionSchema = z.enum(['idea', 'brief', 'research', 'visual', 'domains', 'gtm', 'shopify', 'ads', 'seo']);
 
 export const readMem0InputSchema = z.object({
   launchId: z.string(),
-  section: memorySectionSchema.optional(),
+  section: launchMemorySectionSchema.optional(),
 });
 
 export const readMem0OutputSchema = z.object({
@@ -299,7 +332,7 @@ export const readMem0OutputSchema = z.object({
 
 export const writeMem0InputSchema = z.object({
   launchId: z.string(),
-  section: memorySectionSchema,
+  section: launchMemorySectionSchema,
   value: z.record(z.string(), z.any()),
   agent: z.string(),
   action: z.string().optional(),
@@ -307,20 +340,20 @@ export const writeMem0InputSchema = z.object({
 
 export const writeMem0OutputSchema = z.object({
   launchId: z.string(),
-  section: memorySectionSchema,
+  section: launchMemorySectionSchema,
   updatedAt: z.string(),
 });
 
 export const askUserInputSchema = z.object({
   launchId: z.string().optional(),
-  questions: z.array(z.string()).min(1).max(3),
+  questions: z.array(clarificationPromptSchema).min(1).max(3),
   reason: z.string(),
 });
 
 export const askUserOutputSchema = z.object({
   launchId: z.string().optional(),
   status: z.enum(['awaiting-user-input']),
-  questions: z.array(z.string()).min(1).max(3),
+  questions: z.array(clarificationPromptSchema).min(1).max(3),
   reason: z.string(),
 });
 
@@ -347,11 +380,22 @@ export const resumeWorkflowInputSchema = z.object({
   answers: z.array(z.string()).min(1),
 });
 
+export const launchPhaseSchema = z.enum([
+  'draft',
+  'clarification',
+  'workflow',
+  'visual-selection',
+  'completed',
+  'failed',
+]);
+
 export const workflowControlOutputSchema = z.object({
   launchId: z.string(),
   status: z.string(),
-  pending_questions: z.array(z.string()).optional(),
+  phase: launchPhaseSchema.optional(),
+  pending_questions: z.array(clarificationPromptSchema).optional(),
   answers: z.array(z.string()).optional(),
+  next_action: z.string().optional(),
 });
 
 export const logoGenerationInputSchema = z.object({
@@ -367,6 +411,7 @@ export const logoGenerationOutputSchema = logoConceptSchema.extend({
 
 export const openClawMemorySchema = z.object({
   idea: ideaMemorySchema.nullable(),
+  brief: briefMemorySchema.nullable(),
   research: researchMemorySchema.nullable(),
   visual: visualMemorySchema.nullable(),
   domains: domainMemorySchema.nullable(),
@@ -419,6 +464,7 @@ export const launchInputSchema = z.object({
 
 export const workflowLaunchInputSchema = z.object({
   idea: z.string().min(10),
+  launchId: z.string().optional(),
 });
 
 export const launchTokenSchema = z.object({
@@ -431,6 +477,7 @@ export const launchRunSchema = z.object({
   id: z.string(),
   idea: z.string(),
   status: launchStatusSchema,
+  phase: launchPhaseSchema.default('draft'),
   currentAgent: z.string().nullable(),
   completedAgents: z.array(z.string()),
   createdAt: z.string(),
@@ -438,13 +485,18 @@ export const launchRunSchema = z.object({
   memory: openClawMemorySchema,
   report: launchBibleSchema.nullable(),
   error: z.string().nullable(),
-  pendingQuestions: z.array(z.string()).default([]),
+  pendingQuestions: z.array(clarificationPromptSchema).default([]),
   pendingReason: z.string().nullable().default(null),
   clarificationAnswers: z.array(z.string()).default([]),
+  questionContext: z.array(clarificationPromptSchema).default([]),
+  selectedVisualConcept: z.number().int().min(0).max(2).nullable().default(null),
 });
 
 export type Clarification = z.infer<typeof clarificationSchema>;
+export type ClarificationPrompt = z.infer<typeof clarificationPromptSchema>;
+export type ClarificationAnswer = z.infer<typeof clarificationAnswerSchema>;
 export type ResearchMemory = z.infer<typeof researchMemorySchema>;
+export type BriefMemory = z.infer<typeof briefMemorySchema>;
 export type VisualMemory = z.infer<typeof visualMemorySchema>;
 export type DomainMemory = z.infer<typeof domainMemorySchema>;
 export type GTMMemory = z.infer<typeof gtmMemorySchema>;
@@ -458,6 +510,7 @@ export type LaunchRun = z.infer<typeof launchRunSchema>;
 export function createEmptyMemory(): OpenClawMemory {
   return {
     idea: null,
+    brief: null,
     research: null,
     visual: null,
     domains: null,

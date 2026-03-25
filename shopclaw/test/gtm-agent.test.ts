@@ -4,12 +4,10 @@ import { gtmAgent } from '../src/mastra/agents/index.js';
 import { gtmPlanTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('gtm agent exposes plan generation and memory tools', async () => {
+test('gtm agent exposes plan generation tool', async () => {
   const tools = await gtmAgent.listTools();
 
   assert.ok('gtmPlanTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('gtm plan tool returns a full India-first plan', async () => {

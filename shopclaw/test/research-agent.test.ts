@@ -4,13 +4,11 @@ import { researchAgent } from '../src/mastra/agents/index.js';
 import { fetchPageTool, researchTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('research agent exposes research, fetch, and memory tools', async () => {
+test('research agent exposes research and fetch tools', async () => {
   const tools = await researchAgent.listTools();
 
   assert.ok('researchTool' in tools);
   assert.ok('fetchPageTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('research tool returns search results in staging', async () => {

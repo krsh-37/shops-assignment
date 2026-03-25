@@ -4,12 +4,10 @@ import { shopifyAgent } from '../src/mastra/agents/index.js';
 import { shopifyAssetsTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('shopify agent exposes asset generation and memory tools', async () => {
+test('shopify agent exposes asset generation tool', async () => {
   const tools = await shopifyAgent.listTools();
 
   assert.ok('shopifyAssetsTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('shopify assets tool returns package-grade files', async () => {

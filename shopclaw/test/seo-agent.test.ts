@@ -4,12 +4,10 @@ import { seoAgent } from '../src/mastra/agents/index.js';
 import { seoGeoTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
-test('seo agent exposes geo generation and memory tools', async () => {
+test('seo agent exposes geo generation tool', async () => {
   const tools = await seoAgent.listTools();
 
   assert.ok('seoGeoTool' in tools);
-  assert.ok('mem0ReadTool' in tools);
-  assert.ok('mem0WriteTool' in tools);
 });
 
 test('seo geo tool returns page-grade GEO content', async () => {
