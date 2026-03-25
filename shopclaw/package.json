@@ -8,7 +8,10 @@
     "dev": "node ./node_modules/mastra/dist/index.js dev",
     "build": "node ./node_modules/mastra/dist/index.js build",
     "start": "node ./node_modules/mastra/dist/index.js start",
-    "typecheck": "node ./node_modules/typescript/lib/_tsc.js -p tsconfig.json"
+    "typecheck": "node ./node_modules/typescript/lib/_tsc.js -p tsconfig.json",
+    "cli": "node ./node_modules/typescript/lib/_tsc.js -p tsconfig.cli.json && node $PWD/node_modules/.cache/openclaw-cli-dist/cli.js",
+    "test:cli-live": "node -e \"require('node:fs').rmSync('node_modules/.cache/openclaw-test-dist',{recursive:true,force:true})\" && node ./node_modules/typescript/lib/_tsc.js -p tsconfig.test.json && OPENCLAW_LIVE_TEST=1 node --test --test-concurrency=1 $PWD/node_modules/.cache/openclaw-test-dist/test/cli-live.integration.test.js",
+    "test:workflow-live": "node -e \"require('node:fs').rmSync('node_modules/.cache/openclaw-test-dist',{recursive:true,force:true})\" && node ./node_modules/typescript/lib/_tsc.js -p tsconfig.test.json && OPENCLAW_LIVE_TEST=1 node --test --test-concurrency=1 $PWD/node_modules/.cache/openclaw-test-dist/test/workflow-live.integration.test.js"
   },
   "keywords": [],
   "author": "",

@@ -12,6 +12,7 @@ export { mem0ReadTool } from './mem0-read-tool.js';
 export { mem0WriteTool } from './mem0-write-tool.js';
 export { researchTool } from './research-tool.js';
 export { resumeLaunchWorkflowTool } from './resume-launch-workflow-tool.js';
+export { selectVisualConceptTool } from './select-visual-concept-tool.js';
 export { seoGeoTool } from './seo-geo-tool.js';
 export { shopifyAssetsTool } from './shopify-assets-tool.js';
 export { startLaunchWorkflowTool } from './start-launch-workflow-tool.js';

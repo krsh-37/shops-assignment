@@ -1,13 +1,14 @@
-import { createOpenClawAgent, defaultModel } from './_shared.js';
+import { isDevMode } from '../config/openclaw-config.js';
 import { fetchPageTool } from '../tools/fetch-page-tool.js';
 import { researchTool } from '../tools/research-tool.js';
+import { createOpenClawAgent, defaultModel } from './_shared.js';
 
 export const researchAgent = createOpenClawAgent({
   id: 'research-agent',
   name: 'Research Agent',
   description: 'Produces market analysis, competitors, whitespace, and keyword strategy for a launch idea.',
   instructions:
-    'Use web search and page fetch tools to gather evidence, then return only the final structured research object. Do not call any memory-writing tool or workflow-control tool.',
+    'Synthesize market analysis, competitors, whitespace, and keyword strategy from the provided India evidence pack. If web search and page fetch tools are available, use them before answering. Return only the final structured research object.',
   model: defaultModel,
-  tools: { researchTool, fetchPageTool },
+  ...(isDevMode() ? {} : { tools: { researchTool, fetchPageTool } }),
 });

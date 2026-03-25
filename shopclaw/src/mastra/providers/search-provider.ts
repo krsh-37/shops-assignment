@@ -18,14 +18,22 @@ class TavilySearchProvider implements SearchProvider {
   });
 
   async search(query: string): Promise<SearchResult[]> {
-    const response = await this.client.search(query, {
-      searchDepth: 'advanced',
-      topic: 'general',
-      maxResults: 5,
-      includeAnswer: false,
-      includeRawContent: false,
-      country: 'india',
-    });
+    let response;
+    try {
+      response = await Promise.race([
+        this.client.search(query, {
+          searchDepth: 'advanced',
+          topic: 'general',
+          maxResults: 5,
+          includeAnswer: false,
+          includeRawContent: false,
+          country: 'india',
+        }),
+        new Promise<never>((_, reject) => setTimeout(() => reject(new Error('tavily-timeout')), 5000)),
+      ]);
+    } catch {
+      return [];
+    }
 
     return response.results.map(result => ({
       title: result.title,

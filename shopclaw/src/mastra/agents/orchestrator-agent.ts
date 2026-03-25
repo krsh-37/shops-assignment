@@ -6,6 +6,7 @@ import { getLaunchStatusTool } from '../tools/get-launch-status-tool.js';
 import { mem0ReadTool } from '../tools/mem0-read-tool.js';
 import { mem0WriteTool } from '../tools/mem0-write-tool.js';
 import { resumeLaunchWorkflowTool } from '../tools/resume-launch-workflow-tool.js';
+import { selectVisualConceptTool } from '../tools/select-visual-concept-tool.js';
 import { startLaunchWorkflowTool } from '../tools/start-launch-workflow-tool.js';
 import { createOpenClawAgent, defaultModel } from './_shared.js';
 import { researchAgent } from './research-agent.js';
@@ -30,7 +31,13 @@ When the user gives a founder idea:
 4. Read shared memory before delegating or starting a workflow.
 5. If the user asks for a specific sub-task, delegate to the most appropriate specialist agent.
 6. If there is already a launch in awaiting-user-input state and the user answers the pending questions, call resumeLaunchWorkflowTool immediately instead of replying with a promise to proceed.
-7. Report status clearly after each specialist completes.`,
+7. Report status clearly after each specialist completes.
+
+Additional operating rules:
+- For the normal launch conversation, use only these control tools: startLaunchWorkflowTool, resumeLaunchWorkflowTool, selectVisualConceptTool, getLaunchStatusTool.
+- Before resuming clarifications or selecting a visual concept, check status first if there is any uncertainty about the current phase.
+- Do not call shopifyAssetsTool, seoGeoTool, launchReportTool, gtmPlanTool, or other specialist generation tools directly during the normal user flow unless the user explicitly requests a specialist sub-task.
+- Use the exact memory section names from the tool schemas. For example: domains, not domain.`,
   model: defaultModel,
   tools: {
     askUserTool,
@@ -39,6 +46,7 @@ When the user gives a founder idea:
     mem0ReadTool,
     mem0WriteTool,
     resumeLaunchWorkflowTool,
+    selectVisualConceptTool,
     startLaunchWorkflowTool,
   },
   agents: async () =>

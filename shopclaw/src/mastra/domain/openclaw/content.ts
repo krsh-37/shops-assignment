@@ -38,8 +38,55 @@ function titleCase(value: string): string {
     .join(' ');
 }
 
+const IDEA_STOP_WORDS = new Set([
+  'a',
+  'an',
+  'and',
+  'brand',
+  'build',
+  'create',
+  'for',
+  'i',
+  'in',
+  'is',
+  'launch',
+  'my',
+  'of',
+  'start',
+  'startup',
+  'the',
+  'to',
+  'want',
+]);
+
+function extractMeaningfulIdeaTokens(idea: string): string[] {
+  return slugify(idea)
+    .split('-')
+    .map(token => token.trim())
+    .filter(token => token.length > 2 && !IDEA_STOP_WORDS.has(token));
+}
+
+function fallbackBrandCandidates(category: string): string[] {
+  if (category === 'restaurant') {
+    return ['Saffron Table', 'Tiffin Lane', 'Spice Quarter', 'Gather Spoon', 'City Supper'];
+  }
+
+  if (category === 'beauty d2c') {
+    return ['Glow Theory', 'Skin Circuit', 'Luma Ritual', 'Pure Edit', 'Mirror Bloom'];
+  }
+
+  if (category === 'quick-commerce fashion') {
+    return ['Dash Thread', 'Minute Mode', 'Rush Rack', 'Blink Fit', 'Swift Stitch'];
+  }
+
+  return ['Launch Lane', 'North Star', 'Signal House', 'Maker Grid', 'Foundry Co'];
+}
+
 export function inferCategory(idea: string): string {
   const normalized = idea.toLowerCase();
+  if (normalized.includes('restaurant') || normalized.includes('cafe') || normalized.includes('dining') || normalized.includes('food')) {
+    return 'restaurant';
+  }
   if (normalized.includes('deliver') || normalized.includes('10 minutes') || normalized.includes('quick')) {
     return 'quick-commerce fashion';
   }
@@ -155,7 +202,14 @@ export function generateBrandCandidates(idea: string): string[] {
     return ['Sockzy', 'Pairly', 'Feetsy', 'DashSock', 'Looplane'];
   }
 
-  const root = titleCase(slugify(idea).split('-').slice(0, 2).join(' ')) || 'LaunchLab';
+  const category = inferCategory(idea);
+  const meaningfulTokens = extractMeaningfulIdeaTokens(idea);
+
+  if (meaningfulTokens.length === 0) {
+    return fallbackBrandCandidates(category);
+  }
+
+  const root = titleCase(meaningfulTokens.slice(0, 2).join(' ')) || 'Launch Lab';
   const token = root.split(' ')[0] || 'Launch';
   return [
     root.replace(/\s+/g, ''),
@@ -203,21 +257,47 @@ export function buildResearch(idea: string, memory: BuilderMemory): ResearchMemo
 }
 
 export function buildDomainOptions(memory: BuilderMemory): DomainMemory {
-  const candidates = memory.idea?.brand_name_candidates ?? ['Sockzy', 'Pairly', 'Feetsy', 'DashSock', 'Looplane'];
-  const paddedCandidates = [...candidates];
-  while (paddedCandidates.length < 5) {
-    paddedCandidates.push(`Brand${paddedCandidates.length + 1}`);
+  const baseCandidates = memory.idea?.brand_name_candidates ?? ['Sockzy', 'Pairly', 'Feetsy', 'DashSock', 'Looplane'];
+  const expandedCandidates: string[] = [];
+  const suffixes = ['Now', 'Go', 'Rush', 'Lane', 'Lab', 'HQ', 'Drop', 'Dash', 'Club', 'Hub'];
+
+  for (const candidate of baseCandidates) {
+    if (!expandedCandidates.includes(candidate)) {
+      expandedCandidates.push(candidate);
+    }
   }
-  const ranked = paddedCandidates.slice(0, 5).map((name, index) => {
+
+  for (const candidate of baseCandidates) {
+    for (const suffix of suffixes) {
+      if (expandedCandidates.length >= 15) {
+        break;
+      }
+
+      const expanded = `${candidate}${suffix}`;
+      if (!expandedCandidates.includes(expanded)) {
+        expandedCandidates.push(expanded);
+      }
+    }
+
+    if (expandedCandidates.length >= 15) {
+      break;
+    }
+  }
+
+  while (expandedCandidates.length < 15) {
+    expandedCandidates.push(`Brand${expandedCandidates.length + 1}`);
+  }
+
+  const ranked = expandedCandidates.slice(0, 15).map((name, index) => {
     const domain = `${slugify(name)}.in`;
-    const available = index !== 3;
-    const score = 92 - index * 7;
+    const available = index % 6 !== 3;
+    const score = Math.max(40, 95 - index * 3);
 
     return {
       name,
       domain,
       available,
-      price_inr: 699 + index * 100,
+      price_inr: 699 + index * 50,
       score,
       reasoning: available
         ? `${name} is short, brandable, and strong for India-first recall.`
@@ -229,12 +309,95 @@ export function buildDomainOptions(memory: BuilderMemory): DomainMemory {
 
   return {
     recommended,
-    top5: ranked,
+    top5: ranked.slice(0, 5),
+    candidates15: ranked,
+  };
+}
+
+export function normalizeDomainMemory(input: DomainMemory): DomainMemory {
+  const seenDomains = new Set<string>();
+  const normalizedCandidates = input.candidates15
+    .map(candidate => ({
+      ...candidate,
+      domain: candidate.domain.toLowerCase(),
+      price_inr: Math.max(0, Math.trunc(candidate.price_inr)),
+      score: Math.max(0, Math.min(100, candidate.score)),
+    }))
+    .filter(candidate => {
+      if (!candidate.domain || seenDomains.has(candidate.domain)) {
+        return false;
+      }
+      seenDomains.add(candidate.domain);
+      return true;
+    });
+
+  const fillSource = [...normalizedCandidates, ...input.top5];
+  while (normalizedCandidates.length < 15) {
+    const index = normalizedCandidates.length;
+    const fallback = fillSource[index % Math.max(fillSource.length, 1)] ?? {
+      name: `Brand${index + 1}`,
+      domain: `brand${index + 1}.in`,
+      available: index % 4 !== 0,
+      price_inr: index % 4 !== 0 ? 699 + index * 50 : 0,
+      score: Math.max(40, 90 - index * 3),
+      reasoning: 'Generated fallback shortlist entry to complete the candidate set.',
+    };
+
+    normalizedCandidates.push({
+      ...fallback,
+      name: `${fallback.name}${index >= fillSource.length ? ` ${index + 1}` : ''}`.trim(),
+      domain:
+        index >= fillSource.length
+          ? `${slugify(fallback.name)}-${index + 1}.in`
+          : fallback.domain.toLowerCase(),
+      price_inr: Math.max(0, Math.trunc(fallback.price_inr)),
+      score: Math.max(0, Math.min(100, fallback.score)),
+    });
+  }
+
+  const candidatePool = [
+    ...input.top5.map(candidate => ({
+      ...candidate,
+      domain: candidate.domain.toLowerCase(),
+      price_inr: Math.max(0, Math.trunc(candidate.price_inr)),
+      score: Math.max(0, Math.min(100, candidate.score)),
+    })),
+    ...normalizedCandidates,
+  ];
+
+  const recommendedCandidate =
+    candidatePool.find(candidate => candidate.domain === input.recommended.toLowerCase()) ??
+    candidatePool.find(candidate => candidate.name.toLowerCase() === input.recommended.toLowerCase()) ??
+    normalizedCandidates.find(candidate => candidate.available) ??
+    normalizedCandidates[0];
+
+  const topFiveDomains = new Set<string>();
+  const normalizedTop5 = [...input.top5, ...normalizedCandidates]
+    .map(candidate => ({
+      ...candidate,
+      domain: candidate.domain.toLowerCase(),
+      price_inr: Math.max(0, Math.trunc(candidate.price_inr)),
+      score: Math.max(0, Math.min(100, candidate.score)),
+    }))
+    .filter(candidate => {
+      if (topFiveDomains.has(candidate.domain)) {
+        return false;
+      }
+      topFiveDomains.add(candidate.domain);
+      return true;
+    })
+    .sort((left, right) => right.score - left.score)
+    .slice(0, 5);
+
+  return {
+    recommended: recommendedCandidate?.domain ?? normalizedTop5[0]?.domain ?? 'launchbrand.in',
+    top5: normalizedTop5,
+    candidates15: normalizedCandidates.slice(0, 15),
   };
 }
 
 export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
-  const brandName = memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
+  const brandName = memory.domains?.top5[0]?.name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
   const toneAnswer = memory.brief?.answers.find(answer => answer.question_id === 'brand-tone')?.answer.toLowerCase() ?? '';
   const whitespace = memory.research?.whitespace ?? 'Own a fast, expressive niche.';
   const marketInsight = memory.research?.india_insight ?? whitespace;
@@ -276,11 +439,9 @@ export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
 }
 
 export function buildGTM(memory: BuilderMemory): GTMMemory {
-  const brandName = memory.visual?.brand_name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
-  const citiesAnswer = memory.brief?.answers.find(answer => answer.question_id === 'launch-cities')?.answer;
-  const parsedCities = citiesAnswer
-    ? citiesAnswer.split(/[,\n]/).map(city => city.trim()).filter(Boolean)
-    : ['Bengaluru', 'Mumbai', 'Pune', 'Hyderabad'];
+  const brandName =
+    memory.visual?.brand_name ?? memory.domains?.top5[0]?.name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
+  const parsedCities = extractFounderCities(memory);
   const pricingAnswer = memory.brief?.answers.find(answer => answer.question_id === 'price-band')?.answer ?? 'Rs 399 to Rs 799';
 
   return {
@@ -310,6 +471,52 @@ export function buildGTM(memory: BuilderMemory): GTMMemory {
       'Launch 10 urgency-led reels and 3 founder-story posts.',
       'Track CAC, repeat intent, and top city conversion by day.',
     ],
+  };
+}
+
+export function extractFounderCities(memory: BuilderMemory): string[] {
+  const citiesAnswer = memory.brief?.answers.find(answer => answer.question_id === 'launch-cities')?.answer;
+  const parsedCities = citiesAnswer
+    ? citiesAnswer
+        .split(/[,\n]/)
+        .map(city => city.trim())
+        .filter(Boolean)
+    : [];
+
+  if (parsedCities.length === 0) {
+    return ['Bengaluru', 'Mumbai', 'Pune'];
+  }
+
+  return parsedCities;
+}
+
+export function normalizeGTM(memory: BuilderMemory, input: Partial<GTMMemory>): GTMMemory {
+  const fallback = buildGTM(memory);
+  const founderCities = extractFounderCities(memory);
+  const normalizedCities =
+    founderCities.length > 0
+      ? founderCities
+      : (input.launch_cities ?? fallback.launch_cities).filter(
+          (city, index, cities) => Boolean(city) && cities.indexOf(city) === index,
+        );
+
+  return {
+    ...fallback,
+    ...input,
+    launch_cities: normalizedCities,
+    channels: {
+      ...fallback.channels,
+      ...(input.channels ?? {}),
+    },
+    reel_ideas:
+      input.reel_ideas && input.reel_ideas.length >= 10
+        ? input.reel_ideas.slice(0, 10)
+        : fallback.reel_ideas,
+    influencer_brief: (input.influencer_brief ?? fallback.influencer_brief).replace(/\s+/g, ' ').trim(),
+    week1_checklist:
+      input.week1_checklist && input.week1_checklist.length >= 5
+        ? input.week1_checklist
+        : fallback.week1_checklist,
   };
 }
 

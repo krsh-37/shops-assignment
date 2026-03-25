@@ -1,13 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { shopifyAgent } from '../src/mastra/agents/index.js';
+import { isDevMode } from '../src/mastra/config/openclaw-config.js';
 import { shopifyAssetsTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
 test('shopify agent exposes asset generation tool', async () => {
   const tools = await shopifyAgent.listTools();
 
-  assert.ok('shopifyAssetsTool' in tools);
+  assert.equal('shopifyAssetsTool' in tools, !isDevMode());
 });
 
 test('shopify assets tool returns package-grade files', async () => {

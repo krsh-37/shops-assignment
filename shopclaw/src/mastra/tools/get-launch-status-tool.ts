@@ -1,25 +1,12 @@
 import { createTool } from '@mastra/core/tools';
-import { getLaunchRun } from '../services/openclaw-launch-service.js';
-import { launchTokenSchema, workflowControlOutputSchema } from '../domain/openclaw/schemas.js';
+import { getLaunchStatus } from '../services/openclaw-launch-service.js';
+import { launchLookupInputSchema, workflowControlOutputSchema } from '../domain/openclaw/schemas.js';
+import { getThreadIdFromToolContext } from './_thread-context.js';
 
 export const getLaunchStatusTool = createTool({
   id: 'openclaw-get-launch-status-tool',
-  description: 'Get the current status for a launch workflow.',
-  inputSchema: launchTokenSchema,
+  description: 'Get the current status for a launch workflow. If launchId is omitted, resolve the active launch automatically when unambiguous.',
+  inputSchema: launchLookupInputSchema,
   outputSchema: workflowControlOutputSchema,
-  execute: async ({ launchId }) => {
-    const run = getLaunchRun(launchId);
-    if (!run) {
-      throw new Error(`Launch run ${launchId} was not found.`);
-    }
-
-    return {
-      launchId: run.id,
-      status: run.status,
-      phase: run.phase,
-      pending_questions: run.pendingQuestions,
-      answers: run.clarificationAnswers,
-      next_action: run.status === 'awaiting-user-input' ? 'answer-clarifications' : undefined,
-    };
-  },
+  execute: async ({ launchId }, context) => getLaunchStatus(launchId, getThreadIdFromToolContext(context)),
 });

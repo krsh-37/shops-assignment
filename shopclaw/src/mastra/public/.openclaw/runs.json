@@ -2,6 +2,7 @@
   {
     "id": "d1984d67-955f-467c-9355-e084529f23e0",
     "idea": "North Indian restaurant in Chennai with a Disney theme park concept.",
+    "conversationThreadId": null,
     "status": "awaiting-user-input",
     "phase": "clarification",
     "currentAgent": "orchestrator-agent",
@@ -136,6 +137,7 @@
   {
     "id": "27aa0349-eb5c-4923-83d2-a4e21c698373",
     "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "conversationThreadId": null,
     "status": "queued",
     "phase": "draft",
     "currentAgent": null,
@@ -165,6 +167,7 @@
   {
     "id": "e5c46d8b-5a29-4daf-86f1-5676c32193d3",
     "idea": "Start a restaurant",
+    "conversationThreadId": null,
     "status": "failed",
     "phase": "failed",
     "currentAgent": "visual-agent",
@@ -329,6 +332,128 @@
             "score": 85,
             "reasoning": "Suggests a pathway or journey, fitting for a dining experience."
           }
+        ],
+        "candidates15": [
+          {
+            "name": "StartA",
+            "domain": "starta.in",
+            "available": true,
+            "price_inr": 500,
+            "score": 95,
+            "reasoning": "Short, memorable, aligns with restaurant branding, and likely available."
+          },
+          {
+            "name": "Startly",
+            "domain": "startly.in",
+            "available": true,
+            "price_inr": 600,
+            "score": 92,
+            "reasoning": "Unique, catchy, and relevant for a restaurant brand."
+          },
+          {
+            "name": "StartCo",
+            "domain": "startco.in",
+            "available": true,
+            "price_inr": 550,
+            "score": 90,
+            "reasoning": "Concise, professional, and brandable."
+          },
+          {
+            "name": "StartHive",
+            "domain": "starthive.in",
+            "available": true,
+            "price_inr": 650,
+            "score": 88,
+            "reasoning": "Evokes community and activity, suitable for a restaurant concept."
+          },
+          {
+            "name": "StartLane",
+            "domain": "startlane.in",
+            "available": true,
+            "price_inr": 580,
+            "score": 85,
+            "reasoning": "Suggests a pathway or journey, fitting for a dining experience."
+          },
+          {
+            "name": "StartA",
+            "domain": "starta.in",
+            "available": true,
+            "price_inr": 500,
+            "score": 95,
+            "reasoning": "Short, memorable, aligns with restaurant branding, and likely available."
+          },
+          {
+            "name": "Startly",
+            "domain": "startly.in",
+            "available": true,
+            "price_inr": 600,
+            "score": 92,
+            "reasoning": "Unique, catchy, and relevant for a restaurant brand."
+          },
+          {
+            "name": "StartCo",
+            "domain": "startco.in",
+            "available": true,
+            "price_inr": 550,
+            "score": 90,
+            "reasoning": "Concise, professional, and brandable."
+          },
+          {
+            "name": "StartHive",
+            "domain": "starthive.in",
+            "available": true,
+            "price_inr": 650,
+            "score": 88,
+            "reasoning": "Evokes community and activity, suitable for a restaurant concept."
+          },
+          {
+            "name": "StartLane",
+            "domain": "startlane.in",
+            "available": true,
+            "price_inr": 580,
+            "score": 85,
+            "reasoning": "Suggests a pathway or journey, fitting for a dining experience."
+          },
+          {
+            "name": "StartA",
+            "domain": "starta.in",
+            "available": true,
+            "price_inr": 500,
+            "score": 95,
+            "reasoning": "Short, memorable, aligns with restaurant branding, and likely available."
+          },
+          {
+            "name": "Startly",
+            "domain": "startly.in",
+            "available": true,
+            "price_inr": 600,
+            "score": 92,
+            "reasoning": "Unique, catchy, and relevant for a restaurant brand."
+          },
+          {
+            "name": "StartCo",
+            "domain": "startco.in",
+            "available": true,
+            "price_inr": 550,
+            "score": 90,
+            "reasoning": "Concise, professional, and brandable."
+          },
+          {
+            "name": "StartHive",
+            "domain": "starthive.in",
+            "available": true,
+            "price_inr": 650,
+            "score": 88,
+            "reasoning": "Evokes community and activity, suitable for a restaurant concept."
+          },
+          {
+            "name": "StartLane",
+            "domain": "startlane.in",
+            "available": true,
+            "price_inr": 580,
+            "score": 85,
+            "reasoning": "Suggests a pathway or journey, fitting for a dining experience."
+          }
         ]
       },
       "gtm": null,
@@ -385,6 +510,7 @@
   {
     "id": "4c40173f-7f41-4475-91c1-4469077e45be",
     "idea": "Start a restaurant",
+    "conversationThreadId": null,
     "status": "awaiting-user-input",
     "phase": "clarification",
     "currentAgent": "orchestrator-agent",
@@ -519,6 +645,7 @@
   {
     "id": "a514360e-6d3f-4644-ad6a-b09ecd3a0d7c",
     "idea": "restaurant",
+    "conversationThreadId": null,
     "status": "failed",
     "phase": "failed",
     "currentAgent": "orchestrator-agent",
@@ -630,6 +757,7 @@
   {
     "id": "978987bf-5b6c-4fdb-9e9c-bb2fc896d140",
     "idea": "restaurant",
+    "conversationThreadId": null,
     "status": "awaiting-user-input",
     "phase": "clarification",
     "currentAgent": "orchestrator-agent",
@@ -764,6 +892,7 @@
   {
     "id": "21638bbd-42b2-4fb3-b7a1-a71c851441f6",
     "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "conversationThreadId": null,
     "status": "awaiting-user-input",
     "phase": "clarification",
     "currentAgent": "orchestrator-agent",
@@ -873,6 +1002,7 @@
   {
     "id": "1bc8790d-3781-45e5-8d42-718a27d4d9b4",
     "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "conversationThreadId": null,
     "status": "running",
     "phase": "workflow",
     "currentAgent": "domain-agent",
@@ -981,6 +1111,7 @@
   {
     "id": "ea62a763-0196-449e-ba17-39463028be1d",
     "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "conversationThreadId": null,
     "status": "running",
     "phase": "workflow",
     "currentAgent": "visual-agent",
@@ -1141,6 +1272,128 @@
             "score": 85,
             "reasoning": "Directly reflects North Indian cuisine with a focus on spices, available with .in domain."
           }
+        ],
+        "candidates15": [
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 5000,
+            "score": 95,
+            "reasoning": "Short, easy to remember, reflects North Indian cuisine, and available with .in domain. Strong brand appeal for a D2C lifestyle restaurant."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 4500,
+            "score": 90,
+            "reasoning": "Short and catchy, suitable for a North Indian restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 4800,
+            "score": 88,
+            "reasoning": "Unique and memorable, evokes a community feel, available with .in domain."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 4700,
+            "score": 87,
+            "reasoning": "Easy to remember and pronounce, suitable for a restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthSpice",
+            "domain": "northspice.in",
+            "available": true,
+            "price_inr": 5200,
+            "score": 85,
+            "reasoning": "Directly reflects North Indian cuisine with a focus on spices, available with .in domain."
+          },
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 5000,
+            "score": 95,
+            "reasoning": "Short, easy to remember, reflects North Indian cuisine, and available with .in domain. Strong brand appeal for a D2C lifestyle restaurant."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 4500,
+            "score": 90,
+            "reasoning": "Short and catchy, suitable for a North Indian restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 4800,
+            "score": 88,
+            "reasoning": "Unique and memorable, evokes a community feel, available with .in domain."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 4700,
+            "score": 87,
+            "reasoning": "Easy to remember and pronounce, suitable for a restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthSpice",
+            "domain": "northspice.in",
+            "available": true,
+            "price_inr": 5200,
+            "score": 85,
+            "reasoning": "Directly reflects North Indian cuisine with a focus on spices, available with .in domain."
+          },
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 5000,
+            "score": 95,
+            "reasoning": "Short, easy to remember, reflects North Indian cuisine, and available with .in domain. Strong brand appeal for a D2C lifestyle restaurant."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 4500,
+            "score": 90,
+            "reasoning": "Short and catchy, suitable for a North Indian restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 4800,
+            "score": 88,
+            "reasoning": "Unique and memorable, evokes a community feel, available with .in domain."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 4700,
+            "score": 87,
+            "reasoning": "Easy to remember and pronounce, suitable for a restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthSpice",
+            "domain": "northspice.in",
+            "available": true,
+            "price_inr": 5200,
+            "score": 85,
+            "reasoning": "Directly reflects North Indian cuisine with a focus on spices, available with .in domain."
+          }
         ]
       },
       "gtm": null,
@@ -1197,6 +1450,7 @@
   {
     "id": "75b9ce93-8d05-40ee-aefe-df1dc24d2774",
     "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "conversationThreadId": null,
     "status": "completed",
     "phase": "completed",
     "currentAgent": "launch-report-agent",
@@ -1343,6 +1597,128 @@
       "domains": {
         "recommended": "northly.in",
         "top5": [
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 95,
+            "reasoning": "Short, memorable, easy to spell, available domain, and reflects the northern theme well."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 90,
+            "reasoning": "Short and catchy, available domain, suitable for a brand with a modern touch."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 1600,
+            "score": 88,
+            "reasoning": "Unique and memorable, available domain, evokes a community or gathering place."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 85,
+            "reasoning": "Easy to remember and spell, available domain, suggests a path or journey related to North Indian cuisine."
+          },
+          {
+            "name": "NorthIndian",
+            "domain": "northindianrestaurant.in",
+            "available": true,
+            "price_inr": 1800,
+            "score": 80,
+            "reasoning": "Descriptive and clear, available domain, but longer and less catchy than others."
+          }
+        ],
+        "candidates15": [
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 95,
+            "reasoning": "Short, memorable, easy to spell, available domain, and reflects the northern theme well."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 90,
+            "reasoning": "Short and catchy, available domain, suitable for a brand with a modern touch."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 1600,
+            "score": 88,
+            "reasoning": "Unique and memorable, available domain, evokes a community or gathering place."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 85,
+            "reasoning": "Easy to remember and spell, available domain, suggests a path or journey related to North Indian cuisine."
+          },
+          {
+            "name": "NorthIndian",
+            "domain": "northindianrestaurant.in",
+            "available": true,
+            "price_inr": 1800,
+            "score": 80,
+            "reasoning": "Descriptive and clear, available domain, but longer and less catchy than others."
+          },
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 95,
+            "reasoning": "Short, memorable, easy to spell, available domain, and reflects the northern theme well."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 90,
+            "reasoning": "Short and catchy, available domain, suitable for a brand with a modern touch."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 1600,
+            "score": 88,
+            "reasoning": "Unique and memorable, available domain, evokes a community or gathering place."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 85,
+            "reasoning": "Easy to remember and spell, available domain, suggests a path or journey related to North Indian cuisine."
+          },
+          {
+            "name": "NorthIndian",
+            "domain": "northindianrestaurant.in",
+            "available": true,
+            "price_inr": 1800,
+            "score": 80,
+            "reasoning": "Descriptive and clear, available domain, but longer and less catchy than others."
+          },
           {
             "name": "Northly",
             "domain": "northly.in",
@@ -2156,5 +2532,1423 @@
     ],
     "questionContext": [],
     "selectedVisualConcept": null
+  },
+  {
+    "id": "call_O1e7MhnpQ53iqpiy9K4Fppvk",
+    "idea": "I want to start a restaurant",
+    "conversationThreadId": null,
+    "status": "queued",
+    "phase": "draft",
+    "currentAgent": null,
+    "completedAgents": [],
+    "createdAt": "2026-03-25T16:15:46.339Z",
+    "updatedAt": "2026-03-25T16:15:46.339Z",
+    "memory": {
+      "idea": null,
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "ff5941b7-fedb-4720-a180-0b793474c668",
+    "idea": "Start a restaurant in Chennai with a price band of Rs 399 to Rs 799 and a D2C-only channel strategy.",
+    "conversationThreadId": null,
+    "status": "awaiting-user-input",
+    "phase": "clarification",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T16:23:54.756Z",
+    "updatedAt": "2026-03-25T16:23:54.759Z",
+    "memory": {
+      "idea": null,
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "pendingReason": "Collect the founder clarifications before starting the OpenClaw workflow.",
+    "clarificationAnswers": [],
+    "questionContext": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "ac931b39-9a11-4dbb-a844-aeeb9ed007e7",
+    "idea": "I want to start a restaurant.",
+    "conversationThreadId": "d5f2b38f-240b-484a-86e8-8dc02cc22bfd",
+    "status": "failed",
+    "phase": "failed",
+    "currentAgent": "domain-agent",
+    "completedAgents": [
+      "orchestrator-agent",
+      "research-agent"
+    ],
+    "createdAt": "2026-03-25T16:43:23.056Z",
+    "updatedAt": "2026-03-25T16:45:07.142Z",
+    "memory": {
+      "idea": {
+        "raw": "I want to start a restaurant.",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "IWant",
+          "Ily",
+          "ICo",
+          "IHive",
+          "ILane"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "Chennai",
+          "399 to 799",
+          "D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "Chennai",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "399 to 799",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: Chennai\nWhat launch price band should we optimize for?: 399 to 799\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: D2C"
+      },
+      "research": {
+        "competitors": [
+          {
+            "name": "Haldiram Foods International Pvt Ltd",
+            "region": "India",
+            "positioning": "Legacy recipes, family-owned, traditional full-service restaurant",
+            "notes": "Focuses on maintaining profitability through legacy recipes and property ownership, limited use of advanced technology."
+          },
+          {
+            "name": "Barbeque Nation Hospitality Ltd",
+            "region": "India",
+            "positioning": "Full-service restaurant chain with experiential dining",
+            "notes": "Known for value through experiential dining options, strong presence in leisure destinations."
+          },
+          {
+            "name": "Wow Momo",
+            "region": "India",
+            "positioning": "Modern brand using cloud kitchens to test markets",
+            "notes": "Innovative approach with cloud kitchens before physical outlets, targets younger consumers."
+          },
+          {
+            "name": "Biryani By Kilo",
+            "region": "India",
+            "positioning": "Cloud kitchen-based brand specializing in biryani",
+            "notes": "Focuses on niche cuisine with cloud kitchen model, expanding presence in urban areas."
+          },
+          {
+            "name": "Nando’s",
+            "region": "India",
+            "positioning": "International chain with global standards",
+            "notes": "Adapts offerings to local tastes and pricing, brings global branding to Indian market."
+          },
+          {
+            "name": "McDonald's",
+            "region": "India",
+            "positioning": "Quick Service Restaurant (QSR) leader",
+            "notes": "Strong brand presence, focuses on speed and affordability, part of a growing QSR market."
+          },
+          {
+            "name": "Jubilant FoodWorks",
+            "region": "India",
+            "positioning": "Major domestic QSR player",
+            "notes": "Operates multiple brands, innovates in menu and customer engagement."
+          }
+        ],
+        "market_size_inr": "The full-service restaurant market in India is projected to grow from approximately INR 3.2 trillion (USD 37.93 billion) in 2025 to INR 5.9 trillion (USD 70.82 billion) by 2031, with a CAGR of about 10.97%. The quick service restaurant market is expected to reach INR 2.2 trillion (USD 27.8 billion) by 2025.",
+        "whitespace": "There is significant whitespace in experiential dining with themed interiors, live kitchen setups, and niche Asian cuisines like Japanese, Korean, and Thai. Opportunities also exist in tier II and III cities where dining out is becoming a lifestyle trend. Cloud kitchens and hybrid models offer cost-effective market entry. Additionally, catering to growing domestic tourism and increasing demand for social dining experiences can differentiate new entrants.",
+        "keywords": {
+          "primary": [
+            "full service restaurant India",
+            "experiential dining India",
+            "Asian cuisine restaurant India",
+            "cloud kitchen India",
+            "restaurant market India 2024"
+          ],
+          "secondary": [
+            "quick service restaurant India",
+            "dining trends India",
+            "restaurant competition India",
+            "food service market India",
+            "restaurant growth India"
+          ]
+        },
+        "india_insight": "India's restaurant market is driven by rising disposable incomes, urbanization, and a cultural shift towards dining out as a social activity. Metro cities like Delhi, Mumbai, and Pune lead in restaurant density and diversity, but tier II and III cities are rapidly growing markets. Domestic tourism growth fuels demand for quality dining experiences. Consumers increasingly seek not just food but ambiance, entertainment, and social interaction, making experiential dining a key growth area. The market is fragmented with a mix of traditional family businesses and innovative new entrants leveraging technology."
+      },
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T16:43:42.533Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T16:43:44.806Z",
+          "keys_written": [
+            "idea"
+          ]
+        },
+        {
+          "agent": "research-agent",
+          "action": "write:research",
+          "timestamp": "2026-03-25T16:44:08.071Z",
+          "keys_written": [
+            "research"
+          ]
+        }
+      ]
+    },
+    "report": null,
+    "error": "[object Object]",
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "Chennai",
+      "399 to 799",
+      "D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "f6e51de0-e767-4f6e-9947-6a666cb5f047",
+    "idea": "I want to start a restaurant",
+    "conversationThreadId": "2457f73c-32e1-48ec-926a-281c070c5b68",
+    "status": "completed",
+    "phase": "completed",
+    "currentAgent": "launch-report-agent",
+    "completedAgents": [
+      "orchestrator-agent",
+      "research-agent",
+      "domain-agent",
+      "visual-agent",
+      "gtm-agent",
+      "ads-agent",
+      "shopify-agent",
+      "seo-agent",
+      "launch-report-agent"
+    ],
+    "createdAt": "2026-03-25T17:04:51.525Z",
+    "updatedAt": "2026-03-25T17:15:06.153Z",
+    "memory": {
+      "idea": {
+        "raw": "I want to start a restaurant",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "IWant",
+          "Ily",
+          "ICo",
+          "IHive",
+          "ILane"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "Chennai",
+          "399 to 799",
+          "D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "Chennai",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "399 to 799",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: Chennai\nWhat launch price band should we optimize for?: 399 to 799\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: D2C"
+      },
+      "research": {
+        "competitors": [
+          {
+            "name": "Jubilant FoodWorks",
+            "region": "India",
+            "positioning": "Leading foodservice company with a portfolio including Domino's, Dunkin', Popeye's",
+            "notes": "Focuses on menu innovation, outlet expansion, and digital integration."
+          },
+          {
+            "name": "Café Coffee Day",
+            "region": "India",
+            "positioning": "Popular café chain with strong presence in urban India",
+            "notes": "Known for cafes and coffee shops targeting younger demographics."
+          },
+          {
+            "name": "Barbeque Nation Hospitality",
+            "region": "India",
+            "positioning": "Full-service restaurant chain specializing in barbeque and buffet dining",
+            "notes": "Offers experiential dining and value for money perception."
+          },
+          {
+            "name": "Rebel Foods",
+            "region": "India",
+            "positioning": "Pioneer in cloud kitchens and virtual dining models",
+            "notes": "Focuses on food delivery and innovative dining concepts."
+          },
+          {
+            "name": "Wow! Momo",
+            "region": "India",
+            "positioning": "Quick service restaurant chain specializing in momos and fast casual dining",
+            "notes": "Growing presence in urban centers with focus on convenience and affordability."
+          }
+        ],
+        "market_size_inr": "The full-service restaurant market in India is projected to grow from approximately USD 37.93 billion in 2025 to USD 70.82 billion by 2031, with a CAGR of 10.97%. The overall foodservice market is large and growing, driven by rising disposable incomes, urbanization, and increasing demand for dining experiences.",
+        "whitespace": "There is significant whitespace in experiential dining, ethnic and international cuisines, plant-based and eco-friendly dining options, and technology-driven services such as AI-enhanced delivery and contactless dining. Opportunities also exist in tier 2 and tier 3 cities and in integrating social dining experiences with digital convenience.",
+        "keywords": {
+          "primary": [
+            "restaurant India",
+            "full-service restaurant market India",
+            "foodservice industry India",
+            "restaurant competitors India",
+            "restaurant market size India"
+          ],
+          "secondary": [
+            "quick service restaurants India",
+            "cloud kitchens India",
+            "food delivery India",
+            "ethnic cuisine India",
+            "dining trends India"
+          ]
+        },
+        "india_insight": "India's restaurant market is rapidly evolving with a strong shift towards quick service and food delivery sectors, but full-service restaurants remain dominant in revenue share. Urbanization, rising disposable incomes, and changing lifestyles are driving demand for diverse dining experiences. The market is highly fragmented with many players competing on innovation, convenience, and experience. Regional culinary diversity and growing domestic tourism further fuel market growth. Technology adoption in ordering and delivery is a key competitive factor."
+      },
+      "visual": {
+        "brand_name": "RestaurantHive",
+        "logo_concepts": [
+          {
+            "name": "RestaurantHive is Minimal",
+            "mood": "minimal",
+            "prompt": "A modern and memorable logo featuring a stylized hive or honeycomb pattern integrated with a fork and spoon, symbolizing community and dining. Clean lines, minimalistic style, suitable for a full-service restaurant brand in India. The logo should convey warmth, hospitality, and innovation.",
+            "image_url": "https://assets.openclaw.local/restauranthive-is-minimal.png"
+          },
+          {
+            "name": "RestaurantLane is Bold",
+            "mood": "bold",
+            "prompt": "A bold and dynamic logo with a street-lane motif, incorporating subtle food elements like plates or cutlery, evoking a vibrant restaurant lane full of diverse dining options. The style is bold and colorful, appealing to young urban diners in India.",
+            "image_url": "https://assets.openclaw.local/restaurantlane-is-bold.png"
+          },
+          {
+            "name": "IlyHive is Playful",
+            "mood": "playful",
+            "prompt": "A playful and friendly logo featuring a hive with smiling faces or abstract people shapes, symbolizing community and togetherness around food. The style is playful and approachable, with warm colors and rounded shapes, suitable for a welcoming restaurant brand in India.",
+            "image_url": "https://assets.openclaw.local/ilyhive-is-playful.png"
+          }
+        ],
+        "chosen_concept": 0,
+        "palette": [
+          "#FF6F61",
+          "#FFD662",
+          "#4A4A4A",
+          "#FFFFFF",
+          "#F2F2F2"
+        ],
+        "font_pairing": "Montserrat for headings and Open Sans for body text",
+        "mood": "Warm, inviting, modern, and community-focused"
+      },
+      "domains": {
+        "recommended": "restauranthive.in",
+        "top5": [
+          {
+            "name": "RestaurantHive",
+            "domain": "restauranthive.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 92,
+            "reasoning": "Available, memorable, and directly related to the restaurant concept with a modern hive community feel."
+          },
+          {
+            "name": "RestaurantLane",
+            "domain": "restaurantlane.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 88,
+            "reasoning": "Available, easy to remember, and evokes a street or lane full of restaurants, fitting the lifestyle category."
+          },
+          {
+            "name": "RestaurantCo",
+            "domain": "restaurantco.in",
+            "available": true,
+            "price_inr": 1300,
+            "score": 85,
+            "reasoning": "Available, professional sounding, and suitable for a direct-to-consumer restaurant brand."
+          },
+          {
+            "name": "IwantHive",
+            "domain": "iwanthive.in",
+            "available": true,
+            "price_inr": 1200,
+            "score": 82,
+            "reasoning": "Available, combines the founder's original idea 'IWant' with 'Hive' for a community feel."
+          },
+          {
+            "name": "IlyHive",
+            "domain": "ilyhive.in",
+            "available": true,
+            "price_inr": 1200,
+            "score": 80,
+            "reasoning": "Available, short and catchy, with a friendly and community-oriented vibe."
+          }
+        ],
+        "candidates15": [
+          {
+            "name": "Restaurant",
+            "domain": "restaurant.in",
+            "available": false,
+            "price_inr": 0,
+            "score": 70,
+            "reasoning": "Unavailable but highly relevant and straightforward."
+          },
+          {
+            "name": "RestaurantLy",
+            "domain": "restaurantly.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 75,
+            "reasoning": "Available, modern suffix, easy to remember."
+          },
+          {
+            "name": "RestaurantCo",
+            "domain": "restaurantco.in",
+            "available": true,
+            "price_inr": 1300,
+            "score": 85,
+            "reasoning": "Available, professional sounding, and suitable for a direct-to-consumer restaurant brand."
+          },
+          {
+            "name": "RestaurantHive",
+            "domain": "restauranthive.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 92,
+            "reasoning": "Available, memorable, and directly related to the restaurant concept with a modern hive community feel."
+          },
+          {
+            "name": "RestaurantLane",
+            "domain": "restaurantlane.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 88,
+            "reasoning": "Available, easy to remember, and evokes a street or lane full of restaurants, fitting the lifestyle category."
+          },
+          {
+            "name": "Iwant",
+            "domain": "iwant.in",
+            "available": false,
+            "price_inr": 0,
+            "score": 60,
+            "reasoning": "Unavailable but matches the founder's original idea."
+          },
+          {
+            "name": "Iwantly",
+            "domain": "iwantly.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 70,
+            "reasoning": "Available, playful and memorable extension of 'IWant'."
+          },
+          {
+            "name": "IwantCo",
+            "domain": "iwantco.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 72,
+            "reasoning": "Available, professional and brandable."
+          },
+          {
+            "name": "IwantHive",
+            "domain": "iwanthive.in",
+            "available": true,
+            "price_inr": 1200,
+            "score": 82,
+            "reasoning": "Available, combines the founder's original idea 'IWant' with 'Hive' for a community feel."
+          },
+          {
+            "name": "IwantLane",
+            "domain": "iwantlane.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 75,
+            "reasoning": "Available, evokes a community or street vibe."
+          },
+          {
+            "name": "Ily",
+            "domain": "ily.in",
+            "available": false,
+            "price_inr": 0,
+            "score": 65,
+            "reasoning": "Unavailable but short and memorable."
+          },
+          {
+            "name": "Ilyly",
+            "domain": "ilyly.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 70,
+            "reasoning": "Available, catchy and playful."
+          },
+          {
+            "name": "IlyCo",
+            "domain": "ilyco.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 72,
+            "reasoning": "Available, professional and brandable."
+          },
+          {
+            "name": "IlyHive",
+            "domain": "ilyhive.in",
+            "available": true,
+            "price_inr": 1200,
+            "score": 80,
+            "reasoning": "Available, short and catchy, with a friendly and community-oriented vibe."
+          },
+          {
+            "name": "IlyLane",
+            "domain": "ilylane.in",
+            "available": true,
+            "price_inr": 1100,
+            "score": 75,
+            "reasoning": "Available, evokes a community or street vibe."
+          }
+        ]
+      },
+      "gtm": {
+        "launch_cities": [
+          "Chennai",
+          "Bangalore",
+          "Hyderabad"
+        ],
+        "channels": {
+          "instagram": "Focus on Instagram marketing targeting urban millennials and Gen Z in Chennai, Bangalore, and Hyderabad with engaging food visuals, stories, and influencer collaborations.",
+          "whatsapp": "Leverage WhatsApp for direct customer engagement, personalized offers, and group promotions to build community and repeat orders in the launch cities.",
+          "google": "Use Google Ads targeting local search keywords related to affordable dining, full-service restaurants, and experiential dining in the 399-799 INR price band."
+        },
+        "reel_ideas": [
+          "Behind-the-scenes kitchen prep showcasing fresh ingredients and chef expertise.",
+          "Customer testimonials highlighting the warm, community-focused dining experience.",
+          "Showcase signature dishes with vibrant plating and close-up shots.",
+          "Highlight the modern, minimalistic restaurant ambiance and decor.",
+          "Feature local influencers enjoying a meal and sharing their experience.",
+          "Introduce the story behind RestaurantHive and its community-driven concept.",
+          "Demonstrate contactless ordering and AI-enhanced delivery features.",
+          "Showcase eco-friendly and plant-based menu options to attract conscious diners.",
+          "Create fun, playful reels with staff interacting and engaging with customers.",
+          "Highlight special launch offers and limited-time menu items."
+        ],
+        "influencer_brief": "We are launching RestaurantHive, a warm, inviting, and modern full-service restaurant brand focused on community and quality dining experiences in Chennai, Bangalore, and Hyderabad. We seek influencers who resonate with urban millennials and Gen Z, passionate about food, lifestyle, and local culture. Influencers will create authentic content showcasing their dining experience, emphasizing our affordable pricing (399-799 INR), innovative menu, and welcoming ambiance. Collaborations will include Instagram reels, stories, and WhatsApp engagement to drive awareness and footfall during the launch phase.",
+        "week1_checklist": [
+          "Finalize and train staff on customer service and brand values.",
+          "Launch Instagram campaign with teaser reels and influencer collaborations.",
+          "Set up WhatsApp broadcast lists and groups for early customer engagement.",
+          "Activate Google Ads targeting local dining and affordable restaurant keywords.",
+          "Host a soft launch event inviting local food bloggers and influencers."
+        ]
+      },
+      "shopify": {
+        "theme_settings": {
+          "theme": "minimal-modern",
+          "palette": [
+            "#FF6F61",
+            "#FFD662",
+            "#4A4A4A",
+            "#FFFFFF",
+            "#F2F2F2"
+          ],
+          "fonts": {
+            "heading": "Montserrat",
+            "body": "Open Sans"
+          },
+          "hero_cta": "Reserve Your Table Now"
+        },
+        "products": [
+          {
+            "title": "Signature Indian Thali",
+            "price_inr": 699,
+            "description": "Experience a traditional Indian full-service dining with a curated thali featuring regional specialties, plant-based options, and fresh ingredients.",
+            "tags": [
+              "ethnic cuisine",
+              "plant-based",
+              "full-service",
+              "Indian"
+            ]
+          },
+          {
+            "title": "International Fusion Platter",
+            "price_inr": 749,
+            "description": "A vibrant platter combining international flavors with Indian spices, perfect for urban millennials seeking diverse dining experiences.",
+            "tags": [
+              "international cuisine",
+              "fusion",
+              "full-service",
+              "urban"
+            ]
+          },
+          {
+            "title": "Eco-Friendly Vegan Delight",
+            "price_inr": 599,
+            "description": "A delicious and sustainable plant-based meal crafted with eco-friendly ingredients, catering to conscious diners.",
+            "tags": [
+              "plant-based",
+              "eco-friendly",
+              "vegan",
+              "sustainable"
+            ]
+          },
+          {
+            "title": "Chef's Special Barbeque",
+            "price_inr": 799,
+            "description": "Enjoy a barbeque experience inspired by popular full-service restaurant trends, with expertly marinated meats and sides.",
+            "tags": [
+              "barbeque",
+              "full-service",
+              "chef special",
+              "Indian"
+            ]
+          }
+        ],
+        "homepage": {
+          "hero_headline": "Welcome to RestaurantHive – Where Community Meets Cuisine",
+          "hero_subheadline": "Discover warm, inviting, and modern dining experiences in Chennai, Bangalore, and Hyderabad.",
+          "value_props": [
+            "Authentic and diverse ethnic and international cuisines",
+            "Affordable pricing between ₹399 and ₹799",
+            "Eco-friendly and technology-driven dining experience"
+          ]
+        },
+        "collections": [
+          {
+            "name": "Ethnic & Regional",
+            "handle": "ethnic-regional",
+            "description": "Explore traditional and regional Indian dishes crafted with authentic flavors and fresh ingredients."
+          },
+          {
+            "name": "Plant-Based & Vegan",
+            "handle": "plant-based-vegan",
+            "description": "Delicious and sustainable plant-based meals for conscious and health-focused diners."
+          },
+          {
+            "name": "Barbeque & Grill",
+            "handle": "barbeque-grill",
+            "description": "Savor expertly prepared barbeque and grilled dishes inspired by popular full-service restaurant trends."
+          }
+        ],
+        "files": [
+          {
+            "path": "assets/logo.png",
+            "content": "https://assets.openclaw.local/restauranthive-is-minimal.png",
+            "kind": "json"
+          },
+          {
+            "path": "assets/palette.json",
+            "content": "[\"#FF6F61\", \"#FFD662\", \"#4A4A4A\", \"#FFFFFF\", \"#F2F2F2\"]",
+            "kind": "json"
+          },
+          {
+            "path": "assets/fonts.json",
+            "content": "{\"heading\": \"Montserrat\", \"body\": \"Open Sans\"}",
+            "kind": "json"
+          },
+          {
+            "path": "content/hero.md",
+            "content": "# Welcome to RestaurantHive\nWhere Community Meets Cuisine\n\nDiscover warm, inviting, and modern dining experiences in Chennai, Bangalore, and Hyderabad.\n\n[Reserve Your Table Now](#)",
+            "kind": "markdown"
+          }
+        ],
+        "package_summary": "This Shopify launch package for RestaurantHive includes a minimal-modern theme with a warm and inviting palette, Montserrat and Open Sans fonts, and a hero call-to-action to reserve tables. The product catalog features diverse ethnic, international, plant-based, and barbeque dishes priced affordably between ₹399 and ₹799. Collections highlight key menu categories. Assets include the brand logo, color palette, fonts, and hero content to create a cohesive and community-focused online presence."
+      },
+      "ads": {
+        "meta_ads": [
+          {
+            "format": "Reel",
+            "hook": "Experience the warmth of community dining at RestaurantHive!",
+            "body": "Join us in Chennai, Bangalore, and Hyderabad for a modern full-service restaurant experience with affordable pricing and innovative menus.",
+            "cta": "Book your table now",
+            "audience": "Urban millennials and Gen Z in Chennai, Bangalore, Hyderabad interested in dining out, food experiences, and socializing",
+            "budget_day_inr": 700
+          },
+          {
+            "format": "Static",
+            "hook": "Affordable dining, unforgettable flavors.",
+            "body": "Discover RestaurantHive's unique menu crafted for food lovers seeking quality and community vibes in the 399-799 INR price range.",
+            "cta": "Explore our menu",
+            "audience": "Young professionals and food enthusiasts in Chennai, Bangalore, Hyderabad looking for new dining experiences",
+            "budget_day_inr": 600
+          },
+          {
+            "format": "Story",
+            "hook": "Your new favorite dining spot is here!",
+            "body": "Experience the perfect blend of modern ambiance and community-focused dining at RestaurantHive. Reserve your spot today!",
+            "cta": "Reserve now",
+            "audience": "Social media active foodies and local diners in Chennai, Bangalore, Hyderabad",
+            "budget_day_inr": 500
+          }
+        ],
+        "google_campaigns": [
+          {
+            "name": "RestaurantHive Launch - Dining Experience",
+            "budget_day_inr": 800,
+            "ad_groups": [
+              {
+                "name": "Full-Service Restaurant",
+                "keywords": [
+                  "full service restaurant Chennai",
+                  "best restaurants Bangalore",
+                  "dining experience Hyderabad"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "Affordable Dining",
+                "keywords": [
+                  "affordable restaurants Chennai",
+                  "budget dining Bangalore",
+                  "value for money restaurant Hyderabad"
+                ],
+                "match_type": "exact"
+              }
+            ]
+          },
+          {
+            "name": "RestaurantHive Launch - Community & Ambiance",
+            "budget_day_inr": 600,
+            "ad_groups": [
+              {
+                "name": "Community Dining",
+                "keywords": [
+                  "community dining experience",
+                  "restaurant with social vibe",
+                  "group dining places Chennai"
+                ],
+                "match_type": "broad"
+              },
+              {
+                "name": "Modern Ambiance",
+                "keywords": [
+                  "modern restaurant Bangalore",
+                  "trendy dining Hyderabad",
+                  "restaurant with ambiance"
+                ],
+                "match_type": "phrase"
+              }
+            ]
+          }
+        ],
+        "pacing_plan": {
+          "start_budget_day_inr": 1800,
+          "scale_trigger": "Increase daily budget to 4000 INR after achieving consistent engagement and conversion rates for 7 days.",
+          "milestones": [
+            "Days 1-7: Test ad creatives and audience segments in Chennai, Bangalore, Hyderabad.",
+            "Days 8-15: Optimize for best performing ads and increase budget on high ROI campaigns.",
+            "Days 16-30: Expand targeting to similar cities and launch retargeting campaigns."
+          ]
+        }
+      },
+      "seo": {
+        "keywords": [
+          "restaurant India",
+          "full-service restaurant market India",
+          "foodservice industry India",
+          "restaurant competitors India",
+          "restaurant market size India"
+        ],
+        "geo_faqs": [
+          "What are the best full-service restaurants in Chennai?",
+          "Where can I find affordable dining options in Bangalore?",
+          "What is the dining experience like at restaurants in Hyderabad?",
+          "Which restaurants in Chennai offer ethnic and international cuisines?",
+          "How is the community dining scene in Bangalore?"
+        ],
+        "content_calendar": [
+          "The Rise of Full-Service Restaurants in India: Trends and Insights",
+          "Exploring Ethnic and International Cuisines at RestaurantHive",
+          "Affordable Dining Experiences in Chennai, Bangalore, and Hyderabad",
+          "Sustainable and Plant-Based Dining Options for Conscious Consumers"
+        ],
+        "geo_pages": [
+          {
+            "title": "Best Full-Service Restaurants in Chennai | RestaurantHive",
+            "slug": "best-full-service-restaurants-chennai",
+            "target_query": "full service restaurant Chennai",
+            "body": "Discover the best full-service restaurants in Chennai with RestaurantHive. We offer a warm, inviting dining experience featuring authentic ethnic and international cuisines, affordable pricing between ₹399 and ₹799, and a community-focused ambiance. Enjoy our signature dishes like the Indian Thali and Chef's Special Barbeque in a modern setting designed for urban diners.",
+            "citation_notes": [
+              "Market research on full-service restaurant growth in India, 2025-2031",
+              "Competitor analysis including Jubilant FoodWorks and Barbeque Nation"
+            ]
+          },
+          {
+            "title": "Affordable Dining Options in Bangalore | RestaurantHive",
+            "slug": "affordable-dining-bangalore",
+            "target_query": "affordable restaurants Bangalore",
+            "body": "Experience affordable dining in Bangalore at RestaurantHive, where we blend international fusion flavors with Indian spices. Our menu is curated for urban millennials seeking diverse and budget-friendly dining experiences priced between ₹399 and ₹799. Join us for a community dining experience in a modern, eco-friendly environment.",
+            "citation_notes": [
+              "India foodservice market size and growth projections",
+              "Insights on dining trends and urban consumer preferences"
+            ]
+          },
+          {
+            "title": "Dining Experience in Hyderabad | RestaurantHive",
+            "slug": "dining-experience-hyderabad",
+            "target_query": "dining experience Hyderabad",
+            "body": "RestaurantHive in Hyderabad offers a unique dining experience combining modern ambiance with community vibes. Our menu features plant-based and eco-friendly options alongside traditional barbeque dishes, all within an affordable price range of ₹399 to ₹799. Perfect for food lovers looking for quality and innovation in full-service dining.",
+            "citation_notes": [
+              "Research on experiential dining and technology-driven services",
+              "Competitive landscape including Rebel Foods and Wow! Momo"
+            ]
+          },
+          {
+            "title": "Ethnic and International Cuisine in Chennai | RestaurantHive",
+            "slug": "ethnic-international-cuisine-chennai",
+            "target_query": "ethnic cuisine Chennai",
+            "body": "Explore authentic ethnic and international cuisines at RestaurantHive Chennai. Our chefs craft diverse dishes including traditional Indian thalis and international fusion platters, catering to the evolving tastes of urban diners. Enjoy a warm, community-focused dining atmosphere with affordable pricing and sustainable options.",
+            "citation_notes": [
+              "Market insights on ethnic cuisine demand in India",
+              "Competitor positioning of Café Coffee Day and Barbeque Nation"
+            ]
+          },
+          {
+            "title": "Community Dining in Bangalore | RestaurantHive",
+            "slug": "community-dining-bangalore",
+            "target_query": "community dining experience Bangalore",
+            "body": "Join the vibrant community dining scene at RestaurantHive Bangalore. We emphasize social dining experiences with a modern, welcoming ambiance. Our menu includes plant-based, barbeque, and fusion dishes designed for group dining and social gatherings, all priced affordably between ₹399 and ₹799.",
+            "citation_notes": [
+              "Industry reports on social dining trends in India",
+              "Analysis of competitor strategies in urban markets"
+            ]
+          }
+        ]
+      },
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T17:05:00.583Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T17:05:03.818Z",
+          "keys_written": [
+            "idea"
+          ]
+        },
+        {
+          "agent": "research-agent",
+          "action": "write:research",
+          "timestamp": "2026-03-25T17:05:24.423Z",
+          "keys_written": [
+            "research"
+          ]
+        },
+        {
+          "agent": "domain-agent",
+          "action": "write:domains",
+          "timestamp": "2026-03-25T17:07:13.321Z",
+          "keys_written": [
+            "domains"
+          ]
+        },
+        {
+          "agent": "visual-agent",
+          "action": "write:visual",
+          "timestamp": "2026-03-25T17:07:38.419Z",
+          "keys_written": [
+            "visual"
+          ]
+        },
+        {
+          "agent": "gtm-agent",
+          "action": "write:gtm",
+          "timestamp": "2026-03-25T17:09:18.959Z",
+          "keys_written": [
+            "gtm"
+          ]
+        },
+        {
+          "agent": "ads-agent",
+          "action": "write:ads",
+          "timestamp": "2026-03-25T17:10:24.910Z",
+          "keys_written": [
+            "ads"
+          ]
+        },
+        {
+          "agent": "shopify-agent",
+          "action": "write:shopify",
+          "timestamp": "2026-03-25T17:10:27.810Z",
+          "keys_written": [
+            "shopify"
+          ]
+        },
+        {
+          "agent": "seo-agent",
+          "action": "write:seo",
+          "timestamp": "2026-03-25T17:11:48.329Z",
+          "keys_written": [
+            "seo"
+          ]
+        },
+        {
+          "agent": "launch-report-agent",
+          "action": "complete-launch",
+          "timestamp": "2026-03-25T17:15:06.147Z",
+          "keys_written": [
+            "report"
+          ]
+        }
+      ]
+    },
+    "report": {
+      "brand": {
+        "idea": "I want to start a restaurant",
+        "category": "d2c lifestyle",
+        "brand_name": "RestaurantHive",
+        "summary": "RestaurantHive is a warm, inviting, modern full-service restaurant brand focused on community and quality dining experiences in Chennai, Bangalore, and Hyderabad. It offers authentic ethnic and international cuisines, affordable pricing between ₹399 and ₹799, and an eco-friendly, technology-driven dining experience."
+      },
+      "visual": {
+        "logo_urls": [
+          "https://assets.openclaw.local/restauranthive-is-minimal.png"
+        ],
+        "palette": [
+          "#FF6F61",
+          "#FFD662",
+          "#4A4A4A",
+          "#FFFFFF",
+          "#F2F2F2"
+        ],
+        "mood": "Warm, inviting, modern, and community-focused"
+      },
+      "domain": {
+        "recommended": "restauranthive.in",
+        "alternatives": [
+          "restaurantlane.in",
+          "restaurantco.in",
+          "iwanthive.in",
+          "ilyhive.in"
+        ]
+      },
+      "gtm": {
+        "launch_cities": [
+          "Chennai",
+          "Bangalore",
+          "Hyderabad"
+        ],
+        "channels": {
+          "instagram": "Focus on Instagram marketing targeting urban millennials and Gen Z in Chennai, Bangalore, and Hyderabad with engaging food visuals, stories, and influencer collaborations.",
+          "whatsapp": "Leverage WhatsApp for direct customer engagement, personalized offers, and group promotions to build community and repeat orders in the launch cities.",
+          "google": "Use Google Ads targeting local search keywords related to affordable dining, full-service restaurants, and experiential dining in the 399-799 INR price band."
+        },
+        "reel_ideas": [
+          "Behind-the-scenes kitchen prep showcasing fresh ingredients and chef expertise.",
+          "Customer testimonials highlighting the warm, community-focused dining experience.",
+          "Showcase signature dishes with vibrant plating and close-up shots.",
+          "Highlight the modern, minimalistic restaurant ambiance and decor.",
+          "Feature local influencers enjoying a meal and sharing their experience.",
+          "Introduce the story behind RestaurantHive and its community-driven concept.",
+          "Demonstrate contactless ordering and AI-enhanced delivery features.",
+          "Showcase eco-friendly and plant-based menu options to attract conscious diners.",
+          "Create fun, playful reels with staff interacting and engaging with customers.",
+          "Highlight special launch offers and limited-time menu items."
+        ],
+        "influencer_brief": "We are launching RestaurantHive, a warm, inviting, and modern full-service restaurant brand focused on community and quality dining experiences in Chennai, Bangalore, and Hyderabad. We seek influencers who resonate with urban millennials and Gen Z, passionate about food, lifestyle, and local culture. Influencers will create authentic content showcasing their dining experience, emphasizing our affordable pricing (399-799 INR), innovative menu, and welcoming ambiance. Collaborations will include Instagram reels, stories, and WhatsApp engagement to drive awareness and footfall during the launch phase.",
+        "week1_checklist": [
+          "Finalize and train staff on customer service and brand values.",
+          "Launch Instagram campaign with teaser reels and influencer collaborations.",
+          "Set up WhatsApp broadcast lists and groups for early customer engagement.",
+          "Activate Google Ads targeting local dining and affordable restaurant keywords.",
+          "Host a soft launch event inviting local food bloggers and influencers."
+        ]
+      },
+      "shopify_files": {
+        "theme_settings": {
+          "theme": "minimal-modern",
+          "palette": [
+            "#FF6F61",
+            "#FFD662",
+            "#4A4A4A",
+            "#FFFFFF",
+            "#F2F2F2"
+          ],
+          "fonts": {
+            "heading": "Montserrat",
+            "body": "Open Sans"
+          },
+          "hero_cta": "Reserve Your Table Now"
+        },
+        "products": [
+          {
+            "title": "Signature Indian Thali",
+            "price_inr": 699,
+            "description": "Experience a traditional Indian full-service dining with a curated thali featuring regional specialties, plant-based options, and fresh ingredients.",
+            "tags": [
+              "ethnic cuisine",
+              "plant-based",
+              "full-service",
+              "Indian"
+            ]
+          },
+          {
+            "title": "International Fusion Platter",
+            "price_inr": 749,
+            "description": "A vibrant platter combining international flavors with Indian spices, perfect for urban millennials seeking diverse dining experiences.",
+            "tags": [
+              "international cuisine",
+              "fusion",
+              "full-service",
+              "urban"
+            ]
+          },
+          {
+            "title": "Eco-Friendly Vegan Delight",
+            "price_inr": 599,
+            "description": "A delicious and sustainable plant-based meal crafted with eco-friendly ingredients, catering to conscious diners.",
+            "tags": [
+              "plant-based",
+              "eco-friendly",
+              "vegan",
+              "sustainable"
+            ]
+          },
+          {
+            "title": "Chef's Special Barbeque",
+            "price_inr": 799,
+            "description": "Enjoy a barbeque experience inspired by popular full-service restaurant trends, with expertly marinated meats and sides.",
+            "tags": [
+              "barbeque",
+              "full-service",
+              "chef special",
+              "Indian"
+            ]
+          }
+        ],
+        "homepage": {
+          "hero_headline": "Welcome to RestaurantHive – Where Community Meets Cuisine",
+          "hero_subheadline": "Discover warm, inviting, and modern dining experiences in Chennai, Bangalore, and Hyderabad.",
+          "value_props": [
+            "Authentic and diverse ethnic and international cuisines",
+            "Affordable pricing between ₹399 and ₹799",
+            "Eco-friendly and technology-driven dining experience"
+          ]
+        },
+        "collections": [
+          {
+            "name": "Ethnic & Regional",
+            "handle": "ethnic-regional",
+            "description": "Explore traditional and regional Indian dishes crafted with authentic flavors and fresh ingredients."
+          },
+          {
+            "name": "Plant-Based & Vegan",
+            "handle": "plant-based-vegan",
+            "description": "Delicious and sustainable plant-based meals for conscious and health-focused diners."
+          },
+          {
+            "name": "Barbeque & Grill",
+            "handle": "barbeque-grill",
+            "description": "Savor expertly prepared barbeque and grilled dishes inspired by popular full-service restaurant trends."
+          }
+        ],
+        "files": [
+          {
+            "path": "assets/logo.png",
+            "content": "https://assets.openclaw.local/restauranthive-is-minimal.png",
+            "kind": "json"
+          },
+          {
+            "path": "assets/palette.json",
+            "content": "[\"#FF6F61\", \"#FFD662\", \"#4A4A4A\", \"#FFFFFF\", \"#F2F2F2\"]",
+            "kind": "json"
+          },
+          {
+            "path": "assets/fonts.json",
+            "content": "{\"heading\": \"Montserrat\", \"body\": \"Open Sans\"}",
+            "kind": "json"
+          },
+          {
+            "path": "content/hero.md",
+            "content": "# Welcome to RestaurantHive\nWhere Community Meets Cuisine\n\nDiscover warm, inviting, and modern dining experiences in Chennai, Bangalore, and Hyderabad.\n\n[Reserve Your Table Now](#)",
+            "kind": "markdown"
+          }
+        ],
+        "package_summary": "This Shopify launch package for RestaurantHive includes a minimal-modern theme with a warm and inviting palette, Montserrat and Open Sans fonts, and a hero call-to-action to reserve tables. The product catalog features diverse ethnic, international, plant-based, and barbeque dishes priced affordably between ₹399 and ₹799. Collections highlight key menu categories. Assets include the brand logo, color palette, fonts, and hero content to create a cohesive and community-focused online presence."
+      },
+      "ads": {
+        "meta_ads": [
+          {
+            "format": "Reel",
+            "hook": "Experience the warmth of community dining at RestaurantHive!",
+            "body": "Join us in Chennai, Bangalore, and Hyderabad for a modern full-service restaurant experience with affordable pricing and innovative menus.",
+            "cta": "Book your table now",
+            "audience": "Urban millennials and Gen Z in Chennai, Bangalore, Hyderabad interested in dining out, food experiences, and socializing",
+            "budget_day_inr": 700
+          },
+          {
+            "format": "Static",
+            "hook": "Affordable dining, unforgettable flavors.",
+            "body": "Discover RestaurantHive's unique menu crafted for food lovers seeking quality and community vibes in the 399-799 INR price range.",
+            "cta": "Explore our menu",
+            "audience": "Young professionals and food enthusiasts in Chennai, Bangalore, Hyderabad looking for new dining experiences",
+            "budget_day_inr": 600
+          },
+          {
+            "format": "Story",
+            "hook": "Your new favorite dining spot is here!",
+            "body": "Experience the perfect blend of modern ambiance and community-focused dining at RestaurantHive. Reserve your spot today!",
+            "cta": "Reserve now",
+            "audience": "Social media active foodies and local diners in Chennai, Bangalore, Hyderabad",
+            "budget_day_inr": 500
+          }
+        ],
+        "google_campaigns": [
+          {
+            "name": "RestaurantHive Launch - Dining Experience",
+            "budget_day_inr": 800,
+            "ad_groups": [
+              {
+                "name": "Full-Service Restaurant",
+                "keywords": [
+                  "full service restaurant Chennai",
+                  "best restaurants Bangalore",
+                  "dining experience Hyderabad"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "Affordable Dining",
+                "keywords": [
+                  "affordable restaurants Chennai",
+                  "budget dining Bangalore",
+                  "value for money restaurant Hyderabad"
+                ],
+                "match_type": "exact"
+              }
+            ]
+          },
+          {
+            "name": "RestaurantHive Launch - Community & Ambiance",
+            "budget_day_inr": 600,
+            "ad_groups": [
+              {
+                "name": "Community Dining",
+                "keywords": [
+                  "community dining experience",
+                  "restaurant with social vibe",
+                  "group dining places Chennai"
+                ],
+                "match_type": "broad"
+              },
+              {
+                "name": "Modern Ambiance",
+                "keywords": [
+                  "modern restaurant Bangalore",
+                  "trendy dining Hyderabad",
+                  "restaurant with ambiance"
+                ],
+                "match_type": "phrase"
+              }
+            ]
+          }
+        ],
+        "pacing_plan": {
+          "start_budget_day_inr": 1800,
+          "scale_trigger": "Increase daily budget to 4000 INR after achieving consistent engagement and conversion rates for 7 days.",
+          "milestones": [
+            "Days 1-7: Test ad creatives and audience segments in Chennai, Bangalore, Hyderabad.",
+            "Days 8-15: Optimize for best performing ads and increase budget on high ROI campaigns.",
+            "Days 16-30: Expand targeting to similar cities and launch retargeting campaigns."
+          ]
+        }
+      },
+      "seo_geo": {
+        "keywords": [
+          "restaurant India",
+          "full-service restaurant market India",
+          "foodservice industry India",
+          "restaurant competitors India",
+          "restaurant market size India"
+        ],
+        "geo_faqs": [
+          "What are the best full-service restaurants in Chennai?",
+          "Where can I find affordable dining options in Bangalore?",
+          "What is the dining experience like at restaurants in Hyderabad?",
+          "Which restaurants in Chennai offer ethnic and international cuisines?",
+          "How is the community dining scene in Bangalore?"
+        ],
+        "content_calendar": [
+          "The Rise of Full-Service Restaurants in India: Trends and Insights",
+          "Exploring Ethnic and International Cuisines at RestaurantHive",
+          "Affordable Dining Experiences in Chennai, Bangalore, and Hyderabad",
+          "Sustainable and Plant-Based Dining Options for Conscious Consumers"
+        ],
+        "geo_pages": [
+          {
+            "title": "Best Full-Service Restaurants in Chennai | RestaurantHive",
+            "slug": "best-full-service-restaurants-chennai",
+            "target_query": "full service restaurant Chennai",
+            "body": "Discover the best full-service restaurants in Chennai with RestaurantHive. We offer a warm, inviting dining experience featuring authentic ethnic and international cuisines, affordable pricing between ₹399 and ₹799, and a community-focused ambiance. Enjoy our signature dishes like the Indian Thali and Chef's Special Barbeque in a modern setting designed for urban diners.",
+            "citation_notes": [
+              "Market research on full-service restaurant growth in India, 2025-2031",
+              "Competitor analysis including Jubilant FoodWorks and Barbeque Nation"
+            ]
+          },
+          {
+            "title": "Affordable Dining Options in Bangalore | RestaurantHive",
+            "slug": "affordable-dining-bangalore",
+            "target_query": "affordable restaurants Bangalore",
+            "body": "Experience affordable dining in Bangalore at RestaurantHive, where we blend international fusion flavors with Indian spices. Our menu is curated for urban millennials seeking diverse and budget-friendly dining experiences priced between ₹399 and ₹799. Join us for a community dining experience in a modern, eco-friendly environment.",
+            "citation_notes": [
+              "India foodservice market size and growth projections",
+              "Insights on dining trends and urban consumer preferences"
+            ]
+          },
+          {
+            "title": "Dining Experience in Hyderabad | RestaurantHive",
+            "slug": "dining-experience-hyderabad",
+            "target_query": "dining experience Hyderabad",
+            "body": "RestaurantHive in Hyderabad offers a unique dining experience combining modern ambiance with community vibes. Our menu features plant-based and eco-friendly options alongside traditional barbeque dishes, all within an affordable price range of ₹399 to ₹799. Perfect for food lovers looking for quality and innovation in full-service dining.",
+            "citation_notes": [
+              "Research on experiential dining and technology-driven services",
+              "Competitive landscape including Rebel Foods and Wow! Momo"
+            ]
+          },
+          {
+            "title": "Ethnic and International Cuisine in Chennai | RestaurantHive",
+            "slug": "ethnic-international-cuisine-chennai",
+            "target_query": "ethnic cuisine Chennai",
+            "body": "Explore authentic ethnic and international cuisines at RestaurantHive Chennai. Our chefs craft diverse dishes including traditional Indian thalis and international fusion platters, catering to the evolving tastes of urban diners. Enjoy a warm, community-focused dining atmosphere with affordable pricing and sustainable options.",
+            "citation_notes": [
+              "Market insights on ethnic cuisine demand in India",
+              "Competitor positioning of Café Coffee Day and Barbeque Nation"
+            ]
+          },
+          {
+            "title": "Community Dining in Bangalore | RestaurantHive",
+            "slug": "community-dining-bangalore",
+            "target_query": "community dining experience Bangalore",
+            "body": "Join the vibrant community dining scene at RestaurantHive Bangalore. We emphasize social dining experiences with a modern, welcoming ambiance. Our menu includes plant-based, barbeque, and fusion dishes designed for group dining and social gatherings, all priced affordably between ₹399 and ₹799.",
+            "citation_notes": [
+              "Industry reports on social dining trends in India",
+              "Analysis of competitor strategies in urban markets"
+            ]
+          }
+        ]
+      },
+      "roadmap_90d": [
+        "Finalize restaurant location and interior design in Chennai.",
+        "Complete staff hiring and training focused on customer service and brand values.",
+        "Launch marketing campaigns on Instagram, WhatsApp, and Google Ads targeting launch cities.",
+        "Host soft launch event with local influencers and food bloggers.",
+        "Gather customer feedback and optimize menu and service.",
+        "Expand marketing reach to Bangalore and Hyderabad with targeted campaigns.",
+        "Introduce loyalty programs and community events to build customer retention.",
+        "Scale operations and explore additional D2C channels and partnerships.",
+        "Evaluate performance metrics and plan for expansion to tier 2 and tier 3 cities."
+      ],
+      "artifacts": [
+        {
+          "path": "assets/logo.png",
+          "description": "Primary brand logo featuring a stylized hive integrated with dining elements."
+        },
+        {
+          "path": "assets/palette.json",
+          "description": "Brand color palette with warm and inviting tones."
+        },
+        {
+          "path": "assets/fonts.json",
+          "description": "Typography settings using Montserrat for headings and Open Sans for body text."
+        },
+        {
+          "path": "content/hero.md",
+          "description": "Hero section content for the Shopify homepage."
+        }
+      ],
+      "markdown": "# RestaurantHive Launch Bible\n\n## Brand Overview\nRestaurantHive is a modern, warm, and community-focused full-service restaurant brand launching initially in Chennai, with plans to expand to Bangalore and Hyderabad. The brand emphasizes authentic ethnic and international cuisines, affordable pricing between ₹399 and ₹799, and an eco-friendly, technology-driven dining experience.\n\n## Visual Identity\n- Logo: Stylized hive with fork and spoon, symbolizing community and dining.\n- Palette: Warm reds, yellows, and neutral grays and whites.\n- Fonts: Montserrat (headings), Open Sans (body).\n- Mood: Warm, inviting, modern, and community-focused.\n\n## Domain\n- Recommended: restauranthive.in\n- Alternatives: restaurantlane.in, restaurantco.in, iwanthive.in, ilyhive.in\n\n## Go-To-Market Strategy\n- Launch Cities: Chennai, Bangalore, Hyderabad\n- Channels: Instagram, WhatsApp, Google Ads\n- Content: Behind-the-scenes, customer testimonials, influencer features, eco-friendly menu highlights\n- Influencer Brief: Target urban millennials and Gen Z passionate about food and lifestyle\n- Week 1 Checklist: Staff training, campaign launches, soft launch event\n\n## Shopify Launch Package\n- Theme: Minimal-modern with warm palette\n- Products: Signature Indian Thali, International Fusion Platter, Eco-Friendly Vegan Delight, Chef's Special Barbeque\n- Homepage: Hero headline and subheadline emphasizing community and cuisine\n- Collections: Ethnic & Regional, Plant-Based & Vegan, Barbeque & Grill\n\n## Advertising Plan\n- Meta Ads: Reels, Static, Stories targeting urban millennials and food enthusiasts\n- Google Campaigns: Focus on full-service dining, affordable pricing, community, and ambiance\n- Budget pacing plan with milestones for optimization and scaling\n\n## SEO and Content\n- Keywords: Restaurant India, full-service market, foodservice industry\n- Geo FAQs and pages targeting Chennai, Bangalore, Hyderabad\n- Content Calendar: Trends, ethnic cuisines, affordable dining, sustainable options\n\n## 90-Day Roadmap\n- Location and design finalization\n- Staff hiring and training\n- Marketing campaign launches\n- Soft launch and feedback gathering\n- Expansion to additional cities\n- Loyalty programs and community events\n- Operational scaling and performance evaluation\n\n## Artifacts\n- Logo, palette, fonts, and hero content assets for brand consistency\n\nThis launch bible provides a comprehensive guide to establishing RestaurantHive as a leading full-service restaurant brand in India, focusing on community, quality, and innovation."
+    },
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "Chennai",
+      "399 to 799",
+      "D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": 0
   }
 ]

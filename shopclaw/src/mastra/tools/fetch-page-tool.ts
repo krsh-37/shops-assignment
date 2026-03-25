@@ -16,7 +16,15 @@ export const fetchPageTool = createTool({
       };
     }
 
-    const response = await fetch(url, { method: 'GET' });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    let response: Response;
+    try {
+      response = await fetch(url, { method: 'GET', signal: controller.signal });
+    } finally {
+      clearTimeout(timeout);
+    }
+
     if (!response.ok) {
       throw new Error(`Page fetch failed for ${url} with status ${response.status}`);
     }

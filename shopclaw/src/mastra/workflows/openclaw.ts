@@ -13,6 +13,8 @@ import {
   buildVisualDirection,
   generateBrandCandidates,
   inferCategory,
+  normalizeDomainMemory,
+  normalizeGTM,
 } from '../domain/openclaw/content.js';
 import {
   adsGenerationInputSchema,
@@ -38,7 +40,6 @@ import {
 } from '../domain/openclaw/schemas.js';
 import { buildFounderBrief, collectLaunchClarifications, normalizeClarificationAnswers } from '../domain/openclaw/content.js';
 import { researchAgent } from '../agents/research-agent.js';
-import { domainAgent } from '../agents/domain-agent.js';
 import { visualAgent } from '../agents/visual-agent.js';
 import { gtmAgent } from '../agents/india-gtm-agent.js';
 import { shopifyAgent } from '../agents/shopify-agent.js';
@@ -46,14 +47,15 @@ import { adsAgent } from '../agents/performance-ads-agent.js';
 import { seoAgent } from '../agents/seo-geo-agent.js';
 import { launchReportAgent } from '../agents/launch-report-agent.js';
 import { mem0 } from '../memory/mem0.js';
-import {
-  adsStrategyTool,
-  gtmPlanTool,
-  launchReportTool,
-  seoGeoTool,
-  shopifyAssetsTool,
-  visualDirectionTool,
-} from '../tools/index.js';
+import { getDomainProvider } from '../providers/domain-provider.js';
+import { adsStrategyTool } from '../tools/ads-strategy-tool.js';
+import { fetchPageTool } from '../tools/fetch-page-tool.js';
+import { gtmPlanTool } from '../tools/gtm-plan-tool.js';
+import { launchReportTool } from '../tools/launch-report-tool.js';
+import { researchTool } from '../tools/research-tool.js';
+import { seoGeoTool } from '../tools/seo-geo-tool.js';
+import { shopifyAssetsTool } from '../tools/shopify-assets-tool.js';
+import { visualDirectionTool } from '../tools/visual-direction-tool.js';
 
 function readMem0(launchId: string): OpenClawMemory {
   return mem0.read(launchId);
@@ -91,6 +93,86 @@ async function generateStructured<T>(
   }
 
   return response.object as T;
+}
+
+async function resolveDomainOptions(memory: OpenClawMemory): Promise<z.infer<typeof domainMemorySchema>> {
+  const provider = getDomainProvider();
+  const seeded = buildDomainOptions(memory);
+
+  const candidates15 = await Promise.all(
+    seeded.candidates15.map(async candidate => {
+      const lookup = await provider.check(candidate.domain);
+      const available = lookup.available;
+      return {
+        ...candidate,
+        available,
+        price_inr: available ? candidate.price_inr : 0,
+        reasoning: available
+          ? candidate.reasoning
+          : `${candidate.reasoning} Live RDAP check suggests the domain is already registered.`,
+      };
+    }),
+  );
+
+  const ranked = [...candidates15].sort((left, right) => {
+    if (left.available !== right.available) {
+      return Number(right.available) - Number(left.available);
+    }
+    return right.score - left.score;
+  });
+
+  return normalizeDomainMemory({
+    recommended: ranked.find(candidate => candidate.available)?.domain ?? ranked[0]?.domain ?? seeded.recommended,
+    top5: ranked.slice(0, 5),
+    candidates15,
+  });
+}
+
+async function resolveResearchMemory(
+  idea: string,
+  launchId: string,
+  memory: OpenClawMemory,
+  mem0Context: string[],
+): Promise<z.infer<typeof researchMemorySchema>> {
+  const searchQuery = `${idea} India competitors market size keywords`;
+  const search = await (researchTool.execute as any)({ query: searchQuery }, {});
+
+  if (!search.results?.length) {
+    return buildResearch(idea, memory);
+  }
+
+  const fetchedPages = await Promise.all(
+    search.results.slice(0, 3).map(async (result: { url: string; title: string; content: string }) => {
+      try {
+        return await (fetchPageTool.execute as any)({ url: result.url }, {});
+      } catch {
+        return {
+          url: result.url,
+          title: result.title,
+          content: result.content,
+        };
+      }
+    }),
+  );
+
+  return generateStructured(
+    researchAgent,
+    `Synthesize India market research for this launch idea using the evidence pack below.
+
+Idea: ${idea}
+Relevant Mem0 context:
+${mem0Context.join('\n') || 'None'}
+
+Search results:
+${JSON.stringify(search.results)}
+
+Fetched source excerpts:
+${JSON.stringify(fetchedPages)}
+
+Return structured output only.`,
+    researchMemorySchema,
+    launchId,
+  );
 }
 
 const visualStructuredOutputSchema = z.union([
@@ -200,19 +282,7 @@ const researchStep = createStep({
     const memory = readMem0(inputData.launchId);
     const mem0Context = await mem0.recall(`${inputData.idea} competitors market size keywords India`, inputData.launchId);
     const research = isDevMode()
-      ? await generateStructured(
-          researchAgent,
-          `Research this brand launch idea for India.
-
-Idea: ${inputData.idea}
-Use the research tool to gather current market and competitor information before answering.
-Relevant Mem0 context:
-${mem0Context.join('\n') || 'None'}
-
-Return structured output only.`,
-          researchMemorySchema,
-          inputData.launchId,
-        )
+      ? await resolveResearchMemory(inputData.idea, inputData.launchId, memory, mem0Context)
       : buildResearch(inputData.idea, memory);
 
     await mem0.write(inputData.launchId, 'research', research, 'research-agent');
@@ -230,24 +300,11 @@ const domainStep = createStep({
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'domain-agent');
     const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${inputData.idea} brand naming domain`, inputData.launchId);
     const domains = isDevMode()
-      ? await generateStructured(
-          domainAgent,
-          `Generate 15 strong brand name and domain candidates for this founder idea, use the domain availability tool to check likely availability for the domains you choose, then return the best ranked 5.
-
-Idea: ${inputData.idea}
-Known idea context: ${JSON.stringify(memory.idea)}
-Relevant Mem0 context:
-${mem0Context.join('\n') || 'None'}
-
-Only return the final structured shortlist with recommended and top5.`,
-          domainMemorySchema,
-          inputData.launchId,
-        )
+      ? await resolveDomainOptions(memory)
       : buildDomainOptions(memory);
 
-    await mem0.write(inputData.launchId, 'domains', domains, 'domain-agent');
+    await mem0.write(inputData.launchId, 'domains', normalizeDomainMemory(domains), 'domain-agent');
     mem0.markAgentCompleted(inputData.launchId, 'domain-agent');
     return { launchId: inputData.launchId };
   },
@@ -310,6 +367,37 @@ Do not wrap the result inside visual_package or any other object.`,
   },
 });
 
+const visualSelectionGateStep = createStep({
+  id: 'visual-selection-gate',
+  description: 'Pauses after the visual package is generated so the founder can choose a concept.',
+  retries: 0,
+  inputSchema: launchTokenSchema,
+  outputSchema: launchTokenSchema,
+  suspendSchema: z.object({
+    reason: z.string(),
+  }),
+  resumeSchema: z.object({
+    conceptIndex: z.number().int().min(0).max(2),
+  }),
+  execute: async ({ inputData, suspend, resumeData }) => {
+    const run = mem0.requireRun(inputData.launchId);
+
+    if (!run.memory.visual) {
+      throw new Error(`Launch ${inputData.launchId} does not have visual concepts available yet.`);
+    }
+
+    if (!resumeData) {
+      mem0.requestVisualSelection(inputData.launchId);
+      return await suspend({
+        reason: 'Select one of the three visual concepts before continuing the launch.',
+      });
+    }
+
+    mem0.setSelectedVisualConcept(inputData.launchId, resumeData.conceptIndex);
+    return inputData;
+  },
+});
+
 const gtmStep = createStep({
   id: 'gtm',
   description: 'Generates the India-first GTM plan from Mem0.',
@@ -336,13 +424,18 @@ ${JSON.stringify(
   }),
 )}
 
-Use the founder brief for city focus, pricing, and channel constraints. Return only structured output.`,
+Rules:
+- launch_cities must exactly match the founder-selected launch cities from the brief
+- do not introduce additional launch cities that the founder did not name
+- keep the GTM city plan tightly aligned to the founder input
+
+Return only structured output.`,
           gtmMemorySchema,
           inputData.launchId,
         )
       : await (gtmPlanTool.execute as any)({ memory }, {});
 
-    await mem0.write(inputData.launchId, 'gtm', gtm, 'gtm-agent');
+    await mem0.write(inputData.launchId, 'gtm', normalizeGTM(memory, gtm), 'gtm-agent');
     mem0.markAgentCompleted(inputData.launchId, 'gtm-agent');
     return inputData;
   },
@@ -501,20 +594,30 @@ Return only structured output.`,
   },
 });
 
-export const internalOpenclawWorkflow = createWorkflow({
-  id: 'openclaw-workflow-internal',
+export const preVisualOpenclawWorkflow = createWorkflow({
+  id: 'openclaw-workflow-pre-visual',
   inputSchema: launchInputSchema,
-  outputSchema: launchBibleSchema,
+  outputSchema: launchTokenSchema,
 })
   .then(orchestratorStep)
   .parallel([researchStep, domainStep])
-  .then(visualStep)
+  .then(visualStep);
+
+preVisualOpenclawWorkflow.commit();
+
+export const postVisualOpenclawWorkflow = createWorkflow({
+  id: 'openclaw-workflow-post-visual',
+  inputSchema: launchTokenSchema,
+  outputSchema: launchBibleSchema,
+})
   .then(gtmStep)
   .parallel([shopifyStep, adsStep])
   .then(seoStep)
   .then(reportStep);
 
-internalOpenclawWorkflow.commit();
+postVisualOpenclawWorkflow.commit();
+
+export const internalOpenclawWorkflow = preVisualOpenclawWorkflow;
 
 export const openclawWorkflow = createWorkflow({
   id: 'openclaw-workflow',
@@ -523,6 +626,8 @@ export const openclawWorkflow = createWorkflow({
 })
   .then(initializeRunStep)
   .then(clarificationGateStep)
-  .then(internalOpenclawWorkflow);
+  .then(preVisualOpenclawWorkflow)
+  .then(visualSelectionGateStep)
+  .then(postVisualOpenclawWorkflow);
 
 openclawWorkflow.commit();
