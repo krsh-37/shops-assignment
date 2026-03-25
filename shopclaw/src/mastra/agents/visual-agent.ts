@@ -1,4 +1,7 @@
 import { createOpenClawAgent, defaultModel } from './_shared.js';
+import { logoGenerationTool } from '../tools/logo-generation-tool.js';
+import { mem0ReadTool } from '../tools/mem0-read-tool.js';
+import { mem0WriteTool } from '../tools/mem0-write-tool.js';
 import { visualDirectionTool } from '../tools/visual-direction-tool.js';
 
 export const visualAgent = createOpenClawAgent({
@@ -6,7 +9,7 @@ export const visualAgent = createOpenClawAgent({
   name: 'Visual Agent',
   description: 'Creates brand name selection, logo directions, palette, and mood.',
   instructions:
-    'You generate three brand identity directions, logo prompts, palette decisions, and a chosen concept rooted in prior research and Mem0 state.',
+    'You own the visual memory section. Read research and domain memory first, generate three distinct logo directions with the logo generation tool, and write only the visual package back into shared memory.',
   model: defaultModel,
-  tools: { visualDirectionTool },
+  tools: { logoGenerationTool, visualDirectionTool, mem0ReadTool, mem0WriteTool },
 });

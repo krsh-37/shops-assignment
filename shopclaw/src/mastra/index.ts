@@ -1,8 +1,9 @@
+import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
-import { Observability, DefaultExporter, CloudExporter, SensitiveDataFilter } from '@mastra/observability';
+import { isDevMode } from './config/openclaw-config.js';
 import { openclawApiRoutes } from './api/openclaw-routes.js';
 import {
   adsAgent,
@@ -17,40 +18,65 @@ import {
 } from './agents/index.js';
 import {
   adsStrategyTool,
+  askUserTool,
+  delegateToAgentTool,
+  domainIdeationTool,
   domainRankingTool,
+  fetchPageTool,
+  getLaunchStatusTool,
   gtmPlanTool,
   launchReportTool,
+  logoGenerationTool,
+  mem0ReadTool,
+  mem0WriteTool,
   researchTool,
+  resumeLaunchWorkflowTool,
   seoGeoTool,
   shopifyAssetsTool,
+  startLaunchWorkflowTool,
   visualDirectionTool,
 } from './tools/index.js';
 import { openclawWorkflow } from './workflows/openclaw.js';
 
-const storagePath = `file:${resolve(process.cwd(), 'mastra.db')}`;
+const storagePath = `file:${resolve(tmpdir(), `openclaw-mastra-${process.pid}.db`)}`;
+const exposeAgents = isDevMode();
 
 export const mastra = new Mastra({
-  workflows: { openclawWorkflow },
-  agents: {
-    orchestratorAgent,
-    researchAgent,
-    domainAgent,
-    visualAgent,
-    gtmAgent,
-    shopifyAgent,
-    adsAgent,
-    seoAgent,
-    launchReportAgent,
+  workflows: {
+    openclawWorkflow,
   },
+  agents: exposeAgents
+    ? {
+        orchestratorAgent,
+        researchAgent,
+        domainAgent,
+        visualAgent,
+        gtmAgent,
+        shopifyAgent,
+        adsAgent,
+        seoAgent,
+        launchReportAgent,
+      }
+    : {},
   tools: {
     researchTool,
+    fetchPageTool,
     domainRankingTool,
+    domainIdeationTool,
     visualDirectionTool,
+    logoGenerationTool,
     gtmPlanTool,
     shopifyAssetsTool,
     adsStrategyTool,
     seoGeoTool,
     launchReportTool,
+    mem0ReadTool,
+    mem0WriteTool,
+    askUserTool,
+    delegateToAgentTool,
+    startLaunchWorkflowTool,
+    resumeLaunchWorkflowTool,
+    getLaunchStatusTool,
   },
   storage: new LibSQLStore({
     id: 'mastra-storage',
@@ -59,20 +85,6 @@ export const mastra = new Mastra({
   logger: new PinoLogger({
     name: 'Mastra',
     level: 'info',
-  }),
-  observability: new Observability({
-    configs: {
-      default: {
-        serviceName: 'mastra',
-        exporters: [
-          new DefaultExporter(), // Persists traces to storage for Mastra Studio
-          new CloudExporter(), // Sends traces to Mastra Cloud (if MASTRA_CLOUD_ACCESS_TOKEN is set)
-        ],
-        spanOutputProcessors: [
-          new SensitiveDataFilter(), // Redacts sensitive data like passwords, tokens, keys
-        ],
-      },
-    },
   }),
   server: {
     apiRoutes: openclawApiRoutes,

@@ -1,14 +1,13 @@
 import { createTool } from '@mastra/core/tools';
-import { z } from 'zod';
-import { buildDomainOptions } from '../domain/openclaw/content.js';
-import { domainMemorySchema, openClawMemorySchema } from '../domain/openclaw/schemas.js';
+import { getDomainProvider } from '../providers/domain-provider.js';
+import { domainAvailabilityInputSchema, domainAvailabilityOutputSchema } from '../domain/openclaw/schemas.js';
+
+const provider = getDomainProvider();
 
 export const domainRankingTool = createTool({
   id: 'openclaw-domain-ranking-tool',
-  description: 'Generate and rank brand domains using deterministic availability stubs.',
-  inputSchema: z.object({
-    memory: openClawMemorySchema,
-  }),
-  outputSchema: domainMemorySchema,
-  execute: async ({ memory }) => buildDomainOptions(memory),
+  description: 'Check domain availability using RDAP.',
+  inputSchema: domainAvailabilityInputSchema,
+  outputSchema: domainAvailabilityOutputSchema,
+  execute: async ({ domain }) => provider.check(domain),
 });

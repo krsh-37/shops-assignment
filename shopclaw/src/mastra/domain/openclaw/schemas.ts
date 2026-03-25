@@ -95,6 +95,14 @@ export const shopifyMemorySchema = z.object({
       description: z.string(),
     }),
   ),
+  files: z.array(
+    z.object({
+      path: z.string(),
+      content: z.string(),
+      kind: z.enum(['json', 'liquid', 'markdown']),
+    }),
+  ).min(4),
+  package_summary: z.string(),
 });
 
 export const metaAdSchema = z.object({
@@ -134,6 +142,77 @@ export const seoMemorySchema = z.object({
   keywords: z.array(z.string()).min(5),
   geo_faqs: z.array(z.string()).length(5),
   content_calendar: z.array(z.string()).min(4),
+  geo_pages: z.array(
+    z.object({
+      title: z.string(),
+      slug: z.string(),
+      target_query: z.string(),
+      body: z.string(),
+      citation_notes: z.array(z.string()).min(2),
+    }),
+  ).length(5),
+});
+
+export const researchSourceSchema = z.object({
+  title: z.string(),
+  url: z.string().url(),
+  snippet: z.string(),
+});
+
+export const researchSynthesisInputSchema = z.object({
+  idea: z.string(),
+  search_results: z.array(researchSourceSchema).min(1),
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const domainCandidateSchema = z.object({
+  name: z.string(),
+  domain: z.string(),
+  reasoning: z.string(),
+});
+
+export const domainIdeationSchema = z.object({
+  candidates: z.array(domainCandidateSchema).min(5).max(15),
+});
+
+export const visualGenerationInputSchema = z.object({
+  idea: z.string(),
+  research: researchMemorySchema,
+  domains: domainMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const gtmGenerationInputSchema = z.object({
+  idea: z.string(),
+  research: researchMemorySchema,
+  visual: visualMemorySchema,
+  domains: domainMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const shopifyGenerationInputSchema = z.object({
+  idea: z.string(),
+  research: researchMemorySchema,
+  visual: visualMemorySchema,
+  gtm: gtmMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const adsGenerationInputSchema = z.object({
+  idea: z.string(),
+  research: researchMemorySchema,
+  visual: visualMemorySchema,
+  gtm: gtmMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const seoGenerationInputSchema = z.object({
+  idea: z.string(),
+  research: researchMemorySchema,
+  visual: visualMemorySchema,
+  shopify: shopifyMemorySchema,
+  ads: adsMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
 });
 
 export const auditLogSchema = z.object({
@@ -150,6 +229,136 @@ export const ideaMemorySchema = z.object({
   clarification_questions: z.array(clarificationSchema),
 });
 
+export const orchestratorIdeaInputSchema = z.object({
+  idea: z.string(),
+  mem0_context: z.array(z.string()).default([]),
+});
+
+export const tavilySearchInputSchema = z.object({
+  query: z.string().min(5),
+});
+
+export const tavilySearchResultSchema = z.object({
+  title: z.string(),
+  url: z.string().url(),
+  content: z.string(),
+  score: z.number().optional(),
+});
+
+export const tavilySearchOutputSchema = z.object({
+  query: z.string(),
+  results: z.array(tavilySearchResultSchema),
+});
+
+export const fetchPageInputSchema = z.object({
+  url: z.string().url(),
+});
+
+export const fetchPageOutputSchema = z.object({
+  url: z.string().url(),
+  title: z.string(),
+  content: z.string(),
+});
+
+export const domainAvailabilityInputSchema = z.object({
+  domain: z.string().min(3),
+});
+
+export const domainAvailabilityOutputSchema = z.object({
+  domain: z.string(),
+  available: z.boolean(),
+  status: z.number(),
+});
+
+export const domainIdeationInputSchema = z.object({
+  idea: z.string(),
+  category: z.string().optional(),
+  constraints: z.array(z.string()).default([]),
+});
+
+export const memorySectionSchema = z.enum(['idea', 'research', 'visual', 'domains', 'gtm', 'shopify', 'ads', 'seo']);
+
+export const readMem0InputSchema = z.object({
+  launchId: z.string(),
+  section: memorySectionSchema.optional(),
+});
+
+export const readMem0OutputSchema = z.object({
+  launchId: z.string(),
+  memory: z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.array(z.any()),
+    z.record(z.string(), z.any()),
+    z.null(),
+  ]).optional(),
+  full_memory: z.lazy(() => openClawMemorySchema).optional(),
+});
+
+export const writeMem0InputSchema = z.object({
+  launchId: z.string(),
+  section: memorySectionSchema,
+  value: z.record(z.string(), z.any()),
+  agent: z.string(),
+  action: z.string().optional(),
+});
+
+export const writeMem0OutputSchema = z.object({
+  launchId: z.string(),
+  section: memorySectionSchema,
+  updatedAt: z.string(),
+});
+
+export const askUserInputSchema = z.object({
+  launchId: z.string().optional(),
+  questions: z.array(z.string()).min(1).max(3),
+  reason: z.string(),
+});
+
+export const askUserOutputSchema = z.object({
+  launchId: z.string().optional(),
+  status: z.enum(['awaiting-user-input']),
+  questions: z.array(z.string()).min(1).max(3),
+});
+
+export const delegateToAgentInputSchema = z.object({
+  agentId: z.string(),
+  launchId: z.string().optional(),
+  task: z.string(),
+});
+
+export const delegateToAgentOutputSchema = z.object({
+  delegated: z.boolean(),
+  agentId: z.string(),
+  task: z.string(),
+});
+
+export const startWorkflowInputSchema = z.object({
+  idea: z.string().min(10),
+});
+
+export const resumeWorkflowInputSchema = z.object({
+  launchId: z.string(),
+  answers: z.array(z.string()).min(1),
+});
+
+export const workflowControlOutputSchema = z.object({
+  launchId: z.string(),
+  status: z.string(),
+});
+
+export const logoGenerationInputSchema = z.object({
+  prompt: z.string(),
+  style: z.enum(['minimal', 'bold', 'playful']),
+  aspect_ratio: z.string().default('1:1'),
+  brand_context: z.string(),
+});
+
+export const logoGenerationOutputSchema = logoConceptSchema.extend({
+  provider: z.string(),
+});
+
 export const openClawMemorySchema = z.object({
   idea: ideaMemorySchema.nullable(),
   research: researchMemorySchema.nullable(),
@@ -160,6 +369,11 @@ export const openClawMemorySchema = z.object({
   ads: adsMemorySchema.nullable(),
   seo: seoMemorySchema.nullable(),
   audit_log: z.array(auditLogSchema),
+});
+
+export const launchBibleInputSchema = z.object({
+  memory: openClawMemorySchema,
+  mem0_context: z.array(z.string()).default([]),
 });
 
 export const launchBibleSchema = z.object({
@@ -183,6 +397,12 @@ export const launchBibleSchema = z.object({
   ads: adsMemorySchema,
   seo_geo: seoMemorySchema,
   roadmap_90d: z.array(z.string()).min(3),
+  artifacts: z.array(
+    z.object({
+      path: z.string(),
+      description: z.string(),
+    }),
+  ).min(4),
   markdown: z.string(),
 });
 

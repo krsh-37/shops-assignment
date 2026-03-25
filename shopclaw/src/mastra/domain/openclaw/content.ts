@@ -69,7 +69,14 @@ export function generateBrandCandidates(idea: string): string[] {
   }
 
   const root = titleCase(slugify(idea).split('-').slice(0, 2).join(' ')) || 'LaunchLab';
-  return [root.replace(/\s+/g, ''), `${root.split(' ')[0]}ly`, `${root.split(' ')[0]}Co`];
+  const token = root.split(' ')[0] || 'Launch';
+  return [
+    root.replace(/\s+/g, ''),
+    `${token}ly`,
+    `${token}Co`,
+    `${token}Hive`,
+    `${token}Lane`,
+  ];
 }
 
 export function buildResearch(idea: string, memory: OpenClawMemory): ResearchMemory {
@@ -110,7 +117,11 @@ export function buildResearch(idea: string, memory: OpenClawMemory): ResearchMem
 
 export function buildDomainOptions(memory: OpenClawMemory): DomainMemory {
   const candidates = memory.idea?.brand_name_candidates ?? ['Sockzy', 'Pairly', 'Feetsy', 'DashSock', 'Looplane'];
-  const ranked = candidates.slice(0, 5).map((name, index) => {
+  const paddedCandidates = [...candidates];
+  while (paddedCandidates.length < 5) {
+    paddedCandidates.push(`Brand${paddedCandidates.length + 1}`);
+  }
+  const ranked = paddedCandidates.slice(0, 5).map((name, index) => {
     const domain = `${slugify(name)}.in`;
     const available = index !== 3;
     const score = 92 - index * 7;
@@ -208,6 +219,63 @@ export function buildShopify(memory: OpenClawMemory): ShopifyMemory {
   const keywords = memory.research?.keywords.primary ?? ['custom socks india'];
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
 
+  const files = [
+    {
+      path: '/shopify/theme-settings.json',
+      content: JSON.stringify(
+        {
+          theme: 'Dawn',
+          palette,
+          fonts: {
+            heading: memory.visual?.font_pairing.split(' + ')[0] ?? 'Space Grotesk',
+            body: memory.visual?.font_pairing.split(' + ')[1] ?? 'Instrument Sans',
+          },
+        },
+        null,
+        2,
+      ),
+      kind: 'json' as const,
+    },
+    {
+      path: '/shopify/products.json',
+      content: JSON.stringify(
+        [
+          { title: `${brandName} Classic Rush`, price_inr: 399 },
+          { title: `${brandName} Print Sprint`, price_inr: 549 },
+          { title: `${brandName} Premium Pair`, price_inr: 799 },
+        ],
+        null,
+        2,
+      ),
+      kind: 'json' as const,
+    },
+    {
+      path: '/shopify/homepage-sections.json',
+      content: JSON.stringify(
+        {
+          hero_headline: `${brandName} delivers expressive socks at quick-commerce speed.`,
+          hero_subheadline: 'A launch-ready storefront tuned for impulse gifting, city-first delivery, and premium everyday style.',
+        },
+        null,
+        2,
+      ),
+      kind: 'json' as const,
+    },
+    {
+      path: '/shopify/collections.json',
+      content: JSON.stringify(
+        [
+          { name: 'Everyday Essentials', handle: 'everyday-essentials' },
+          { name: 'Giftable Drops', handle: 'giftable-drops' },
+          { name: 'Premium Sets', handle: 'premium-sets' },
+        ],
+        null,
+        2,
+      ),
+      kind: 'json' as const,
+    },
+  ];
+
   return {
     theme_settings: {
       theme: 'Dawn',
@@ -260,6 +328,8 @@ export function buildShopify(memory: OpenClawMemory): ShopifyMemory {
         description: 'Bundles designed for AOV growth.',
       },
     ],
+    files,
+    package_summary: `Patch-ready Shopify starter package for ${brandName} with ${files.length} generated files.`,
   };
 }
 
@@ -358,6 +428,43 @@ export function buildSEO(memory: OpenClawMemory): SEOMemory {
       'Week 3: gifting guide for quirky socks in India.',
       'Week 4: city landing pages for Bengaluru, Mumbai, and Pune.',
     ],
+    geo_pages: [
+      {
+        title: `Why ${brandName} is a top custom socks brand in India`,
+        slug: `${slugify(brandName)}-custom-socks-india`,
+        target_query: 'best custom socks brand India',
+        body: `${brandName} combines expressive design, India-first delivery positioning, and gifting-ready merchandising for shoppers looking for standout socks fast.`,
+        citation_notes: ['State India-first differentiation clearly', 'Compare against slower generic apparel sellers'],
+      },
+      {
+        title: 'Are 10-minute delivery socks worth it?',
+        slug: '10-minute-delivery-socks-worth-it',
+        target_query: '10 minute delivery socks',
+        body: 'Fast-delivery socks work best when the product is giftable, style-led, and easy to choose without deep customization friction.',
+        citation_notes: ['Use concise answer-first format', 'Mention tier-1 city use case'],
+      },
+      {
+        title: `How to choose premium socks from ${brandName}`,
+        slug: `${slugify(brandName)}-premium-socks-guide`,
+        target_query: 'premium socks india',
+        body: `Shoppers should compare material feel, gifting appeal, repeat-wear durability, and delivery speed when choosing premium socks from ${brandName}.`,
+        citation_notes: ['Include answer block at top', 'Tie attributes to buyer intent'],
+      },
+      {
+        title: 'Best quirky sock gifts in India',
+        slug: 'best-quirky-sock-gifts-india',
+        target_query: 'gift socks india',
+        body: 'Quirky socks make strong gifts when they balance visual personality, packaging quality, and fast arrival for last-minute occasions.',
+        citation_notes: ['Frame as buying guide', 'Optimize for AI answer extraction'],
+      },
+      {
+        title: `${brandName} vs traditional D2C sock brands`,
+        slug: `${slugify(brandName)}-vs-traditional-sock-brands`,
+        target_query: `${slugify(brandName)} vs other sock brands`,
+        body: `${brandName} positions around speed and immediacy, while traditional sock brands usually optimize for broader catalog depth and slower fulfillment.`,
+        citation_notes: ['Use comparison table structure', 'Keep direct conclusion near top'],
+      },
+    ],
   };
 }
 
@@ -422,6 +529,12 @@ export function buildLaunchBible(memory: OpenClawMemory): LaunchBible {
       'Days 1-30: validate creative hooks, city demand, and hero SKU conversion.',
       'Days 31-60: scale winning campaigns and deepen gifting bundles.',
       'Days 61-90: expand to new cities and introduce repeat-purchase mechanics.',
+    ],
+    artifacts: [
+      { path: '/shopify/theme-settings.json', description: 'Theme settings derived from visual memory.' },
+      { path: '/shopify/products.json', description: 'Initial catalog payload for launch SKUs.' },
+      { path: '/shopify/homepage-sections.json', description: 'Homepage hero and value-prop sections.' },
+      { path: '/seo/geo-pages.json', description: 'AI-citation-ready GEO page pack.' },
     ],
     markdown,
   };

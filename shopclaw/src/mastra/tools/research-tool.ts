@@ -1,15 +1,16 @@
 import { createTool } from '@mastra/core/tools';
-import { z } from 'zod';
-import { buildResearch } from '../domain/openclaw/content.js';
-import { openClawMemorySchema, researchMemorySchema } from '../domain/openclaw/schemas.js';
+import { getSearchProvider } from '../providers/search-provider.js';
+import { tavilySearchInputSchema, tavilySearchOutputSchema } from '../domain/openclaw/schemas.js';
+
+const provider = getSearchProvider();
 
 export const researchTool = createTool({
   id: 'openclaw-research-tool',
-  description: 'Generate a structured brand research report for the launch idea.',
-  inputSchema: z.object({
-    idea: z.string(),
-    memory: openClawMemorySchema,
+  description: 'Search the web for launch market, competitor, and keyword intelligence.',
+  inputSchema: tavilySearchInputSchema,
+  outputSchema: tavilySearchOutputSchema,
+  execute: async ({ query }) => ({
+    query,
+    results: await provider.search(query),
   }),
-  outputSchema: researchMemorySchema,
-  execute: async ({ idea, memory }) => buildResearch(idea, memory),
 });
