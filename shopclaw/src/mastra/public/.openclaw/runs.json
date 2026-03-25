@@ -1,0 +1,2160 @@
+[
+  {
+    "id": "d1984d67-955f-467c-9355-e084529f23e0",
+    "idea": "North Indian restaurant in Chennai with a Disney theme park concept.",
+    "status": "awaiting-user-input",
+    "phase": "clarification",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T10:56:08.838Z",
+    "updatedAt": "2026-03-25T10:57:12.233Z",
+    "memory": {
+      "idea": {
+        "raw": "North Indian restaurant in Chennai with a Disney theme park concept.",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "NorthIndian",
+          "Northly",
+          "NorthCo",
+          "NorthHive",
+          "NorthLane"
+        ],
+        "clarification_questions": [
+          {
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+          },
+          {
+            "question": "What launch price band should we optimize for?",
+            "assumption": "Assume Rs 399 to Rs 799."
+          },
+          {
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "assumption": "Assume D2C-first with quick-commerce explored next."
+          }
+        ],
+        "clarification_answers": []
+      },
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "pendingReason": "Gathering clarifications for detailed planning.",
+    "clarificationAnswers": [],
+    "questionContext": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "27aa0349-eb5c-4923-83d2-a4e21c698373",
+    "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "status": "queued",
+    "phase": "draft",
+    "currentAgent": null,
+    "completedAgents": [],
+    "createdAt": "2026-03-25T10:59:03.311Z",
+    "updatedAt": "2026-03-25T10:59:03.311Z",
+    "memory": {
+      "idea": null,
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "e5c46d8b-5a29-4daf-86f1-5676c32193d3",
+    "idea": "Start a restaurant",
+    "status": "failed",
+    "phase": "failed",
+    "currentAgent": "visual-agent",
+    "completedAgents": [
+      "orchestrator-agent",
+      "domain-agent",
+      "research-agent"
+    ],
+    "createdAt": "2026-03-25T11:05:33.768Z",
+    "updatedAt": "2026-03-25T11:06:55.257Z",
+    "memory": {
+      "idea": {
+        "raw": "Start a restaurant",
+        "category": "restaurant",
+        "brand_name_candidates": [
+          "Chennai Bites",
+          "Curry Corner",
+          "Spice Street",
+          "Tandoori Trails",
+          "Dosa Den"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "Chennai",
+          "Rs 399 to Rs 799",
+          "D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "Chennai",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "Rs 399 to Rs 799",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: Chennai\nWhat launch price band should we optimize for?: Rs 399 to Rs 799\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: D2C"
+      },
+      "research": {
+        "competitors": [
+          {
+            "name": "India Full Service Restaurants Market",
+            "region": "India",
+            "positioning": "Market size & growth forecast, consumer behavior shift, independent restaurant dominance, tourism influence",
+            "notes": "Market expected to grow to USD 70.82 billion by 2031 with a CAGR of 10.97%. Independent restaurants hold 73.15% market share, driven by local flavors and chef-driven concepts. Tourism and domestic travel significantly boost foodservice spending."
+          },
+          {
+            "name": "Indian Restaurant Industry Statistics",
+            "region": "India",
+            "positioning": "Market valuation, growth drivers, consumer trends, digital adoption",
+            "notes": "Valued at $85.19 billion in 2025, projected to reach $139.8 billion by 2030 with a CAGR of 15%. Rising dining frequency, digital ordering, and delivery are key trends. Urban Indians dine out 5 times/month, expected to rise to 7-8 by 2030."
+          },
+          {
+            "name": "India Foodservice Market Size & Share Outlook to 2031",
+            "region": "India",
+            "positioning": "Segment dominance, growth forecast, competitive landscape",
+            "notes": "Full-service restaurants hold 43.33% market share, driven by urbanization and disposable incomes. Market expected to reach USD 153.37 billion by 2031 with a CAGR of 10.3%. Competition between organized and unorganized sectors is intense."
+          },
+          {
+            "name": "Exploring India's Booming Restaurant Industry",
+            "region": "India",
+            "positioning": "Market transformation, consumer demographics, emerging segments",
+            "notes": "India aims to be the 3rd largest food service market by 2028. Growing café and bar segments, with a focus on millennials and Gen Z. Industry growth supported by supportive policies and easing regulations."
+          },
+          {
+            "name": "National Restaurant Association of India",
+            "region": "India",
+            "positioning": "Industry events, policy influence, market significance",
+            "notes": "Upcoming Indian Restaurant Congress & Coffee & Tea Asia 2025 to gather industry stakeholders, highlighting the sector's growth and innovation potential."
+          }
+        ],
+        "market_size_inr": "INR 7,00,000 crore (approximate, based on USD 85.19 billion valuation)",
+        "whitespace": "Opportunities in Tier 2 and Tier 3 cities, digital and delivery channels, niche local cuisines, experiential dining, and co-working café concepts.",
+        "keywords": {
+          "primary": [
+            "restaurant India",
+            "foodservice market India",
+            "dining out India",
+            "Indian restaurant industry"
+          ],
+          "secondary": [
+            "full service restaurants India",
+            "QSR India",
+            "food delivery India",
+            "café culture India"
+          ]
+        },
+        "india_insight": "India's restaurant industry is rapidly expanding, driven by rising incomes, urbanization, digital adoption, and changing consumer preferences. Full-service restaurants dominate, with significant growth potential in Tier 2 and Tier 3 cities, and emerging segments like cafés and bars catering to millennials and Gen Z. Competition is fierce between organized and unorganized sectors, with a focus on innovation, experience, and delivery channels."
+      },
+      "visual": null,
+      "domains": {
+        "recommended": "starta.in",
+        "top5": [
+          {
+            "name": "StartA",
+            "domain": "starta.in",
+            "available": true,
+            "price_inr": 500,
+            "score": 95,
+            "reasoning": "Short, memorable, aligns with restaurant branding, and likely available."
+          },
+          {
+            "name": "Startly",
+            "domain": "startly.in",
+            "available": true,
+            "price_inr": 600,
+            "score": 92,
+            "reasoning": "Unique, catchy, and relevant for a restaurant brand."
+          },
+          {
+            "name": "StartCo",
+            "domain": "startco.in",
+            "available": true,
+            "price_inr": 550,
+            "score": 90,
+            "reasoning": "Concise, professional, and brandable."
+          },
+          {
+            "name": "StartHive",
+            "domain": "starthive.in",
+            "available": true,
+            "price_inr": 650,
+            "score": 88,
+            "reasoning": "Evokes community and activity, suitable for a restaurant concept."
+          },
+          {
+            "name": "StartLane",
+            "domain": "startlane.in",
+            "available": true,
+            "price_inr": 580,
+            "score": 85,
+            "reasoning": "Suggests a pathway or journey, fitting for a dining experience."
+          }
+        ]
+      },
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T11:06:24.283Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T11:06:31.170Z",
+          "keys_written": [
+            "idea"
+          ]
+        },
+        {
+          "agent": "domain-agent",
+          "action": "write:domains",
+          "timestamp": "2026-03-25T11:06:42.870Z",
+          "keys_written": [
+            "domains"
+          ]
+        },
+        {
+          "agent": "research-agent",
+          "action": "write:research",
+          "timestamp": "2026-03-25T11:06:45.158Z",
+          "keys_written": [
+            "research"
+          ]
+        }
+      ]
+    },
+    "report": null,
+    "error": "[object Object]",
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "Chennai",
+      "Rs 399 to Rs 799",
+      "D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "4c40173f-7f41-4475-91c1-4469077e45be",
+    "idea": "Start a restaurant",
+    "status": "awaiting-user-input",
+    "phase": "clarification",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T11:06:28.023Z",
+    "updatedAt": "2026-03-25T11:06:28.025Z",
+    "memory": {
+      "idea": {
+        "raw": "Start a restaurant",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "StartA",
+          "Startly",
+          "StartCo",
+          "StartHive",
+          "StartLane"
+        ],
+        "clarification_questions": [
+          {
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+          },
+          {
+            "question": "What launch price band should we optimize for?",
+            "assumption": "Assume Rs 399 to Rs 799."
+          },
+          {
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "assumption": "Assume D2C-first with quick-commerce explored next."
+          }
+        ],
+        "clarification_answers": []
+      },
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "pendingReason": "Collect the founder clarifications before starting the OpenClaw workflow.",
+    "clarificationAnswers": [],
+    "questionContext": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "a514360e-6d3f-4644-ad6a-b09ecd3a0d7c",
+    "idea": "restaurant",
+    "status": "failed",
+    "phase": "failed",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T11:12:07.223Z",
+    "updatedAt": "2026-03-25T11:13:06.051Z",
+    "memory": {
+      "idea": {
+        "raw": "restaurant",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "Restaurant",
+          "Restaurantly",
+          "RestaurantCo",
+          "RestaurantHive",
+          "RestaurantLane"
+        ],
+        "clarification_questions": [
+          {
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+          },
+          {
+            "question": "What launch price band should we optimize for?",
+            "assumption": "Assume Rs 399 to Rs 799."
+          },
+          {
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "assumption": "Assume D2C-first with quick-commerce explored next."
+          }
+        ],
+        "clarification_answers": [
+          "Chennai",
+          "Rs 399 to Rs 799",
+          "D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "Chennai",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "Rs 399 to Rs 799",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: Chennai\nWhat launch price band should we optimize for?: Rs 399 to Rs 799\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: D2C"
+      },
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T11:12:55.345Z",
+          "keys_written": [
+            "brief"
+          ]
+        }
+      ]
+    },
+    "report": null,
+    "error": "[object Object]",
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "Chennai",
+      "Rs 399 to Rs 799",
+      "D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "978987bf-5b6c-4fdb-9e9c-bb2fc896d140",
+    "idea": "restaurant",
+    "status": "awaiting-user-input",
+    "phase": "clarification",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T11:13:00.300Z",
+    "updatedAt": "2026-03-25T11:13:00.302Z",
+    "memory": {
+      "idea": {
+        "raw": "restaurant",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "Restaurant",
+          "Restaurantly",
+          "RestaurantCo",
+          "RestaurantHive",
+          "RestaurantLane"
+        ],
+        "clarification_questions": [
+          {
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+          },
+          {
+            "question": "What launch price band should we optimize for?",
+            "assumption": "Assume Rs 399 to Rs 799."
+          },
+          {
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "assumption": "Assume D2C-first with quick-commerce explored next."
+          }
+        ],
+        "clarification_answers": []
+      },
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "pendingReason": "Collect the founder clarifications before starting the OpenClaw workflow.",
+    "clarificationAnswers": [],
+    "questionContext": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "21638bbd-42b2-4fb3-b7a1-a71c851441f6",
+    "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "status": "awaiting-user-input",
+    "phase": "clarification",
+    "currentAgent": "orchestrator-agent",
+    "completedAgents": [],
+    "createdAt": "2026-03-25T11:33:30.578Z",
+    "updatedAt": "2026-03-25T11:33:30.581Z",
+    "memory": {
+      "idea": null,
+      "brief": null,
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": []
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "pendingReason": "Collect the founder clarifications before starting the OpenClaw workflow.",
+    "clarificationAnswers": [],
+    "questionContext": [
+      {
+        "id": "launch-cities",
+        "question": "Which Indian cities should we prioritise for the first launch wave?",
+        "rationale": "City priority affects research framing, GTM sequencing, ads targeting, and SEO.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume Bengaluru, Mumbai, and Delhi."
+      },
+      {
+        "id": "price-band",
+        "question": "What launch price band should we optimize for?",
+        "rationale": "Pricing changes positioning, merchandising, GTM hooks, and paid acquisition math.",
+        "target_sections": [
+          "brief",
+          "research",
+          "gtm",
+          "shopify",
+          "ads"
+        ],
+        "assumption": "Assume Rs 399 to Rs 799."
+      },
+      {
+        "id": "channel-strategy",
+        "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+        "rationale": "Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.",
+        "target_sections": [
+          "brief",
+          "domains",
+          "gtm",
+          "ads",
+          "seo"
+        ],
+        "assumption": "Assume D2C-first with quick-commerce explored next."
+      }
+    ],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "1bc8790d-3781-45e5-8d42-718a27d4d9b4",
+    "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "status": "running",
+    "phase": "workflow",
+    "currentAgent": "domain-agent",
+    "completedAgents": [
+      "orchestrator-agent"
+    ],
+    "createdAt": "2026-03-25T11:34:50.585Z",
+    "updatedAt": "2026-03-25T11:35:08.814Z",
+    "memory": {
+      "idea": {
+        "raw": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "NorthIndian",
+          "Northly",
+          "NorthCo",
+          "NorthHive",
+          "NorthLane"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: 1. Chennai. 2. 399 to 799. 3. D2C\nWhat launch price band should we optimize for?: 1. Chennai. 2. 399 to 799. 3. D2C\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: 1. Chennai. 2. 399 to 799. 3. D2C"
+      },
+      "research": null,
+      "visual": null,
+      "domains": null,
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T11:35:05.782Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T11:35:08.102Z",
+          "keys_written": [
+            "idea"
+          ]
+        }
+      ]
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "ea62a763-0196-449e-ba17-39463028be1d",
+    "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "status": "running",
+    "phase": "workflow",
+    "currentAgent": "visual-agent",
+    "completedAgents": [
+      "orchestrator-agent",
+      "research-agent",
+      "domain-agent"
+    ],
+    "createdAt": "2026-03-25T11:48:07.087Z",
+    "updatedAt": "2026-03-25T11:49:20.118Z",
+    "memory": {
+      "idea": {
+        "raw": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "NorthIndian",
+          "Northly",
+          "NorthCo",
+          "NorthHive",
+          "NorthLane"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: 1. Chennai. 2. 399 to 799. 3. D2C\nWhat launch price band should we optimize for?: 1. Chennai. 2. 399 to 799. 3. D2C\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: 1. Chennai. 2. 399 to 799. 3. D2C"
+      },
+      "research": {
+        "competitors": [
+          {
+            "name": "Haldiram’s",
+            "region": "India-wide, including Tamil Nadu",
+            "positioning": "Major player in Indian fast food with a focus on North Indian thalis, chaats, and Indo-Chinese combinations",
+            "notes": "Operates more than 150 outlets across India, strong brand loyalty, and presence in organized retail and food delivery."
+          },
+          {
+            "name": "A2B (Adyar Ananda Bhavan)",
+            "region": "Tamil Nadu and South India",
+            "positioning": "South Indian cuisine with offerings of North Indian dishes like chole bhature and Indo-Chinese",
+            "notes": "Dominant in Tamil Nadu with a large factory and central kitchens, considered a billion-dollar potential market in Tamil Nadu and Kerala."
+          },
+          {
+            "name": "Nirula’s",
+            "region": "North India and expanding",
+            "positioning": "Domestic brand with regional preferences and brand loyalty",
+            "notes": "Known for North Indian cuisine and quick service restaurant format."
+          },
+          {
+            "name": "Domino’s Pizza",
+            "region": "India-wide",
+            "positioning": "Leader in market penetration in QSR segment",
+            "notes": "Strong franchise network and digital delivery model."
+          }
+        ],
+        "market_size_inr": "The food services market in Tamil Nadu, with Chennai ranking 4th in India, is part of a larger Indian food service market valued at over ₹15,600 crores. Tamil Nadu's Gross State Domestic Product is projected at ₹28.3 lakh crore for 2023-24, indicating strong economic growth supporting the food service industry.",
+        "whitespace": "There is a growing demand for North Indian cuisine in Tamil Nadu, especially in urban centers like Chennai, where consumers seek branded, hygienic, and diverse food options. The market shows potential for standalone North Indian restaurants with a focus on authentic flavors and quick service, leveraging digital delivery platforms. The budget of ₹20L is suitable for launching a mid-scale North Indian restaurant targeting local preferences and delivery demand.",
+        "keywords": {
+          "primary": [
+            "North Indian restaurant Tamil Nadu",
+            "North Indian cuisine Chennai",
+            "Quick service North Indian food",
+            "North Indian food delivery Tamil Nadu",
+            "Mid-scale restaurant launch India"
+          ],
+          "secondary": [
+            "Indian fast food market India",
+            "QSR market Tamil Nadu",
+            "Food service market Chennai",
+            "Organized food retail India",
+            "Restaurant franchise India"
+          ]
+        },
+        "india_insight": "North India dominates the Indian QSR market with 32.5% share, but South India, including Tamil Nadu, is rapidly growing with increasing urbanization and disposable incomes. Chennai ranks 4th in India's food services market, making it a strategic location for launching new restaurant concepts. Consumers in Tamil Nadu are open to North Indian cuisine, especially when offered with hygiene, brand trust, and digital convenience."
+      },
+      "visual": null,
+      "domains": {
+        "recommended": "northly.in",
+        "top5": [
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 5000,
+            "score": 95,
+            "reasoning": "Short, easy to remember, reflects North Indian cuisine, and available with .in domain. Strong brand appeal for a D2C lifestyle restaurant."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 4500,
+            "score": 90,
+            "reasoning": "Short and catchy, suitable for a North Indian restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 4800,
+            "score": 88,
+            "reasoning": "Unique and memorable, evokes a community feel, available with .in domain."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 4700,
+            "score": 87,
+            "reasoning": "Easy to remember and pronounce, suitable for a restaurant brand, available with .in domain."
+          },
+          {
+            "name": "NorthSpice",
+            "domain": "northspice.in",
+            "available": true,
+            "price_inr": 5200,
+            "score": 85,
+            "reasoning": "Directly reflects North Indian cuisine with a focus on spices, available with .in domain."
+          }
+        ]
+      },
+      "gtm": null,
+      "shopify": null,
+      "ads": null,
+      "seo": null,
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T11:48:22.754Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T11:48:25.374Z",
+          "keys_written": [
+            "idea"
+          ]
+        },
+        {
+          "agent": "research-agent",
+          "action": "write:research",
+          "timestamp": "2026-03-25T11:48:41.416Z",
+          "keys_written": [
+            "research"
+          ]
+        },
+        {
+          "agent": "domain-agent",
+          "action": "write:domains",
+          "timestamp": "2026-03-25T11:49:18.319Z",
+          "keys_written": [
+            "domains"
+          ]
+        }
+      ]
+    },
+    "report": null,
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  },
+  {
+    "id": "75b9ce93-8d05-40ee-aefe-df1dc24d2774",
+    "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+    "status": "completed",
+    "phase": "completed",
+    "currentAgent": "launch-report-agent",
+    "completedAgents": [
+      "orchestrator-agent",
+      "research-agent",
+      "domain-agent",
+      "visual-agent",
+      "gtm-agent",
+      "shopify-agent",
+      "ads-agent",
+      "seo-agent",
+      "launch-report-agent"
+    ],
+    "createdAt": "2026-03-25T11:52:18.951Z",
+    "updatedAt": "2026-03-25T12:00:29.162Z",
+    "memory": {
+      "idea": {
+        "raw": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+        "category": "d2c lifestyle",
+        "brand_name_candidates": [
+          "NorthIndian",
+          "Northly",
+          "NorthCo",
+          "NorthHive",
+          "NorthLane"
+        ],
+        "clarification_questions": [],
+        "clarification_answers": [
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C",
+          "1. Chennai. 2. 399 to 799. 3. D2C"
+        ]
+      },
+      "brief": {
+        "answers": [
+          {
+            "question_id": "launch-cities",
+            "question": "Which Indian cities should we prioritise for the first launch wave?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          },
+          {
+            "question_id": "price-band",
+            "question": "What launch price band should we optimize for?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "research",
+              "gtm",
+              "shopify",
+              "ads"
+            ]
+          },
+          {
+            "question_id": "channel-strategy",
+            "question": "Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?",
+            "answer": "1. Chennai. 2. 399 to 799. 3. D2C",
+            "target_sections": [
+              "brief",
+              "domains",
+              "gtm",
+              "ads",
+              "seo"
+            ]
+          }
+        ],
+        "founder_brief": "Which Indian cities should we prioritise for the first launch wave?: 1. Chennai. 2. 399 to 799. 3. D2C\nWhat launch price band should we optimize for?: 1. Chennai. 2. 399 to 799. 3. D2C\nShould we plan for D2C-only at launch, or include quick-commerce and marketplace channels?: 1. Chennai. 2. 399 to 799. 3. D2C"
+      },
+      "research": {
+        "competitors": [
+          {
+            "name": "SALT Indian Restaurant",
+            "region": "Chennai, Tamil Nadu",
+            "positioning": "Celebrity-endorsed North Indian cuisine restaurant chain",
+            "notes": "Has outlets in Bangalore, Chennai, Hyderabad & Pune; known for North Indian cuisine with celebrity influence."
+          },
+          {
+            "name": "Local North Indian Chaat Stalls",
+            "region": "Semi-urban and rural Tamil Nadu",
+            "positioning": "Affordable, popular North Indian street food and snacks",
+            "notes": "Increasing popularity of pani puri and other chaats in rural and semi-urban Tamil Nadu; competing with traditional Tamil snacks."
+          }
+        ],
+        "market_size_inr": "The overall Indian food services market is projected to grow from ₹5.69 trillion in 2024 to ₹7.76 trillion by 2028 with a CAGR of 8.1%. Casual dining restaurants hold 48% market share and QSRs 27%. Tamil Nadu is a key market with growing urban and semi-urban demand.",
+        "whitespace": "There is a growing demand for North Indian cuisine in Tamil Nadu, especially in urban and semi-urban areas, with increasing acceptance of North Indian snacks and casual dining. A new North Indian restaurant with authentic offerings and affordable pricing can capture market share quickly. The budget of ₹20L is suitable for a small to medium-sized restaurant or cloud kitchen focusing on North Indian cuisine in a strategic location.",
+        "keywords": {
+          "primary": [
+            "North Indian restaurant Tamil Nadu",
+            "North Indian cuisine Chennai",
+            "Pani puri Tamil Nadu",
+            "North Indian food Tamil Nadu",
+            "Casual dining North Indian"
+          ],
+          "secondary": [
+            "North Indian snacks Tamil Nadu",
+            "Chaat stalls Tamil Nadu",
+            "North Indian food market India",
+            "Restaurant launch budget 20 lakh",
+            "Food delivery Tamil Nadu"
+          ]
+        },
+        "india_insight": "North Indian cuisine remains highly popular across India, including in South India, with a rising trend of North Indian snacks like pani puri gaining traction even in rural Tamil Nadu. The food services market is growing rapidly, driven by urbanization, rising disposable incomes, and changing consumer preferences favoring casual dining and quick-service restaurants. Tamil Nadu's diverse and evolving food culture presents a strong opportunity for North Indian restaurant launches."
+      },
+      "visual": {
+        "brand_name": "Northly",
+        "logo_concepts": [
+          {
+            "name": "North Indian Minimal",
+            "mood": "minimal",
+            "prompt": "A modern and minimalistic logo representing North Indian cuisine with subtle cultural motifs from North India, using warm and inviting colors. The logo should convey authenticity, warmth, and a welcoming dining experience, suitable for a restaurant brand named Northly.",
+            "image_url": "https://assets.openclaw.local/north-indian-minimal.png"
+          },
+          {
+            "name": "North Indian Bold",
+            "mood": "bold",
+            "prompt": "A bold and vibrant logo for a North Indian restaurant brand named Northly, incorporating elements like traditional Indian spices or food items like pani puri or chaat, with a modern twist. The design should be eye-catching and convey energy and flavor.",
+            "image_url": "https://assets.openclaw.local/north-indian-bold.png"
+          },
+          {
+            "name": "North Indian Playful",
+            "mood": "playful",
+            "prompt": "A playful and friendly logo concept for Northly, a North Indian restaurant brand, featuring stylized food icons or cultural symbols in a fun and approachable style. The logo should appeal to a broad audience including families and young adults, emphasizing casual and affordable dining.",
+            "image_url": "https://assets.openclaw.local/north-indian-playful.png"
+          }
+        ],
+        "chosen_concept": 0,
+        "palette": [
+          "#D84315",
+          "#F57C00",
+          "#FFCCBC",
+          "#4E342E",
+          "#FFFFFF"
+        ],
+        "font_pairing": "Montserrat Bold for headings, Open Sans Regular for body text",
+        "mood": "Warm, authentic, inviting, and modern with a touch of cultural heritage"
+      },
+      "domains": {
+        "recommended": "northly.in",
+        "top5": [
+          {
+            "name": "Northly",
+            "domain": "northly.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 95,
+            "reasoning": "Short, memorable, easy to spell, available domain, and reflects the northern theme well."
+          },
+          {
+            "name": "NorthCo",
+            "domain": "northco.in",
+            "available": true,
+            "price_inr": 1400,
+            "score": 90,
+            "reasoning": "Short and catchy, available domain, suitable for a brand with a modern touch."
+          },
+          {
+            "name": "NorthHive",
+            "domain": "northhive.in",
+            "available": true,
+            "price_inr": 1600,
+            "score": 88,
+            "reasoning": "Unique and memorable, available domain, evokes a community or gathering place."
+          },
+          {
+            "name": "NorthLane",
+            "domain": "northlane.in",
+            "available": true,
+            "price_inr": 1500,
+            "score": 85,
+            "reasoning": "Easy to remember and spell, available domain, suggests a path or journey related to North Indian cuisine."
+          },
+          {
+            "name": "NorthIndian",
+            "domain": "northindianrestaurant.in",
+            "available": true,
+            "price_inr": 1800,
+            "score": 80,
+            "reasoning": "Descriptive and clear, available domain, but longer and less catchy than others."
+          }
+        ]
+      },
+      "gtm": {
+        "launch_cities": [
+          "Chennai",
+          "Coimbatore",
+          "Madurai"
+        ],
+        "channels": {
+          "instagram": "Focus on organic and paid campaigns showcasing authentic North Indian dishes, behind-the-scenes kitchen stories, and customer testimonials. Use targeted ads to reach food lovers in Chennai and nearby cities.",
+          "whatsapp": "Create a WhatsApp broadcast list for early bird offers, menu updates, and exclusive discounts. Encourage customers to share the menu and offers with friends and family to build word-of-mouth.",
+          "google": "Optimize Google My Business listing for local SEO with accurate location, menu, and photos. Run Google Ads targeting keywords like 'North Indian restaurant Chennai' and 'best North Indian food near me' to capture intent-driven traffic."
+        },
+        "reel_ideas": [
+          "Making of signature pani puri with fresh ingredients",
+          "Behind the scenes: Chef preparing butter chicken",
+          "Customer reactions tasting Northly's chaat for the first time",
+          "Quick recipe tips for popular North Indian snacks",
+          "Highlighting the sourcing of authentic spices from North India",
+          "Day in the life of a Northly kitchen staff",
+          "Showcasing the cozy and warm restaurant ambiance",
+          "Celebrating a festival with special North Indian dishes",
+          "Introducing the team behind Northly",
+          "Customer testimonials and reviews montage"
+        ],
+        "influencer_brief": "We are launching Northly, a warm and authentic North Indian restaurant in Tamil Nadu, starting in Chennai. We want influencers who love food and have a strong local following to share their genuine experience of our dishes, especially our pani puri, chaat, and butter chicken. The tone should be inviting, casual, and highlight the authentic flavors and affordable pricing. Influencers should create engaging content including reels, stories, and posts that showcase the food, ambiance, and their personal experience.",
+        "week1_checklist": [
+          "Finalize and set up the restaurant location in Chennai",
+          "Launch Instagram and Google My Business profiles with initial content",
+          "Run targeted Instagram and Google Ads campaigns",
+          "Engage local food influencers and send tasting invites",
+          "Set up WhatsApp broadcast list and start early bird promotions"
+        ]
+      },
+      "shopify": {
+        "theme_settings": {
+          "theme": "minimal",
+          "palette": [
+            "#D84315",
+            "#F57C00",
+            "#FFCCBC",
+            "#4E342E",
+            "#FFFFFF"
+          ],
+          "fonts": {
+            "heading": "Montserrat Bold",
+            "body": "Open Sans Regular"
+          },
+          "hero_cta": "Order Now"
+        },
+        "products": [
+          {
+            "title": "Signature Pani Puri",
+            "price_inr": 399,
+            "description": "Authentic North Indian pani puri with fresh ingredients and tangy tamarind chutney, a popular street snack loved across Tamil Nadu.",
+            "tags": [
+              "North Indian snacks Tamil Nadu",
+              "Pani puri",
+              "Street food"
+            ]
+          },
+          {
+            "title": "Classic Butter Chicken",
+            "price_inr": 699,
+            "description": "Rich and creamy butter chicken made with traditional North Indian spices, perfect for casual dining and food delivery in Chennai and beyond.",
+            "tags": [
+              "North Indian cuisine Chennai",
+              "Butter chicken",
+              "Casual dining"
+            ]
+          },
+          {
+            "title": "Mixed Chaat Platter",
+            "price_inr": 499,
+            "description": "A delightful assortment of popular North Indian chaats, including aloo tikki, papdi chaat, and sev puri, ideal for sharing and quick bites.",
+            "tags": [
+              "Chaat stalls Tamil Nadu",
+              "North Indian snacks",
+              "Quick bites"
+            ]
+          },
+          {
+            "title": "Tandoori Roti",
+            "price_inr": 99,
+            "description": "Freshly baked tandoori roti, a staple accompaniment to North Indian meals, made with traditional techniques for authentic taste.",
+            "tags": [
+              "North Indian food Tamil Nadu",
+              "Tandoori roti",
+              "Staple"
+            ]
+          },
+          {
+            "title": "Paneer Tikka",
+            "price_inr": 599,
+            "description": "Grilled paneer cubes marinated in spices, a vegetarian favorite from North Indian cuisine, perfect for casual dining and delivery.",
+            "tags": [
+              "North Indian cuisine Chennai",
+              "Paneer tikka",
+              "Vegetarian"
+            ]
+          }
+        ],
+        "homepage": {
+          "hero_headline": "Experience Authentic North Indian Flavors in Tamil Nadu",
+          "hero_subheadline": "Warm, inviting, and affordable North Indian cuisine delivered fresh to your doorstep.",
+          "value_props": [
+            "Authentic recipes with fresh, quality ingredients",
+            "Affordable pricing from ₹399 to ₹799",
+            "Convenient online ordering and fast delivery"
+          ]
+        },
+        "collections": [
+          {
+            "name": "Snacks & Starters",
+            "handle": "snacks-starters",
+            "description": "Delicious North Indian snacks and starters including pani puri, chaats, and tandoori treats."
+          },
+          {
+            "name": "Main Course",
+            "handle": "main-course",
+            "description": "Hearty and flavorful North Indian main dishes like butter chicken, paneer tikka, and more."
+          },
+          {
+            "name": "Breads & Sides",
+            "handle": "breads-sides",
+            "description": "Freshly baked breads and sides to complement your meal, including tandoori roti and rice."
+          }
+        ],
+        "files": [
+          {
+            "path": "assets/logo.png",
+            "content": "https://assets.openclaw.local/north-indian-minimal.png",
+            "kind": "json"
+          },
+          {
+            "path": "config/settings_schema.json",
+            "content": "{\"name\":\"Northly Theme Settings\",\"settings\":[{\"type\":\"color\",\"id\":\"primary_color\",\"label\":\"Primary Color\",\"default\":\"#D84315\"},{\"type\":\"color\",\"id\":\"secondary_color\",\"label\":\"Secondary Color\",\"default\":\"#F57C00\"}]}",
+            "kind": "json"
+          },
+          {
+            "path": "templates/index.liquid",
+            "content": "<section class='hero'><h1>{{ settings.hero_headline }}</h1><p>{{ settings.hero_subheadline }}</p><a href='/collections/all' class='btn-primary'>{{ settings.hero_cta }}</a></section>",
+            "kind": "liquid"
+          },
+          {
+            "path": "locales/en.default.json",
+            "content": "{\"general\":{\"welcome\":\"Welcome to Northly!\"},\"products\":{\"add_to_cart\":\"Add to Cart\"}}",
+            "kind": "json"
+          }
+        ],
+        "package_summary": "This Shopify launch package for Northly includes a warm and authentic North Indian restaurant theme with a minimal design, a curated product catalog featuring popular North Indian dishes priced affordably between ₹399 and ₹799, and a homepage that highlights the brand's value propositions. The collections organize the menu into snacks, main courses, and breads. The package also includes essential theme files such as logo, settings schema, homepage template, and localization for a smooth launch experience."
+      },
+      "ads": {
+        "meta_ads": [
+          {
+            "format": "Instagram Reel",
+            "hook": "Craving authentic North Indian flavors in Chennai?",
+            "body": "Discover Northly's delicious pani puri, chaat, and butter chicken made with fresh, authentic spices. Experience the warmth of North India right here in Tamil Nadu!",
+            "cta": "Order Now & Taste the Tradition",
+            "audience": "Food lovers aged 18-40 in Chennai, Coimbatore, and Madurai interested in North Indian cuisine and casual dining",
+            "budget_day_inr": 20000
+          },
+          {
+            "format": "Facebook Carousel",
+            "hook": "Your new favorite North Indian restaurant is here!",
+            "body": "Swipe through our menu highlights featuring classic dishes like butter chicken, chaat, and more. Affordable prices between ₹399-₹799. Perfect for family meals and quick bites.",
+            "cta": "Reserve Your Table or Order Online",
+            "audience": "Families and young adults in Tamil Nadu cities looking for casual dining options",
+            "budget_day_inr": 15000
+          },
+          {
+            "format": "Instagram Story Ads",
+            "hook": "Taste the authentic North Indian street food experience!",
+            "body": "Join the Northly community and enjoy exclusive early bird offers on our signature pani puri and chaat. Limited time only!",
+            "cta": "Swipe Up to Order",
+            "audience": "Young adults and foodies in Chennai and nearby cities who follow food and dining pages",
+            "budget_day_inr": 15000
+          }
+        ],
+        "google_campaigns": [
+          {
+            "name": "Northly Brand Awareness",
+            "budget_day_inr": 20000,
+            "ad_groups": [
+              {
+                "name": "Brand Keywords",
+                "keywords": [
+                  "Northly",
+                  "Northly restaurant",
+                  "Northly Chennai"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "North Indian Cuisine",
+                "keywords": [
+                  "North Indian restaurant Tamil Nadu",
+                  "North Indian food Chennai",
+                  "best North Indian food near me"
+                ],
+                "match_type": "broad"
+              }
+            ]
+          },
+          {
+            "name": "North Indian Food Intent",
+            "budget_day_inr": 20000,
+            "ad_groups": [
+              {
+                "name": "Pani Puri & Chaat",
+                "keywords": [
+                  "pani puri Tamil Nadu",
+                  "chaat near me",
+                  "North Indian snacks Tamil Nadu"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "Casual Dining",
+                "keywords": [
+                  "casual dining North Indian",
+                  "affordable North Indian restaurant",
+                  "North Indian food delivery Tamil Nadu"
+                ],
+                "match_type": "broad"
+              }
+            ]
+          }
+        ],
+        "pacing_plan": {
+          "start_budget_day_inr": 50000,
+          "scale_trigger": "Achieve 5% CTR and 10% conversion rate on initial campaigns",
+          "milestones": [
+            "Week 1: Launch campaigns in Chennai with focus on brand awareness and local intent",
+            "Week 2: Expand targeting to Coimbatore and Madurai, optimize ads based on performance",
+            "Week 3: Introduce retargeting ads and influencer content integration",
+            "Week 4: Scale budget by 20% if KPIs are met, focus on high-performing ad sets"
+          ]
+        }
+      },
+      "seo": {
+        "keywords": [
+          "North Indian restaurant Tamil Nadu",
+          "North Indian cuisine Chennai",
+          "Pani puri Tamil Nadu",
+          "North Indian food Tamil Nadu",
+          "Casual dining North Indian"
+        ],
+        "geo_faqs": [
+          "What are the best North Indian dishes to try in Chennai?",
+          "Where can I find authentic North Indian cuisine in Coimbatore?",
+          "Are there affordable North Indian restaurants in Madurai?",
+          "What is the price range for North Indian food delivery in Tamil Nadu?",
+          "How is North Indian cuisine different in Tamil Nadu compared to North India?"
+        ],
+        "content_calendar": [
+          "Week 1: Introduction to Northly - Authentic North Indian Flavors in Tamil Nadu",
+          "Week 2: Spotlight on Signature Dishes - Pani Puri, Butter Chicken, and Chaat",
+          "Week 3: Behind the Scenes - Sourcing Authentic Spices and Ingredients",
+          "Week 4: Customer Stories and Reviews from Chennai, Coimbatore, and Madurai"
+        ],
+        "geo_pages": [
+          {
+            "title": "North Indian Restaurant in Chennai - Northly",
+            "slug": "north-indian-restaurant-chennai",
+            "target_query": "North Indian restaurant Chennai",
+            "body": "Discover Northly, the premier North Indian restaurant in Chennai offering authentic dishes like pani puri, butter chicken, and mixed chaats. Experience warm, inviting, and affordable North Indian cuisine made with fresh, quality ingredients. Order online or visit us for a casual dining experience in the heart of Chennai.",
+            "citation_notes": [
+              "Market research shows growing demand for North Indian cuisine in Chennai.",
+              "Competitor analysis includes SALT Indian Restaurant, a celebrity-endorsed chain in Chennai."
+            ]
+          },
+          {
+            "title": "Authentic North Indian Cuisine in Coimbatore - Northly",
+            "slug": "north-indian-cuisine-coimbatore",
+            "target_query": "North Indian cuisine Coimbatore",
+            "body": "Northly brings authentic North Indian flavors to Coimbatore with a menu featuring classic dishes such as butter chicken, paneer tikka, and tandoori roti. Enjoy affordable pricing and convenient food delivery options tailored for Coimbatore's growing urban food lovers.",
+            "citation_notes": [
+              "Increasing urban demand for North Indian food in Coimbatore.",
+              "Research highlights acceptance of North Indian snacks and casual dining in Tamil Nadu."
+            ]
+          },
+          {
+            "title": "Best North Indian Food Delivery in Madurai - Northly",
+            "slug": "north-indian-food-delivery-madurai",
+            "target_query": "North Indian food delivery Madurai",
+            "body": "Order from Northly for the best North Indian food delivery in Madurai. Our menu includes popular street snacks like pani puri and chaats, as well as hearty main courses. Experience the taste of North India with fast and reliable delivery service in Madurai.",
+            "citation_notes": [
+              "Rising popularity of North Indian snacks in semi-urban and rural Tamil Nadu including Madurai.",
+              "Market size and growth projections support food delivery expansion in Madurai."
+            ]
+          },
+          {
+            "title": "Affordable Casual Dining North Indian Restaurant in Tamil Nadu - Northly",
+            "slug": "affordable-casual-dining-north-indian-tamil-nadu",
+            "target_query": "Casual dining North Indian Tamil Nadu",
+            "body": "Northly offers affordable casual dining options across Tamil Nadu with authentic North Indian cuisine. From street food favorites to rich main courses, enjoy a warm and inviting dining experience priced between ₹399 and ₹799.",
+            "citation_notes": [
+              "Casual dining holds 48% market share in Indian food services.",
+              "Northly's pricing strategy aligns with market demand for affordable North Indian food."
+            ]
+          },
+          {
+            "title": "Popular North Indian Snacks and Chaat Stalls in Tamil Nadu - Northly",
+            "slug": "north-indian-snacks-chaat-stalls-tamil-nadu",
+            "target_query": "North Indian snacks Tamil Nadu",
+            "body": "Explore Northly's range of popular North Indian snacks and chaats loved across Tamil Nadu. From pani puri to mixed chaat platters, our offerings bring authentic street food flavors to your table, perfect for quick bites and sharing.",
+            "citation_notes": [
+              "Local chaat stalls are popular in semi-urban and rural Tamil Nadu.",
+              "Northly leverages rising trends in North Indian snack consumption in Tamil Nadu."
+            ]
+          }
+        ]
+      },
+      "audit_log": [
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:brief",
+          "timestamp": "2026-03-25T11:52:32.846Z",
+          "keys_written": [
+            "brief"
+          ]
+        },
+        {
+          "agent": "orchestrator-agent",
+          "action": "write:idea",
+          "timestamp": "2026-03-25T11:52:35.862Z",
+          "keys_written": [
+            "idea"
+          ]
+        },
+        {
+          "agent": "research-agent",
+          "action": "write:research",
+          "timestamp": "2026-03-25T11:53:01.024Z",
+          "keys_written": [
+            "research"
+          ]
+        },
+        {
+          "agent": "domain-agent",
+          "action": "write:domains",
+          "timestamp": "2026-03-25T11:53:33.944Z",
+          "keys_written": [
+            "domains"
+          ]
+        },
+        {
+          "agent": "visual-agent",
+          "action": "write:visual",
+          "timestamp": "2026-03-25T11:54:02.553Z",
+          "keys_written": [
+            "visual"
+          ]
+        },
+        {
+          "agent": "gtm-agent",
+          "action": "write:gtm",
+          "timestamp": "2026-03-25T11:54:22.475Z",
+          "keys_written": [
+            "gtm"
+          ]
+        },
+        {
+          "agent": "shopify-agent",
+          "action": "write:shopify",
+          "timestamp": "2026-03-25T11:55:07.741Z",
+          "keys_written": [
+            "shopify"
+          ]
+        },
+        {
+          "agent": "ads-agent",
+          "action": "write:ads",
+          "timestamp": "2026-03-25T11:55:11.774Z",
+          "keys_written": [
+            "ads"
+          ]
+        },
+        {
+          "agent": "seo-agent",
+          "action": "write:seo",
+          "timestamp": "2026-03-25T11:56:49.575Z",
+          "keys_written": [
+            "seo"
+          ]
+        },
+        {
+          "agent": "launch-report-agent",
+          "action": "complete-launch",
+          "timestamp": "2026-03-25T12:00:29.157Z",
+          "keys_written": [
+            "report"
+          ]
+        }
+      ]
+    },
+    "report": {
+      "brand": {
+        "idea": "North Indian restaurant in Tamil Nadu, launching ASAP with a budget of ₹20L.",
+        "category": "d2c lifestyle",
+        "brand_name": "Northly",
+        "summary": "Northly is a warm, authentic, and inviting North Indian restaurant brand launching in Tamil Nadu, focusing initially on Chennai with plans to expand to Coimbatore and Madurai. The brand offers affordable pricing between ₹399 and ₹799, emphasizing authentic recipes, fresh quality ingredients, and convenient online ordering with fast delivery. Northly aims to capture the growing demand for North Indian cuisine in urban and semi-urban Tamil Nadu through a D2C model."
+      },
+      "visual": {
+        "logo_urls": [
+          "https://assets.openclaw.local/north-indian-minimal.png"
+        ],
+        "palette": [
+          "#D84315",
+          "#F57C00",
+          "#FFCCBC",
+          "#4E342E",
+          "#FFFFFF"
+        ],
+        "mood": "Warm, authentic, inviting, and modern with a touch of cultural heritage"
+      },
+      "domain": {
+        "recommended": "northly.in",
+        "alternatives": [
+          "northco.in",
+          "northhive.in",
+          "northlane.in",
+          "northindianrestaurant.in"
+        ]
+      },
+      "gtm": {
+        "launch_cities": [
+          "Chennai",
+          "Coimbatore",
+          "Madurai"
+        ],
+        "channels": {
+          "instagram": "Focus on organic and paid campaigns showcasing authentic North Indian dishes, behind-the-scenes kitchen stories, and customer testimonials. Use targeted ads to reach food lovers in Chennai and nearby cities.",
+          "whatsapp": "Create a WhatsApp broadcast list for early bird offers, menu updates, and exclusive discounts. Encourage customers to share the menu and offers with friends and family to build word-of-mouth.",
+          "google": "Optimize Google My Business listing for local SEO with accurate location, menu, and photos. Run Google Ads targeting keywords like 'North Indian restaurant Chennai' and 'best North Indian food near me' to capture intent-driven traffic."
+        },
+        "reel_ideas": [
+          "Making of signature pani puri with fresh ingredients",
+          "Behind the scenes: Chef preparing butter chicken",
+          "Customer reactions tasting Northly's chaat for the first time",
+          "Quick recipe tips for popular North Indian snacks",
+          "Highlighting the sourcing of authentic spices from North India",
+          "Day in the life of a Northly kitchen staff",
+          "Showcasing the cozy and warm restaurant ambiance",
+          "Celebrating a festival with special North Indian dishes",
+          "Introducing the team behind Northly",
+          "Customer testimonials and reviews montage"
+        ],
+        "influencer_brief": "We are launching Northly, a warm and authentic North Indian restaurant in Tamil Nadu, starting in Chennai. We want influencers who love food and have a strong local following to share their genuine experience of our dishes, especially our pani puri, chaat, and butter chicken. The tone should be inviting, casual, and highlight the authentic flavors and affordable pricing. Influencers should create engaging content including reels, stories, and posts that showcase the food, ambiance, and their personal experience.",
+        "week1_checklist": [
+          "Finalize and set up the restaurant location in Chennai",
+          "Launch Instagram and Google My Business profiles with initial content",
+          "Run targeted Instagram and Google Ads campaigns",
+          "Engage local food influencers and send tasting invites",
+          "Set up WhatsApp broadcast list and start early bird promotions"
+        ]
+      },
+      "shopify_files": {
+        "theme_settings": {
+          "theme": "minimal",
+          "palette": [
+            "#D84315",
+            "#F57C00",
+            "#FFCCBC",
+            "#4E342E",
+            "#FFFFFF"
+          ],
+          "fonts": {
+            "heading": "Montserrat Bold",
+            "body": "Open Sans Regular"
+          },
+          "hero_cta": "Order Now"
+        },
+        "products": [
+          {
+            "title": "Signature Pani Puri",
+            "price_inr": 399,
+            "description": "Authentic North Indian pani puri with fresh ingredients and tangy tamarind chutney, a popular street snack loved across Tamil Nadu.",
+            "tags": [
+              "North Indian snacks Tamil Nadu",
+              "Pani puri",
+              "Street food"
+            ]
+          },
+          {
+            "title": "Classic Butter Chicken",
+            "price_inr": 699,
+            "description": "Rich and creamy butter chicken made with traditional North Indian spices, perfect for casual dining and food delivery in Chennai and beyond.",
+            "tags": [
+              "North Indian cuisine Chennai",
+              "Butter chicken",
+              "Casual dining"
+            ]
+          },
+          {
+            "title": "Mixed Chaat Platter",
+            "price_inr": 499,
+            "description": "A delightful assortment of popular North Indian chaats, including aloo tikki, papdi chaat, and sev puri, ideal for sharing and quick bites.",
+            "tags": [
+              "Chaat stalls Tamil Nadu",
+              "North Indian snacks",
+              "Quick bites"
+            ]
+          },
+          {
+            "title": "Tandoori Roti",
+            "price_inr": 99,
+            "description": "Freshly baked tandoori roti, a staple accompaniment to North Indian meals, made with traditional techniques for authentic taste.",
+            "tags": [
+              "North Indian food Tamil Nadu",
+              "Tandoori roti",
+              "Staple"
+            ]
+          },
+          {
+            "title": "Paneer Tikka",
+            "price_inr": 599,
+            "description": "Grilled paneer cubes marinated in spices, a vegetarian favorite from North Indian cuisine, perfect for casual dining and delivery.",
+            "tags": [
+              "North Indian cuisine Chennai",
+              "Paneer tikka",
+              "Vegetarian"
+            ]
+          }
+        ],
+        "homepage": {
+          "hero_headline": "Experience Authentic North Indian Flavors in Tamil Nadu",
+          "hero_subheadline": "Warm, inviting, and affordable North Indian cuisine delivered fresh to your doorstep.",
+          "value_props": [
+            "Authentic recipes with fresh, quality ingredients",
+            "Affordable pricing from ₹399 to ₹799",
+            "Convenient online ordering and fast delivery"
+          ]
+        },
+        "collections": [
+          {
+            "name": "Snacks & Starters",
+            "handle": "snacks-starters",
+            "description": "Delicious North Indian snacks and starters including pani puri, chaats, and tandoori treats."
+          },
+          {
+            "name": "Main Course",
+            "handle": "main-course",
+            "description": "Hearty and flavorful North Indian main dishes like butter chicken, paneer tikka, and more."
+          },
+          {
+            "name": "Breads & Sides",
+            "handle": "breads-sides",
+            "description": "Freshly baked breads and sides to complement your meal, including tandoori roti and rice."
+          }
+        ],
+        "files": [
+          {
+            "path": "assets/logo.png",
+            "content": "https://assets.openclaw.local/north-indian-minimal.png",
+            "kind": "json"
+          },
+          {
+            "path": "config/settings_schema.json",
+            "content": "{\"name\":\"Northly Theme Settings\",\"settings\":[{\"type\":\"color\",\"id\":\"primary_color\",\"label\":\"Primary Color\",\"default\":\"#D84315\"},{\"type\":\"color\",\"id\":\"secondary_color\",\"label\":\"Secondary Color\",\"default\":\"#F57C00\"}]}",
+            "kind": "json"
+          },
+          {
+            "path": "templates/index.liquid",
+            "content": "<section class='hero'><h1>{{ settings.hero_headline }}</h1><p>{{ settings.hero_subheadline }}</p><a href='/collections/all' class='btn-primary'>{{ settings.hero_cta }}</a></section>",
+            "kind": "liquid"
+          },
+          {
+            "path": "locales/en.default.json",
+            "content": "{\"general\":{\"welcome\":\"Welcome to Northly!\"},\"products\":{\"add_to_cart\":\"Add to Cart\"}}",
+            "kind": "json"
+          }
+        ],
+        "package_summary": "This Shopify launch package for Northly includes a warm and authentic North Indian restaurant theme with a minimal design, a curated product catalog featuring popular North Indian dishes priced affordably between ₹399 and ₹799, and a homepage that highlights the brand's value propositions. The collections organize the menu into snacks, main courses, and breads. The package also includes essential theme files such as logo, settings schema, homepage template, and localization for a smooth launch experience."
+      },
+      "ads": {
+        "meta_ads": [
+          {
+            "format": "Instagram Reel",
+            "hook": "Craving authentic North Indian flavors in Chennai?",
+            "body": "Discover Northly's delicious pani puri, chaat, and butter chicken made with fresh, authentic spices. Experience the warmth of North India right here in Tamil Nadu!",
+            "cta": "Order Now & Taste the Tradition",
+            "audience": "Food lovers aged 18-40 in Chennai, Coimbatore, and Madurai interested in North Indian cuisine and casual dining",
+            "budget_day_inr": 20000
+          },
+          {
+            "format": "Facebook Carousel",
+            "hook": "Your new favorite North Indian restaurant is here!",
+            "body": "Swipe through our menu highlights featuring classic dishes like butter chicken, chaat, and more. Affordable prices between ₹399-₹799. Perfect for family meals and quick bites.",
+            "cta": "Reserve Your Table or Order Online",
+            "audience": "Families and young adults in Tamil Nadu cities looking for casual dining options",
+            "budget_day_inr": 15000
+          },
+          {
+            "format": "Instagram Story Ads",
+            "hook": "Taste the authentic North Indian street food experience!",
+            "body": "Join the Northly community and enjoy exclusive early bird offers on our signature pani puri and chaat. Limited time only!",
+            "cta": "Swipe Up to Order",
+            "audience": "Young adults and foodies in Chennai and nearby cities who follow food and dining pages",
+            "budget_day_inr": 15000
+          }
+        ],
+        "google_campaigns": [
+          {
+            "name": "Northly Brand Awareness",
+            "budget_day_inr": 20000,
+            "ad_groups": [
+              {
+                "name": "Brand Keywords",
+                "keywords": [
+                  "Northly",
+                  "Northly restaurant",
+                  "Northly Chennai"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "North Indian Cuisine",
+                "keywords": [
+                  "North Indian restaurant Tamil Nadu",
+                  "North Indian food Chennai",
+                  "best North Indian food near me"
+                ],
+                "match_type": "broad"
+              }
+            ]
+          },
+          {
+            "name": "North Indian Food Intent",
+            "budget_day_inr": 20000,
+            "ad_groups": [
+              {
+                "name": "Pani Puri & Chaat",
+                "keywords": [
+                  "pani puri Tamil Nadu",
+                  "chaat near me",
+                  "North Indian snacks Tamil Nadu"
+                ],
+                "match_type": "phrase"
+              },
+              {
+                "name": "Casual Dining",
+                "keywords": [
+                  "casual dining North Indian",
+                  "affordable North Indian restaurant",
+                  "North Indian food delivery Tamil Nadu"
+                ],
+                "match_type": "broad"
+              }
+            ]
+          }
+        ],
+        "pacing_plan": {
+          "start_budget_day_inr": 50000,
+          "scale_trigger": "Achieve 5% CTR and 10% conversion rate on initial campaigns",
+          "milestones": [
+            "Week 1: Launch campaigns in Chennai with focus on brand awareness and local intent",
+            "Week 2: Expand targeting to Coimbatore and Madurai, optimize ads based on performance",
+            "Week 3: Introduce retargeting ads and influencer content integration",
+            "Week 4: Scale budget by 20% if KPIs are met, focus on high-performing ad sets"
+          ]
+        }
+      },
+      "seo_geo": {
+        "keywords": [
+          "North Indian restaurant Tamil Nadu",
+          "North Indian cuisine Chennai",
+          "Pani puri Tamil Nadu",
+          "North Indian food Tamil Nadu",
+          "Casual dining North Indian"
+        ],
+        "geo_faqs": [
+          "What are the best North Indian dishes to try in Chennai?",
+          "Where can I find authentic North Indian cuisine in Coimbatore?",
+          "Are there affordable North Indian restaurants in Madurai?",
+          "What is the price range for North Indian food delivery in Tamil Nadu?",
+          "How is North Indian cuisine different in Tamil Nadu compared to North India?"
+        ],
+        "content_calendar": [
+          "Week 1: Introduction to Northly - Authentic North Indian Flavors in Tamil Nadu",
+          "Week 2: Spotlight on Signature Dishes - Pani Puri, Butter Chicken, and Chaat",
+          "Week 3: Behind the Scenes - Sourcing Authentic Spices and Ingredients",
+          "Week 4: Customer Stories and Reviews from Chennai, Coimbatore, and Madurai"
+        ],
+        "geo_pages": [
+          {
+            "title": "North Indian Restaurant in Chennai - Northly",
+            "slug": "north-indian-restaurant-chennai",
+            "target_query": "North Indian restaurant Chennai",
+            "body": "Discover Northly, the premier North Indian restaurant in Chennai offering authentic dishes like pani puri, butter chicken, and mixed chaats. Experience warm, inviting, and affordable North Indian cuisine made with fresh, quality ingredients. Order online or visit us for a casual dining experience in the heart of Chennai.",
+            "citation_notes": [
+              "Market research shows growing demand for North Indian cuisine in Chennai.",
+              "Competitor analysis includes SALT Indian Restaurant, a celebrity-endorsed chain in Chennai."
+            ]
+          },
+          {
+            "title": "Authentic North Indian Cuisine in Coimbatore - Northly",
+            "slug": "north-indian-cuisine-coimbatore",
+            "target_query": "North Indian cuisine Coimbatore",
+            "body": "Northly brings authentic North Indian flavors to Coimbatore with a menu featuring classic dishes such as butter chicken, paneer tikka, and tandoori roti. Enjoy affordable pricing and convenient food delivery options tailored for Coimbatore's growing urban food lovers.",
+            "citation_notes": [
+              "Increasing urban demand for North Indian food in Coimbatore.",
+              "Research highlights acceptance of North Indian snacks and casual dining in Tamil Nadu."
+            ]
+          },
+          {
+            "title": "Best North Indian Food Delivery in Madurai - Northly",
+            "slug": "north-indian-food-delivery-madurai",
+            "target_query": "North Indian food delivery Madurai",
+            "body": "Order from Northly for the best North Indian food delivery in Madurai. Our menu includes popular street snacks like pani puri and chaats, as well as hearty main courses. Experience the taste of North India with fast and reliable delivery service in Madurai.",
+            "citation_notes": [
+              "Rising popularity of North Indian snacks in semi-urban and rural Tamil Nadu including Madurai.",
+              "Market size and growth projections support food delivery expansion in Madurai."
+            ]
+          },
+          {
+            "title": "Affordable Casual Dining North Indian Restaurant in Tamil Nadu - Northly",
+            "slug": "affordable-casual-dining-north-indian-tamil-nadu",
+            "target_query": "Casual dining North Indian Tamil Nadu",
+            "body": "Northly offers affordable casual dining options across Tamil Nadu with authentic North Indian cuisine. From street food favorites to rich main courses, enjoy a warm and inviting dining experience priced between ₹399 and ₹799.",
+            "citation_notes": [
+              "Casual dining holds 48% market share in Indian food services.",
+              "Northly's pricing strategy aligns with market demand for affordable North Indian food."
+            ]
+          },
+          {
+            "title": "Popular North Indian Snacks and Chaat Stalls in Tamil Nadu - Northly",
+            "slug": "north-indian-snacks-chaat-stalls-tamil-nadu",
+            "target_query": "North Indian snacks Tamil Nadu",
+            "body": "Explore Northly's range of popular North Indian snacks and chaats loved across Tamil Nadu. From pani puri to mixed chaat platters, our offerings bring authentic street food flavors to your table, perfect for quick bites and sharing.",
+            "citation_notes": [
+              "Local chaat stalls are popular in semi-urban and rural Tamil Nadu.",
+              "Northly leverages rising trends in North Indian snack consumption in Tamil Nadu."
+            ]
+          }
+        ]
+      },
+      "roadmap_90d": [
+        "Month 1: Establish restaurant presence in Chennai, launch digital channels, and initiate local influencer partnerships.",
+        "Month 2: Expand marketing campaigns to Coimbatore and Madurai, optimize online ordering and delivery operations.",
+        "Month 3: Scale advertising budget based on performance, introduce retargeting and loyalty programs, and prepare for further geographic expansion."
+      ],
+      "artifacts": [
+        {
+          "path": "assets/logo.png",
+          "description": "Primary brand logo in minimal style representing Northly."
+        },
+        {
+          "path": "config/settings_schema.json",
+          "description": "Shopify theme settings schema defining brand colors and customization options."
+        },
+        {
+          "path": "templates/index.liquid",
+          "description": "Shopify homepage template with hero section and call-to-action."
+        },
+        {
+          "path": "locales/en.default.json",
+          "description": "Localization file for English language with general and product-related text."
+        }
+      ],
+      "markdown": "## Northly Brand Launch Bible\n\n### Brand Idea\nNorthly is a North Indian restaurant launching in Tamil Nadu with a focus on authentic, warm, and affordable North Indian cuisine. The brand targets urban and semi-urban consumers in Chennai initially, with plans to expand to Coimbatore and Madurai.\n\n### Visual Identity\nThe brand uses a minimalistic logo with warm colors (#D84315, #F57C00, #FFCCBC, #4E342E, #FFFFFF) and a modern font pairing of Montserrat Bold and Open Sans Regular to convey authenticity and approachability.\n\n### Domain\nThe recommended domain is northly.in, chosen for its memorability and relevance. Alternative domains include northco.in, northhive.in, northlane.in, and northindianrestaurant.in.\n\n### Go-To-Market Strategy\nLaunch cities: Chennai, Coimbatore, Madurai.\nChannels: Instagram (organic and paid), WhatsApp broadcasts, Google My Business and Google Ads.\nContent includes reels showcasing food preparation, behind-the-scenes, customer testimonials, and influencer collaborations.\n\n### Shopify Launch Package\nA minimal theme with curated products like Signature Pani Puri, Classic Butter Chicken, Mixed Chaat Platter, Tandoori Roti, and Paneer Tikka priced between ₹399 and ₹799. The homepage highlights authentic flavors, affordability, and convenience.\n\n### Advertising Plan\nMeta ads on Instagram and Facebook targeting food lovers and families, with daily budgets ranging from ₹15,000 to ₹20,000. Google campaigns focus on brand awareness and food intent keywords.\n\n### SEO & GEO Strategy\nTarget keywords include North Indian restaurant Tamil Nadu, North Indian cuisine Chennai, and Pani puri Tamil Nadu. Geo-targeted pages for Chennai, Coimbatore, and Madurai with citation-backed content.\n\n### 90-Day Roadmap\nFocus on establishing presence in Chennai, expanding marketing to other cities, optimizing operations, and scaling advertising based on performance.\n\n### Artifacts\nIncludes logo files, Shopify theme settings, homepage template, and localization files for a smooth launch."
+    },
+    "error": null,
+    "pendingQuestions": [],
+    "pendingReason": null,
+    "clarificationAnswers": [
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C",
+      "1. Chennai. 2. 399 to 799. 3. D2C"
+    ],
+    "questionContext": [],
+    "selectedVisualConcept": null
+  }
+]
