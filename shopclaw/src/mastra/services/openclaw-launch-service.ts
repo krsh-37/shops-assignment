@@ -6,10 +6,9 @@ function normalizeWorkflowError(result: { status: string; error?: unknown }) {
   return result.status === 'failed' ? result.error : new Error(`Workflow status ${result.status}`);
 }
 
-export async function runLaunch(idea: string, launchId = randomUUID()) {
-  mem0.ensureRun(idea, launchId);
-  const run = await internalOpenclawWorkflow.createRun();
-  const result = await run.start({
+async function startInternalLaunch(launchId: string, idea: string) {
+  const internalRun = await internalOpenclawWorkflow.createRun();
+  const result = await internalRun.start({
     inputData: {
       launchId,
       idea,
@@ -21,6 +20,11 @@ export async function runLaunch(idea: string, launchId = randomUUID()) {
     mem0.failRun(launchId, error);
     throw error instanceof Error ? error : new Error(String(error));
   }
+}
+
+export async function runLaunch(idea: string, launchId = randomUUID()) {
+  mem0.ensureRun(idea, launchId);
+  await startInternalLaunch(launchId, idea);
 
   return mem0.requireRun(launchId);
 }
@@ -29,20 +33,19 @@ export function startLaunch(idea: string) {
   const launchId = randomUUID();
   mem0.ensureRun(idea, launchId);
 
-  void internalOpenclawWorkflow
-    .createRun()
-    .then(async internalRun => {
-      const result = await internalRun.start({
-        inputData: {
-          launchId,
-          idea,
-        },
-      });
+  void startInternalLaunch(launchId, idea)
+    .catch(error => {
+      mem0.failRun(launchId, error);
+    });
 
-      if (result.status !== 'success') {
-        mem0.failRun(launchId, normalizeWorkflowError(result));
-      }
-    })
+  return mem0.requireRun(launchId);
+}
+
+export function resumeLaunch(launchId: string, answers: string[]) {
+  const run = mem0.requireRun(launchId);
+  mem0.recordHumanAnswers(launchId, answers);
+
+  void startInternalLaunch(launchId, run.idea)
     .catch(error => {
       mem0.failRun(launchId, error);
     });

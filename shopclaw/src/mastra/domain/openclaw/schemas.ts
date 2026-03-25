@@ -227,6 +227,7 @@ export const ideaMemorySchema = z.object({
   category: z.string(),
   brand_name_candidates: z.array(z.string()),
   clarification_questions: z.array(clarificationSchema),
+  clarification_answers: z.array(z.string()).default([]),
 });
 
 export const orchestratorIdeaInputSchema = z.object({
@@ -320,6 +321,7 @@ export const askUserOutputSchema = z.object({
   launchId: z.string().optional(),
   status: z.enum(['awaiting-user-input']),
   questions: z.array(z.string()).min(1).max(3),
+  reason: z.string(),
 });
 
 export const delegateToAgentInputSchema = z.object({
@@ -332,6 +334,8 @@ export const delegateToAgentOutputSchema = z.object({
   delegated: z.boolean(),
   agentId: z.string(),
   task: z.string(),
+  launchId: z.string().optional(),
+  status: z.string().optional(),
 });
 
 export const startWorkflowInputSchema = z.object({
@@ -346,6 +350,8 @@ export const resumeWorkflowInputSchema = z.object({
 export const workflowControlOutputSchema = z.object({
   launchId: z.string(),
   status: z.string(),
+  pending_questions: z.array(z.string()).optional(),
+  answers: z.array(z.string()).optional(),
 });
 
 export const logoGenerationInputSchema = z.object({
@@ -419,7 +425,7 @@ export const launchTokenSchema = z.object({
   launchId: z.string(),
 });
 
-export const launchStatusSchema = z.enum(['queued', 'running', 'completed', 'failed']);
+export const launchStatusSchema = z.enum(['queued', 'running', 'awaiting-user-input', 'completed', 'failed']);
 
 export const launchRunSchema = z.object({
   id: z.string(),
@@ -432,6 +438,9 @@ export const launchRunSchema = z.object({
   memory: openClawMemorySchema,
   report: launchBibleSchema.nullable(),
   error: z.string().nullable(),
+  pendingQuestions: z.array(z.string()).default([]),
+  pendingReason: z.string().nullable().default(null),
+  clarificationAnswers: z.array(z.string()).default([]),
 });
 
 export type Clarification = z.infer<typeof clarificationSchema>;

@@ -1,0 +1,108 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { orchestratorAgent } from '../src/mastra/agents/index.js';
+import { isDevMode } from '../src/mastra/config/openclaw-config.js';
+import { mem0 } from '../src/mastra/memory/mem0.js';
+import { askUserTool } from '../src/mastra/tools/ask-user-tool.js';
+import { delegateToAgentTool } from '../src/mastra/tools/delegate-to-agent-tool.js';
+import { resumeLaunchWorkflowTool } from '../src/mastra/tools/resume-launch-workflow-tool.js';
+import { sampleIdea } from './test-helpers.js';
+
+test('orchestrator exposes the required orchestration tools', async () => {
+  const tools = await orchestratorAgent.listTools();
+
+  assert.ok('askUserTool' in tools);
+  assert.ok('delegateToAgentTool' in tools);
+  assert.ok('mem0ReadTool' in tools);
+  assert.ok('mem0WriteTool' in tools);
+  assert.ok('startLaunchWorkflowTool' in tools);
+  assert.ok('resumeLaunchWorkflowTool' in tools);
+  assert.ok('getLaunchStatusTool' in tools);
+});
+
+test('orchestrator exposes specialist subagents', async () => {
+  const agents = await orchestratorAgent.listAgents();
+
+  assert.ok('researchAgent' in agents);
+  assert.ok('domainAgent' in agents);
+  assert.ok('visualAgent' in agents);
+  assert.ok('gtmAgent' in agents);
+  assert.ok('shopifyAgent' in agents);
+  assert.ok('adsAgent' in agents);
+  assert.ok('seoAgent' in agents);
+  assert.ok('launchReportAgent' in agents);
+});
+
+test('orchestrator workflow exposure is mode-aware', async () => {
+  const workflows = await orchestratorAgent.listWorkflows();
+
+  assert.equal('openclawWorkflow' in workflows, isDevMode());
+});
+
+test('ask user tool persists clarification requests on the launch run', async () => {
+  const run = mem0.createRun(sampleIdea);
+  const output = await (askUserTool.execute as any)(
+    {
+      launchId: run.id,
+      questions: ['Who is the first paying customer?', 'Which city launches first?'],
+      reason: 'Need GTM assumptions before running specialist agents.',
+    },
+    {},
+  );
+
+  const updated = mem0.requireRun(run.id);
+
+  assert.equal(output.status, 'awaiting-user-input');
+  assert.equal(output.reason, 'Need GTM assumptions before running specialist agents.');
+  assert.deepEqual(updated.pendingQuestions, ['Who is the first paying customer?', 'Which city launches first?']);
+  assert.equal(updated.pendingReason, 'Need GTM assumptions before running specialist agents.');
+  assert.equal(updated.status, 'awaiting-user-input');
+});
+
+test('delegate tool records the target agent on the launch run', async () => {
+  const run = mem0.createRun(sampleIdea);
+  const output = await (delegateToAgentTool.execute as any)(
+    {
+      launchId: run.id,
+      agentId: 'research-agent',
+      task: 'Find direct and adjacent competitors in India.',
+    },
+    {},
+  );
+
+  const updated = mem0.requireRun(run.id);
+
+  assert.equal(output.delegated, true);
+  assert.equal(updated.currentAgent, 'research-agent');
+  assert.match(updated.memory.audit_log.at(-1)?.action ?? '', /delegate:research-agent/);
+});
+
+test('resume workflow tool stores answers and starts the launch', async () => {
+  const run = mem0.createRun(sampleIdea);
+  mem0.requestHumanInput(run.id, ['What price point are we targeting?'], 'Need pricing to continue.');
+
+  const output = await (resumeLaunchWorkflowTool.execute as any)(
+    {
+      launchId: run.id,
+      answers: ['Rs 499 starter pack'],
+    },
+    {},
+  );
+
+  assert.equal(output.launchId, run.id);
+  assert.deepEqual(output.answers, ['Rs 499 starter pack']);
+
+  let resolved = mem0.requireRun(run.id);
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    if (resolved.status === 'completed') {
+      break;
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 10));
+    resolved = mem0.requireRun(run.id);
+  }
+
+  assert.equal(resolved.status, 'completed');
+  assert.deepEqual(resolved.clarificationAnswers, ['Rs 499 starter pack']);
+  assert.deepEqual(resolved.memory.idea?.clarification_answers, ['Rs 499 starter pack']);
+});

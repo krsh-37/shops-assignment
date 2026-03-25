@@ -115,9 +115,10 @@ const orchestratorStep = createStep({
   outputSchema: launchInputSchema,
   execute: async ({ inputData }) => {
     const { launchId, idea } = inputData;
-    mem0.ensureRun(idea, launchId);
+    const run = mem0.ensureRun(idea, launchId);
     mem0.updateStatus(launchId, 'orchestrator-agent');
     const mem0Context = await mem0.recall(idea, launchId);
+    const clarificationAnswers = run.clarificationAnswers;
 
     const ideaMemory = isDevMode()
       ? await generateStructured(
@@ -125,21 +126,29 @@ const orchestratorStep = createStep({
           `Analyze this founder idea and return structured launch initialization data.
 
 Idea: ${idea}
+Clarification answers:
+${clarificationAnswers.join('\n') || 'None provided yet'}
 Relevant Mem0 context:
 ${mem0Context.join('\n') || 'None'}
 
 Return:
 - category
 - 5 brand name candidates
-- up to 3 batched clarification questions with practical assumptions`,
+- up to 3 batched clarification questions with practical assumptions
+- clarification_answers populated from the provided answers`,
           ideaMemorySchema.omit({ raw: true }),
           launchId,
-        ).then(result => ({ ...(result as Omit<z.infer<typeof ideaMemorySchema>, 'raw'>), raw: idea }))
+        ).then(result => ({
+          ...(result as Omit<z.infer<typeof ideaMemorySchema>, 'raw'>),
+          raw: idea,
+          clarification_answers: clarificationAnswers,
+        }))
       : {
           raw: idea,
           category: inferCategory(idea),
           brand_name_candidates: generateBrandCandidates(idea),
-          clarification_questions: buildClarifications(idea),
+          clarification_questions: clarificationAnswers.length > 0 ? [] : buildClarifications(idea),
+          clarification_answers: clarificationAnswers,
         };
 
     await mem0.write(launchId, 'idea', ideaMemory, 'orchestrator-agent');

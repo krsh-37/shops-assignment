@@ -16,6 +16,8 @@ export const getLaunchStatusTool = createTool({
     return {
       launchId: run.id,
       status: run.status,
+      pending_questions: run.pendingQuestions,
+      answers: run.clarificationAnswers,
     };
   },
 });

@@ -11,6 +11,14 @@ import type {
   VisualMemory,
 } from './schemas.js';
 
+type BuilderMemory = Omit<OpenClawMemory, 'idea'> & {
+  idea:
+    | (Omit<NonNullable<OpenClawMemory['idea']>, 'clarification_answers'> & {
+        clarification_answers?: string[];
+      })
+    | null;
+};
+
 function slugify(value: string): string {
   return value
     .toLowerCase()
@@ -79,7 +87,7 @@ export function generateBrandCandidates(idea: string): string[] {
   ];
 }
 
-export function buildResearch(idea: string, memory: OpenClawMemory): ResearchMemory {
+export function buildResearch(idea: string, memory: BuilderMemory): ResearchMemory {
   const baseKeyword = idea.toLowerCase().includes('sock') ? 'custom socks india' : `${slugify(idea)} india`;
 
   return {
@@ -115,7 +123,7 @@ export function buildResearch(idea: string, memory: OpenClawMemory): ResearchMem
   };
 }
 
-export function buildDomainOptions(memory: OpenClawMemory): DomainMemory {
+export function buildDomainOptions(memory: BuilderMemory): DomainMemory {
   const candidates = memory.idea?.brand_name_candidates ?? ['Sockzy', 'Pairly', 'Feetsy', 'DashSock', 'Looplane'];
   const paddedCandidates = [...candidates];
   while (paddedCandidates.length < 5) {
@@ -146,7 +154,7 @@ export function buildDomainOptions(memory: OpenClawMemory): DomainMemory {
   };
 }
 
-export function buildVisualDirection(memory: OpenClawMemory): VisualMemory {
+export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
   const brandName = memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
   const mood = 'playful';
   const palette = ['#FF6A3D', '#102A43', '#F0F4F8', '#17B890'];
@@ -180,7 +188,7 @@ export function buildVisualDirection(memory: OpenClawMemory): VisualMemory {
   };
 }
 
-export function buildGTM(memory: OpenClawMemory): GTMMemory {
+export function buildGTM(memory: BuilderMemory): GTMMemory {
   const brandName = memory.visual?.brand_name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
 
   return {
@@ -214,7 +222,7 @@ export function buildGTM(memory: OpenClawMemory): GTMMemory {
   };
 }
 
-export function buildShopify(memory: OpenClawMemory): ShopifyMemory {
+export function buildShopify(memory: BuilderMemory): ShopifyMemory {
   const palette = memory.visual?.palette ?? ['#FF6A3D', '#102A43', '#F0F4F8'];
   const keywords = memory.research?.keywords.primary ?? ['custom socks india'];
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
@@ -333,7 +341,7 @@ export function buildShopify(memory: OpenClawMemory): ShopifyMemory {
   };
 }
 
-export function buildAds(memory: OpenClawMemory): AdsMemory {
+export function buildAds(memory: BuilderMemory): AdsMemory {
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
 
   return {
@@ -409,7 +417,7 @@ export function buildAds(memory: OpenClawMemory): AdsMemory {
   };
 }
 
-export function buildSEO(memory: OpenClawMemory): SEOMemory {
+export function buildSEO(memory: BuilderMemory): SEOMemory {
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
   const primary = memory.research?.keywords.primary ?? ['custom socks india', '10 minute delivery socks'];
 
@@ -468,7 +476,7 @@ export function buildSEO(memory: OpenClawMemory): SEOMemory {
   };
 }
 
-export function buildLaunchBible(memory: OpenClawMemory): LaunchBible {
+export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
   if (!memory.idea || !memory.research || !memory.visual || !memory.domains || !memory.gtm || !memory.shopify || !memory.ads || !memory.seo) {
     throw new Error('Launch memory is incomplete.');
   }

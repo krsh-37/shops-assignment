@@ -18,6 +18,14 @@ function getStorePath(): string {
 }
 
 function normalizePersistedRun(raw: any): LaunchRun {
+  raw.pendingQuestions ??= [];
+  raw.pendingReason ??= null;
+  raw.clarificationAnswers ??= [];
+
+  if (raw?.memory?.idea) {
+    raw.memory.idea.clarification_answers ??= raw.clarificationAnswers;
+  }
+
   if (raw?.memory?.shopify) {
     raw.memory.shopify.files ??= [
       { path: '/shopify/theme-settings.json', content: '{}', kind: 'json' },
@@ -96,7 +104,7 @@ export class OpenClawMem0 {
 
   private persist(): void {
     mkdirSync(dirname(this.storePath), { recursive: true });
-    const tempPath = `${this.storePath}.tmp`;
+    const tempPath = `${this.storePath}.${randomUUID()}.tmp`;
     const serialized = JSON.stringify([...this.runs.values()], null, 2);
     writeFileSync(tempPath, serialized, 'utf8');
     renameSync(tempPath, this.storePath);
@@ -120,6 +128,9 @@ export class OpenClawMem0 {
       memory: createEmptyMemory(),
       report: null,
       error: null,
+      pendingQuestions: [],
+      pendingReason: null,
+      clarificationAnswers: [],
     };
 
     this.runs.set(launchId, run);
@@ -215,7 +226,46 @@ export class OpenClawMem0 {
     const run = this.requireRun(launchId);
     run.status = 'running';
     run.currentAgent = currentAgent;
+    run.error = null;
     run.updatedAt = nowIso();
+    this.persist();
+    return run;
+  }
+
+  requestHumanInput(launchId: string, questions: string[], reason: string, agent = 'orchestrator-agent'): LaunchRun {
+    const run = this.requireRun(launchId);
+    run.status = 'awaiting-user-input';
+    run.currentAgent = agent;
+    run.pendingQuestions = questions;
+    run.pendingReason = reason;
+    run.updatedAt = nowIso();
+    this.appendAuditLog(launchId, agent, 'ask-user', ['pendingQuestions']);
+    this.persist();
+    return run;
+  }
+
+  recordHumanAnswers(launchId: string, answers: string[], agent = 'orchestrator-agent'): LaunchRun {
+    const run = this.requireRun(launchId);
+    run.clarificationAnswers = answers;
+    run.pendingQuestions = [];
+    run.pendingReason = null;
+    run.status = 'queued';
+
+    if (run.memory.idea) {
+      run.memory.idea.clarification_answers = answers;
+    }
+
+    run.updatedAt = nowIso();
+    this.appendAuditLog(launchId, agent, 'record-user-answers', ['idea']);
+    this.persist();
+    return run;
+  }
+
+  recordDelegation(launchId: string, agentId: string, task: string, delegatedBy = 'orchestrator-agent'): LaunchRun {
+    const run = this.requireRun(launchId);
+    run.currentAgent = agentId;
+    run.updatedAt = nowIso();
+    this.appendAuditLog(launchId, delegatedBy, `delegate:${agentId}`, [task]);
     this.persist();
     return run;
   }
