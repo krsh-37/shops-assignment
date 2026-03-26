@@ -67,6 +67,30 @@ Important consequence:
 - repeated separate launches still do not meaningfully recall each other yet, because the current setup isolates runs tightly and the workflow no longer does pre-step Mem0 semantic recall
 - within one launch, exact agent-to-agent handoff comes from launch memory, while Mem0 stores a cleaner external trace of what each agent saw, why it acted, and what it produced
 
+### Shopify Output Contract
+
+The Shopify step now returns both:
+
+- normalized Shopify business memory such as `theme_settings`, `products`, `homepage`, and `collections`
+- a structured template bundle under `shopify.templates`
+
+That template bundle includes:
+
+- `config_settings_data` for `config/settings_data.json`
+- `templates_index` for `templates/index.json`
+- `locales_en_default` for `locales/en.default.json`
+- `readme_markdown` for `README.md`
+
+When `shopify-agent` completes, those rendered files are written into:
+
+- `.openclaw/agent-run/<launchId>/shopify/config/settings_data.json`
+- `.openclaw/agent-run/<launchId>/shopify/templates/index.json`
+- `.openclaw/agent-run/<launchId>/shopify/locales/en.default.json`
+- `.openclaw/agent-run/<launchId>/shopify/README.md`
+- `.openclaw/agent-run/<launchId>/shopify/products.json`
+
+The report step also normalizes `shopify_files` back against launch memory so the final launch bible still contains the full Shopify file bundle even if the report model omits some of those fields.
+
 ### Thread Binding
 
 When the orchestrator is used through Studio or the HTTP API, the active chat thread is bound to the current launch. That allows:
@@ -113,6 +137,7 @@ test/                   unit, workflow, and live integration tests
 - Research uses bounded Tavily/page-fetch evidence gathering plus one synthesis pass
 - Domain uses bounded real availability checks with timeout/fallback behavior
 - GTM, Shopify, Ads, SEO, and Launch Report are model-driven in `dev`
+- Shopify is instructed to produce Dawn-style template keys and rendered Shopify files
 - Staging-only builder tools are intentionally blocked in `dev`
 
 ## Environment
@@ -142,22 +167,16 @@ Install dependencies:
 npm install
 ```
 
-Start Mastra Studio / API:
-
-```bash
-npm run dev
-```
-
-Run the CLI:
-
-```bash
-npm run cli
-```
-
 Run the CLI with an inline founder idea:
 
+staging -> Stubbed responses
 ```bash
-npm run cli -- --idea "I want to start a restaurant"
+OPENCLAW_MODE=staging npm run cli -- --idea "I want to start a restaurant"
+```
+
+dev -> To make external API calls
+```bash
+OPENCLAW_MODE=dev npm run cli -- --idea "I want to start a restaurant"
 ```
 
 Typecheck:
@@ -189,6 +208,7 @@ Why:
 - it waits for the next checkpoint instead of making the user poll manually
 - it prints status as the workflow advances
 - it prints where each completed agent wrote its output artifact on disk
+- Shopify runs also write a nested `shopify/` folder with rendered theme files under the launch artifact directory
 - it handles clarification and visual-selection as structured terminal prompts
 - it avoids Studio thread ambiguity during the assignment demo
 
@@ -202,70 +222,6 @@ Typical CLI flow:
 6. Choose one concept
 7. Read the final launch summary in the terminal
 
-## API
-
-### Start a launch
-
-```http
-POST /api/launch
-Content-Type: application/json
-
-{ "idea": "I want to start a restaurant" }
-```
-
-### Orchestrator conversation entrypoint
-
-```http
-POST /api/orchestrator/message
-Content-Type: application/json
-
-{ "message": "I want to start a restaurant" }
-```
-
-### Submit clarification answers
-
-```http
-POST /api/launch/:id/answers
-Content-Type: application/json
-
-{ "answers": ["Chennai", "Rs 300 to Rs 500", "D2C"] }
-```
-
-### Select a visual concept
-
-```http
-POST /api/launch/:id/visual-selection
-Content-Type: application/json
-
-{ "conceptIndex": 1 }
-```
-
-### Get normalized status
-
-```http
-GET /api/launch/:id/status
-```
-
-The normalized status includes:
-
-- `launchId`
-- `status`
-- `phase`
-- `current_agent`
-- `completed_agents`
-- `pending_reason`
-- `pending_questions`
-- `next_action`
-- `visual_concepts`
-- `selected_visual_concept`
-- `report_summary`
-- `error`
-
-### Get the full run object
-
-```http
-GET /api/launch/:id
-```
 
 ## Runtime Logging
 

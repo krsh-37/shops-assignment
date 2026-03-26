@@ -15,6 +15,7 @@ import {
   inferCategory,
   normalizeDomainMemory,
   normalizeGTM,
+  normalizeLaunchBible,
 } from '../domain/openclaw/content.js';
 import {
   adsMemorySchema,
@@ -22,6 +23,7 @@ import {
   domainMemorySchema,
   gtmMemorySchema,
   ideaMemorySchema,
+  launchBibleGenerationSchema,
   launchBibleSchema,
   launchInputSchema,
   launchTokenSchema,
@@ -557,7 +559,18 @@ ${JSON.stringify(
   },
 )}
 
-Return structured output only. Theme colors must come from the visual palette and product descriptions must reflect research keywords.`,
+Return structured output only.
+
+Requirements:
+- Theme colors must come from the visual palette.
+- Product descriptions must reflect research keywords and the founder's tone.
+- The templates field must contain Dawn-compatible structured content for:
+  - config_settings_data -> config/settings_data.json
+  - templates_index -> templates/index.json
+  - locales_en_default -> locales/en.default.json
+  - readme_markdown -> README.md
+- Use Dawn-style keys such as color_button, color_background, color_text, type_header_font, type_body_font, heading, text, button_label_1, and button_link_1.
+- The files array must contain those rendered Shopify files with the same paths.`,
           shopifyMemorySchema,
           inputData.launchId,
         )
@@ -699,6 +712,7 @@ const reportStep = createStep({
       'shopify.products',
       'shopify.homepage',
       'shopify.collections',
+      'shopify.templates',
       'shopify.files',
       'shopify.package_summary',
       'ads.meta_ads',
@@ -712,7 +726,9 @@ const reportStep = createStep({
     const memory = await readStepMemory(inputData.launchId, memoryPaths);
     logMemoryPaths(inputData.launchId, 'launch-report-agent', memoryPaths, memory);
     const report = isDevMode()
-      ? await generateStructured(
+      ? normalizeLaunchBible(
+          memory,
+          await generateStructured(
           launchReportAgent,
           `Create the final brand launch bible.
 
@@ -741,8 +757,9 @@ The markdown must include:
 - Artifact list
 
 Do not omit details that already exist in memory.`,
-          launchBibleSchema,
+          launchBibleGenerationSchema,
           inputData.launchId,
+        ),
         )
       : await (launchReportTool.execute as any)({ memory }, {});
 

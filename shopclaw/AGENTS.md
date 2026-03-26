@@ -86,6 +86,8 @@ Folders organize the launch engine by role.
 - The authoritative control state for a launch is the local run record.
 - Exact step inputs come from launch memory; Mem0 stores conversation-style summaries of inputs, rationale, and outputs.
 - The workflow no longer does pre-step semantic Mem0 recall.
+- `shopify-agent` writes both a JSON artifact and rendered Shopify files under `.openclaw/agent-run/<launchId>/shopify/`.
+- The report step normalizes generated output back against launch memory before final launch-bible validation.
 - In Studio/API flows, the chat thread is bound to the launch so follow-up actions can omit `launchId`.
 - The CLI is the most reliable end-to-end demo path because it keeps one active session and waits for the next checkpoint.
 
@@ -93,6 +95,7 @@ Folders organize the launch engine by role.
 
 - Prefer the CLI path when verifying real launch behavior.
 - Before debugging a bad step output, inspect the corresponding `.openclaw/agent-run/<launchId>/<agent>.json` file.
+- For Shopify issues, inspect both the JSON artifact and the rendered files in `.openclaw/agent-run/<launchId>/shopify/`.
 - When debugging control-flow issues, inspect both `.openclaw/runs.json` and the normalized `/status` output.
 - Runtime logs are intentionally verbose and now show writes, memory-input dependencies, agent completions, and artifact paths.
 

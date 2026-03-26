@@ -7,6 +7,7 @@ import type {
   DomainMemory,
   GTMMemory,
   LaunchBible,
+  LaunchBibleGeneration,
   OpenClawMemory,
   ResearchMemory,
   SEOMemory,
@@ -546,119 +547,185 @@ export function normalizeGTM(memory: BuilderMemory, input: Partial<GTMMemory>): 
 }
 
 export function buildShopify(memory: BuilderMemory): ShopifyMemory {
-  const palette = memory.visual?.palette ?? ['#FF6A3D', '#102A43', '#F0F4F8'];
-  const keywords = memory.research?.keywords.primary ?? ['custom socks india'];
-  const brandName = memory.visual?.brand_name ?? 'Sockzy';
+  const palette = memory.visual?.palette ?? ['#D35400', '#E67E22', '#F4A460', '#FFF5E1', '#6E2C00'];
+  const keywords = memory.research?.keywords.primary ?? ['indian restaurant'];
+  const brandName = memory.visual?.brand_name ?? 'Restaurantly';
+  const city = memory.gtm?.launch_cities?.[0] ?? 'Chennai';
+  const [headingFont, bodyFont] = (memory.visual?.font_pairing ?? 'Montserrat + Lora')
+    .split(' + ')
+    .map(part => part.trim());
+
+  const products = [
+    {
+      title: `${brandName} Signature Thali`,
+      price_inr: 450,
+      description: `A complete thali built around ${keywords[0]} with regional mains, breads, rice, and a strong dine-in sharing experience.`,
+      tags: ['signature', city.toLowerCase(), ...keywords.slice(0, 2)],
+    },
+    {
+      title: `${brandName} Butter Chicken Feast`,
+      price_inr: 400,
+      description: `A rich North Indian comfort dish designed for customers searching for ${keywords[1] ?? keywords[0]} and dependable everyday indulgence.`,
+      tags: ['north-indian', 'comfort-food', ...keywords.slice(0, 2)],
+    },
+    {
+      title: `${brandName} South Indian Breakfast`,
+      price_inr: 350,
+      description: `A lighter breakfast platter positioned for discovery around ${keywords[2] ?? keywords[0]} with familiar staples and approachable pricing.`,
+      tags: ['south-indian', 'breakfast', ...keywords.slice(0, 2)],
+    },
+  ];
+
+  const collections = [
+    {
+      name: 'Signature Meals',
+      handle: 'signature-meals',
+      description: 'High-intent meal bundles that establish the hero dishes for launch.',
+    },
+    {
+      name: 'Regional Comforts',
+      handle: 'regional-comforts',
+      description: 'Familiar dishes with localized flavors and repeat-order potential.',
+    },
+    {
+      name: 'Breakfast & Light Bites',
+      handle: 'breakfast-light-bites',
+      description: 'Morning and snack-time dishes to widen ordering occasions.',
+    },
+  ];
+
+  const themeSettings = {
+    theme: 'Dawn',
+    palette,
+    fonts: {
+      heading: headingFont || 'Montserrat',
+      body: bodyFont || 'Lora',
+    },
+    hero_cta: 'Order the launch menu',
+  };
+
+  const homepage = {
+    hero_headline: `${brandName} brings warm, regional Indian meals to ${city}.`,
+    hero_subheadline: 'A launch-ready storefront built around signature dishes, approachable pricing, and a modern dine-in-first brand voice.',
+    value_props: ['Regional flavor-led menu', 'Warm hospitality brand system', 'City-first launch merchandising'],
+  };
+
+  const templates = {
+    config_settings_data: {
+      current: {
+        theme_name: 'Dawn',
+        theme_version: '15.0.0',
+        settings: {
+          color_button: palette[0] ?? '#D35400',
+          color_button_text: '#ffffff',
+          color_background: palette[3] ?? '#FFF5E1',
+          color_text: palette[4] ?? '#6E2C00',
+          color_accent_1: palette[1] ?? '#E67E22',
+          color_accent_2: palette[2] ?? '#F4A460',
+          type_header_font: headingFont || 'Montserrat',
+          type_body_font: bodyFont || 'Lora',
+          social_instagram_link: `https://instagram.com/${slugify(brandName)}`,
+        },
+      },
+      presets: {},
+    },
+    templates_index: {
+      sections: {
+        image_banner: {
+          type: 'image-banner',
+          settings: {
+            heading: homepage.hero_headline,
+            text: homepage.hero_subheadline,
+            button_label_1: themeSettings.hero_cta,
+            button_link_1: '/collections/signature-meals',
+            color_scheme: 'scheme-1',
+            image_overlay_opacity: 20,
+          },
+        },
+        rich_text: {
+          type: 'rich-text',
+          settings: {
+            heading: `${brandName} launch menu`,
+            text: homepage.value_props.join(' • '),
+            button_label: 'Explore collections',
+            button_link: '/collections/all',
+            color_scheme: 'scheme-2',
+          },
+        },
+        featured_collection: {
+          type: 'featured-collection',
+          settings: {
+            title: collections[0].name,
+            heading_size: 'h2',
+            description: collections[0].description,
+            products_to_show: 3,
+            collection: collections[0].handle,
+            show_view_all: true,
+          },
+        },
+      },
+      order: ['image_banner', 'rich_text', 'featured_collection'],
+    },
+    locales_en_default: {
+      'general.search.placeholder': `Search ${brandName} dishes`,
+      'sections.header.menu': 'Menu',
+      'sections.cart.title': 'Your order',
+      'products.product.add_to_cart': 'Add to order',
+      'products.product.sold_out': 'Unavailable today',
+      'sections.footer.newsletter': `Get ${brandName} menu drops first`,
+    },
+    readme_markdown: [
+      `# ${brandName} Shopify Launch Package`,
+      '',
+      `This package contains Dawn-compatible starter files for ${brandName}.`,
+      '',
+      '## Included files',
+      '- `config/settings_data.json` with launch palette, font, and CTA settings',
+      '- `templates/index.json` with homepage section order and section settings',
+      '- `locales/en.default.json` with storefront copy',
+      '- `products.json` with starter launch catalog',
+      '',
+      '## Merchandising notes',
+      `- Primary launch city: ${city}`,
+      `- Hero CTA: ${themeSettings.hero_cta}`,
+      `- Collections: ${collections.map(collection => collection.name).join(', ')}`,
+    ].join('\n'),
+  };
 
   const files = [
     {
-      path: '/shopify/theme-settings.json',
-      content: JSON.stringify(
-        {
-          theme: 'Dawn',
-          palette,
-          fonts: {
-            heading: memory.visual?.font_pairing.split(' + ')[0] ?? 'Space Grotesk',
-            body: memory.visual?.font_pairing.split(' + ')[1] ?? 'Instrument Sans',
-          },
-        },
-        null,
-        2,
-      ),
+      path: 'config/settings_data.json',
+      content: JSON.stringify(templates.config_settings_data, null, 2),
       kind: 'json' as const,
     },
     {
-      path: '/shopify/products.json',
-      content: JSON.stringify(
-        [
-          { title: `${brandName} Classic Rush`, price_inr: 399 },
-          { title: `${brandName} Print Sprint`, price_inr: 549 },
-          { title: `${brandName} Premium Pair`, price_inr: 799 },
-        ],
-        null,
-        2,
-      ),
+      path: 'templates/index.json',
+      content: JSON.stringify(templates.templates_index, null, 2),
       kind: 'json' as const,
     },
     {
-      path: '/shopify/homepage-sections.json',
-      content: JSON.stringify(
-        {
-          hero_headline: `${brandName} delivers expressive socks at quick-commerce speed.`,
-          hero_subheadline: 'A launch-ready storefront tuned for impulse gifting, city-first delivery, and premium everyday style.',
-        },
-        null,
-        2,
-      ),
+      path: 'locales/en.default.json',
+      content: JSON.stringify(templates.locales_en_default, null, 2),
       kind: 'json' as const,
     },
     {
-      path: '/shopify/collections.json',
-      content: JSON.stringify(
-        [
-          { name: 'Everyday Essentials', handle: 'everyday-essentials' },
-          { name: 'Giftable Drops', handle: 'giftable-drops' },
-          { name: 'Premium Sets', handle: 'premium-sets' },
-        ],
-        null,
-        2,
-      ),
+      path: 'README.md',
+      content: templates.readme_markdown,
+      kind: 'markdown' as const,
+    },
+    {
+      path: 'products.json',
+      content: JSON.stringify(products, null, 2),
       kind: 'json' as const,
     },
   ];
 
   return {
-    theme_settings: {
-      theme: 'Dawn',
-      palette,
-      fonts: {
-        heading: memory.visual?.font_pairing.split(' + ')[0] ?? 'Space Grotesk',
-        body: memory.visual?.font_pairing.split(' + ')[1] ?? 'Instrument Sans',
-      },
-      hero_cta: 'Get your pair in minutes',
-    },
-    products: [
-      {
-        title: `${brandName} Classic Rush`,
-        price_inr: 399,
-        description: `Everyday essentials designed around ${keywords[0]} with soft combed cotton comfort and fast gifting appeal.`,
-        tags: ['classic', ...keywords.slice(0, 2)],
-      },
-      {
-        title: `${brandName} Print Sprint`,
-        price_inr: 549,
-        description: `Statement prints built for impulse gifting, social reels, and shoppers looking for ${keywords[1] ?? keywords[0]}.`,
-        tags: ['printed', ...keywords.slice(1, 3)],
-      },
-      {
-        title: `${brandName} Premium Pair`,
-        price_inr: 799,
-        description: `A premium bundle that turns ${keywords[2] ?? keywords[0]} into a sharper unboxing and repeat-purchase experience.`,
-        tags: ['premium', ...keywords.slice(0, 2)],
-      },
-    ],
-    homepage: {
-      hero_headline: `${brandName} delivers expressive socks at quick-commerce speed.`,
-      hero_subheadline: 'A launch-ready storefront tuned for impulse gifting, city-first delivery, and premium everyday style.',
-      value_props: ['Delivery-speed-led merchandising', 'India-first gifting hooks', 'Visual identity grounded in shared memory'],
-    },
-    collections: [
-      {
-        name: 'Everyday Essentials',
-        handle: 'everyday-essentials',
-        description: 'Fast-moving starter pairs for first purchase conversion.',
-      },
-      {
-        name: 'Giftable Drops',
-        handle: 'giftable-drops',
-        description: 'Higher-margin designs for gifting and impulse checkout.',
-      },
-      {
-        name: 'Premium Sets',
-        handle: 'premium-sets',
-        description: 'Bundles designed for AOV growth.',
-      },
-    ],
+    theme_settings: themeSettings,
+    products,
+    homepage,
+    collections,
+    templates,
     files,
     package_summary: `Patch-ready Shopify starter package for ${brandName} with ${files.length} generated files.`,
   };
@@ -836,9 +903,9 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
     '',
     '## Artifacts',
     ...[
-      '/shopify/theme-settings.json',
-      '/shopify/products.json',
-      '/shopify/homepage-sections.json',
+      '/shopify/config/settings_data.json',
+      '/shopify/templates/index.json',
+      '/shopify/locales/en.default.json',
       '/seo/geo-pages.json',
     ].map(path => `- ${path}`),
   ].join('\n');
@@ -870,11 +937,28 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
       'Days 61-90: expand to new cities and introduce repeat-purchase mechanics.',
     ],
     artifacts: [
-      { path: '/shopify/theme-settings.json', description: 'Theme settings derived from visual memory.' },
-      { path: '/shopify/products.json', description: 'Initial catalog payload for launch SKUs.' },
-      { path: '/shopify/homepage-sections.json', description: 'Homepage hero and value-prop sections.' },
+      { path: '/shopify/config/settings_data.json', description: 'Dawn-compatible theme settings for palette, typography, and core theme tokens.' },
+      { path: '/shopify/templates/index.json', description: 'Homepage template with ordered Dawn sections and launch copy.' },
+      { path: '/shopify/locales/en.default.json', description: 'Localized storefront labels and CTA strings.' },
       { path: '/seo/geo-pages.json', description: 'AI-citation-ready GEO page pack.' },
     ],
     markdown,
+  };
+}
+
+export function normalizeLaunchBible(memory: BuilderMemory, input: LaunchBibleGeneration): LaunchBible {
+  if (!memory.idea || !memory.research || !memory.visual || !memory.domains || !memory.gtm || !memory.shopify || !memory.ads || !memory.seo) {
+    throw new Error('Launch memory is incomplete.');
+  }
+
+  return {
+    ...input,
+    shopify_files: {
+      ...memory.shopify,
+      ...input.shopify_files,
+      templates: input.shopify_files.templates ?? memory.shopify.templates,
+      files: input.shopify_files.files ?? memory.shopify.files,
+      package_summary: input.shopify_files.package_summary ?? memory.shopify.package_summary,
+    },
   };
 }

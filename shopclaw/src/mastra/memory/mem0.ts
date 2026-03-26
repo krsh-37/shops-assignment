@@ -199,6 +199,20 @@ function writeAgentRunArtifact(launchId: string, agent: string, payload: unknown
       2,
     ),
   );
+
+  if (agent === 'shopify-agent' && payload && typeof payload === 'object' && !Array.isArray(payload)) {
+    const files = (payload as { files?: Array<{ path: string; content: string }> }).files;
+    if (Array.isArray(files)) {
+      for (const file of files) {
+        if (!file?.path || typeof file.content !== 'string') {
+          continue;
+        }
+        const targetPath = resolve(directory, 'shopify', file.path.replace(/^\/+/, ''));
+        mkdirSync(dirname(targetPath), { recursive: true });
+        writeFileSync(targetPath, file.content);
+      }
+    }
+  }
 }
 
 function normalizePersistedRun(raw: any): LaunchRun {
@@ -258,11 +272,51 @@ function normalizePersistedRun(raw: any): LaunchRun {
       value_props: ['Legacy prop 1', 'Legacy prop 2', 'Legacy prop 3'],
     };
     raw.memory.shopify.collections ??= [];
+    raw.memory.shopify.templates ??= {
+      config_settings_data: {
+        current: {
+          theme_name: 'Dawn',
+          theme_version: '15.0.0',
+          settings: {
+            color_button: '#000000',
+            color_button_text: '#ffffff',
+            color_background: '#ffffff',
+            color_text: '#000000',
+            color_accent_1: '#cccccc',
+            color_accent_2: '#999999',
+            type_header_font: 'Legacy Sans',
+            type_body_font: 'Legacy Sans',
+          },
+        },
+        presets: {},
+      },
+      templates_index: {
+        sections: {
+          hero: {
+            type: 'image-banner',
+            settings: {
+              heading: 'Legacy hero',
+              text: 'Legacy subheadline',
+              button_label_1: 'Shop now',
+              button_link_1: '/collections/all',
+              color_scheme: 'scheme-1',
+            },
+          },
+        },
+        order: ['hero'],
+      },
+      locales_en_default: {
+        'general.search.placeholder': 'Search',
+        'products.product.add_to_cart': 'Add to cart',
+      },
+      readme_markdown: '# Legacy Shopify package',
+    };
     raw.memory.shopify.files ??= [
-      { path: '/shopify/theme-settings.json', content: '{}', kind: 'json' },
-      { path: '/shopify/products.json', content: '[]', kind: 'json' },
-      { path: '/shopify/homepage-sections.json', content: '{}', kind: 'json' },
-      { path: '/shopify/collections.json', content: '[]', kind: 'json' },
+      { path: 'config/settings_data.json', content: '{}', kind: 'json' },
+      { path: 'templates/index.json', content: '{}', kind: 'json' },
+      { path: 'locales/en.default.json', content: '{}', kind: 'json' },
+      { path: 'README.md', content: '# Legacy Shopify package', kind: 'markdown' },
+      { path: 'products.json', content: '[]', kind: 'json' },
     ];
     raw.memory.shopify.package_summary ??= 'Migrated legacy Shopify package.';
   }
@@ -333,11 +387,51 @@ function normalizePersistedRun(raw: any): LaunchRun {
   }
 
   if (raw?.report?.shopify_files) {
+    raw.report.shopify_files.templates ??= raw.memory?.shopify?.templates ?? {
+      config_settings_data: {
+        current: {
+          theme_name: 'Dawn',
+          theme_version: '15.0.0',
+          settings: {
+            color_button: '#000000',
+            color_button_text: '#ffffff',
+            color_background: '#ffffff',
+            color_text: '#000000',
+            color_accent_1: '#cccccc',
+            color_accent_2: '#999999',
+            type_header_font: 'Legacy Sans',
+            type_body_font: 'Legacy Sans',
+          },
+        },
+        presets: {},
+      },
+      templates_index: {
+        sections: {
+          hero: {
+            type: 'image-banner',
+            settings: {
+              heading: 'Legacy hero',
+              text: 'Legacy subheadline',
+              button_label_1: 'Shop now',
+              button_link_1: '/collections/all',
+              color_scheme: 'scheme-1',
+            },
+          },
+        },
+        order: ['hero'],
+      },
+      locales_en_default: {
+        'general.search.placeholder': 'Search',
+        'products.product.add_to_cart': 'Add to cart',
+      },
+      readme_markdown: '# Legacy Shopify package',
+    };
     raw.report.shopify_files.files ??= [
-      { path: '/shopify/theme-settings.json', content: '{}', kind: 'json' },
-      { path: '/shopify/products.json', content: '[]', kind: 'json' },
-      { path: '/shopify/homepage-sections.json', content: '{}', kind: 'json' },
-      { path: '/shopify/collections.json', content: '[]', kind: 'json' },
+      { path: 'config/settings_data.json', content: '{}', kind: 'json' },
+      { path: 'templates/index.json', content: '{}', kind: 'json' },
+      { path: 'locales/en.default.json', content: '{}', kind: 'json' },
+      { path: 'README.md', content: '# Legacy Shopify package', kind: 'markdown' },
+      { path: 'products.json', content: '[]', kind: 'json' },
     ];
     raw.report.shopify_files.package_summary ??= 'Migrated legacy Shopify package.';
   }
@@ -398,11 +492,51 @@ function normalizePersistedRun(raw: any): LaunchRun {
         value_props: ['Legacy prop 1', 'Legacy prop 2', 'Legacy prop 3'],
       },
       collections: [],
+      templates: {
+        config_settings_data: {
+          current: {
+            theme_name: 'Dawn',
+            theme_version: '15.0.0',
+            settings: {
+              color_button: '#000000',
+              color_button_text: '#ffffff',
+              color_background: '#ffffff',
+              color_text: '#000000',
+              color_accent_1: '#cccccc',
+              color_accent_2: '#999999',
+              type_header_font: 'Legacy Sans',
+              type_body_font: 'Legacy Sans',
+            },
+          },
+          presets: {},
+        },
+        templates_index: {
+          sections: {
+            hero: {
+              type: 'image-banner',
+              settings: {
+                heading: 'Legacy hero',
+                text: 'Legacy subheadline',
+                button_label_1: 'Shop now',
+                button_link_1: '/collections/all',
+                color_scheme: 'scheme-1',
+              },
+            },
+          },
+          order: ['hero'],
+        },
+        locales_en_default: {
+          'general.search.placeholder': 'Search',
+          'products.product.add_to_cart': 'Add to cart',
+        },
+        readme_markdown: '# Legacy Shopify package',
+      },
       files: [
-        { path: '/shopify/theme-settings.json', content: '{}', kind: 'json' },
-        { path: '/shopify/products.json', content: '[]', kind: 'json' },
-        { path: '/shopify/homepage-sections.json', content: '{}', kind: 'json' },
-        { path: '/shopify/collections.json', content: '[]', kind: 'json' },
+        { path: 'config/settings_data.json', content: '{}', kind: 'json' },
+        { path: 'templates/index.json', content: '{}', kind: 'json' },
+        { path: 'locales/en.default.json', content: '{}', kind: 'json' },
+        { path: 'README.md', content: '# Legacy Shopify package', kind: 'markdown' },
+        { path: 'products.json', content: '[]', kind: 'json' },
       ],
       package_summary: 'Migrated legacy Shopify package.',
     };
@@ -452,9 +586,9 @@ function normalizePersistedRun(raw: any): LaunchRun {
     raw.report.roadmap_90d ??= ['Legacy milestone 1', 'Legacy milestone 2', 'Legacy milestone 3'];
     raw.report.markdown ??= '# Migrated legacy launch report';
     raw.report.artifacts ??= [
-      { path: '/shopify/theme-settings.json', description: 'Migrated theme file.' },
-      { path: '/shopify/products.json', description: 'Migrated products file.' },
-      { path: '/shopify/homepage-sections.json', description: 'Migrated homepage file.' },
+      { path: '/shopify/config/settings_data.json', description: 'Migrated theme settings file.' },
+      { path: '/shopify/templates/index.json', description: 'Migrated homepage template file.' },
+      { path: '/shopify/locales/en.default.json', description: 'Migrated locale file.' },
       { path: '/seo/geo-pages.json', description: 'Migrated GEO file.' },
     ];
   }

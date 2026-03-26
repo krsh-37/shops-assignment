@@ -93,6 +93,39 @@ export const gtmMemorySchema = z.object({
   week1_checklist: z.array(z.string()).min(5),
 });
 
+const shopifyTemplateScalarSchema = z.union([z.string(), z.number(), z.boolean()]);
+const shopifySectionSchema = z.object({
+  type: z.string(),
+  settings: z.record(z.string(), shopifyTemplateScalarSchema),
+  blocks: z.record(
+    z.string(),
+    z.object({
+      type: z.string(),
+      settings: z.record(z.string(), shopifyTemplateScalarSchema),
+    }),
+  ).optional(),
+  block_order: z.array(z.string()).optional(),
+});
+
+export const shopifyTemplatesSchema = z.object({
+  config_settings_data: z.object({
+    current: z.object({
+      theme_name: z.string(),
+      theme_version: z.string(),
+      settings: z.record(z.string(), shopifyTemplateScalarSchema),
+    }),
+    presets: z.record(z.string(), z.unknown()),
+  }),
+  templates_index: z.object({
+    sections: z.record(z.string(), shopifySectionSchema),
+    order: z.array(z.string()).min(1),
+  }),
+  locales_en_default: z.record(z.string(), z.unknown()).refine(value => Object.keys(value).length > 0, {
+    message: 'locales_en_default must contain at least one translation key.',
+  }),
+  readme_markdown: z.string().min(1),
+});
+
 export const shopifyMemorySchema = z.object({
   theme_settings: z.object({
     theme: z.string(),
@@ -123,6 +156,7 @@ export const shopifyMemorySchema = z.object({
       description: z.string(),
     }),
   ),
+  templates: shopifyTemplatesSchema,
   files: z.array(
     z.object({
       path: z.string(),
@@ -474,6 +508,12 @@ export const launchBibleSchema = z.object({
   markdown: z.string(),
 });
 
+export const launchBibleGenerationSchema = launchBibleSchema.extend({
+  shopify_files: shopifyMemorySchema.extend({
+    files: shopifyMemorySchema.shape.files.optional(),
+  }),
+});
+
 export const launchInputSchema = z.object({
   launchId: z.string(),
   idea: z.string().min(10),
@@ -523,6 +563,7 @@ export type AdsMemory = z.infer<typeof adsMemorySchema>;
 export type SEOMemory = z.infer<typeof seoMemorySchema>;
 export type OpenClawMemory = z.infer<typeof openClawMemorySchema>;
 export type LaunchBible = z.infer<typeof launchBibleSchema>;
+export type LaunchBibleGeneration = z.infer<typeof launchBibleGenerationSchema>;
 export type LaunchRun = z.infer<typeof launchRunSchema>;
 
 export function createEmptyMemory(): OpenClawMemory {
