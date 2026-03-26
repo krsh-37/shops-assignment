@@ -56,6 +56,7 @@ import { researchTool } from '../tools/research-tool.js';
 import { seoGeoTool } from '../tools/seo-geo-tool.js';
 import { shopifyAssetsTool } from '../tools/shopify-assets-tool.js';
 import { visualDirectionTool } from '../tools/visual-direction-tool.js';
+import { logRuntime } from '../utils/runtime-log.js';
 
 function readMem0(launchId: string): OpenClawMemory {
   return mem0.read(launchId);
@@ -68,6 +69,15 @@ function memoryOptions(agentId: string, launchId: string) {
       resource: `launch-${launchId}`,
     },
   };
+}
+
+function logMemoryUsage(launchId: string, agent: string, sections: Record<string, unknown>) {
+  logRuntime('agent.memory-input', {
+    launchId,
+    agent,
+    using_memory_sections: Object.keys(sections),
+    memory_inputs: sections,
+  });
 }
 
 async function generateStructured<T>(
@@ -281,6 +291,11 @@ const researchStep = createStep({
     mem0.updateStatus(inputData.launchId, 'research-agent');
     const memory = readMem0(inputData.launchId);
     const mem0Context = await mem0.recall(`${inputData.idea} competitors market size keywords India`, inputData.launchId);
+    logMemoryUsage(inputData.launchId, 'research-agent', {
+      idea: memory.idea,
+      brief: memory.brief,
+      mem0_context: mem0Context,
+    });
     const research = isDevMode()
       ? await resolveResearchMemory(inputData.idea, inputData.launchId, memory, mem0Context)
       : buildResearch(inputData.idea, memory);
@@ -300,6 +315,10 @@ const domainStep = createStep({
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'domain-agent');
     const memory = readMem0(inputData.launchId);
+    logMemoryUsage(inputData.launchId, 'domain-agent', {
+      idea: memory.idea,
+      brief: memory.brief,
+    });
     const domains = isDevMode()
       ? await resolveDomainOptions(memory)
       : buildDomainOptions(memory);
@@ -324,6 +343,12 @@ const visualStep = createStep({
     mem0.updateStatus(launchId, 'visual-agent');
     const memory = readMem0(launchId);
     const mem0Context = await mem0.recall(`${memory.idea?.raw} visual brand palette logo`, launchId);
+    logMemoryUsage(launchId, 'visual-agent', {
+      research: memory.research,
+      domains: memory.domains,
+      brief: memory.brief,
+      mem0_context: mem0Context,
+    });
     const visual = isDevMode()
       ? await generateStructured(
           visualAgent,
@@ -408,6 +433,13 @@ const gtmStep = createStep({
     mem0.updateStatus(inputData.launchId, 'gtm-agent');
     const memory = readMem0(inputData.launchId);
     const mem0Context = await mem0.recall(`${memory.idea?.raw} go to market india`, inputData.launchId);
+    logMemoryUsage(inputData.launchId, 'gtm-agent', {
+      research: memory.research,
+      visual: memory.visual,
+      domains: memory.domains,
+      brief: memory.brief,
+      mem0_context: mem0Context,
+    });
     const gtm = isDevMode()
       ? await generateStructured(
           gtmAgent,
@@ -451,6 +483,12 @@ const shopifyStep = createStep({
     mem0.updateStatus(inputData.launchId, 'shopify-agent');
     const memory = readMem0(inputData.launchId);
     const mem0Context = await mem0.recall(`${memory.idea?.raw} shopify storefront`, inputData.launchId);
+    logMemoryUsage(inputData.launchId, 'shopify-agent', {
+      research: memory.research,
+      visual: memory.visual,
+      gtm: memory.gtm,
+      mem0_context: mem0Context,
+    });
     const shopify = isDevMode()
       ? await generateStructured(
           shopifyAgent,
@@ -489,6 +527,12 @@ const adsStep = createStep({
     mem0.updateStatus(inputData.launchId, 'ads-agent');
     const memory = readMem0(inputData.launchId);
     const mem0Context = await mem0.recall(`${memory.idea?.raw} paid ads india`, inputData.launchId);
+    logMemoryUsage(inputData.launchId, 'ads-agent', {
+      research: memory.research,
+      visual: memory.visual,
+      gtm: memory.gtm,
+      mem0_context: mem0Context,
+    });
     const ads = isDevMode()
       ? await generateStructured(
           adsAgent,
@@ -531,6 +575,14 @@ const seoStep = createStep({
     mem0.updateStatus(launchId, 'seo-agent');
     const memory = readMem0(launchId);
     const mem0Context = await mem0.recall(`${memory.idea?.raw} SEO GEO India`, launchId);
+    logMemoryUsage(launchId, 'seo-agent', {
+      research: memory.research,
+      visual: memory.visual,
+      shopify: memory.shopify,
+      ads: memory.ads,
+      brief: memory.brief,
+      mem0_context: mem0Context,
+    });
     const seo = isDevMode()
       ? await generateStructured(
           seoAgent,
