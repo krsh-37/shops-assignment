@@ -11,13 +11,13 @@ export const mem0ReadTool = createTool({
     if (section) {
       return {
         launchId,
-        memory: (mem0.readSection(launchId, section as any) as any) ?? null,
+        memory: (await mem0.hydrateSharedSection(launchId, section as any) as any) ?? null,
       };
     }
 
     return {
       launchId,
-      full_memory: mem0.read(launchId),
+      full_memory: await mem0.hydrateSharedMemory(launchId),
     };
   },
 });

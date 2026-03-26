@@ -15,26 +15,22 @@ import {
   inferCategory,
   normalizeDomainMemory,
   normalizeGTM,
+  normalizeLaunchBible,
 } from '../domain/openclaw/content.js';
 import {
-  adsGenerationInputSchema,
   adsMemorySchema,
   clarificationPromptSchema,
   domainMemorySchema,
-  gtmGenerationInputSchema,
   gtmMemorySchema,
   ideaMemorySchema,
-  launchBibleInputSchema,
+  launchBibleGenerationSchema,
   launchBibleSchema,
   launchInputSchema,
   launchTokenSchema,
   researchMemorySchema,
   seoMemorySchema,
-  seoGenerationInputSchema,
   shopifyMemorySchema,
-  shopifyGenerationInputSchema,
   visualMemorySchema,
-  visualGenerationInputSchema,
   workflowLaunchInputSchema,
   type OpenClawMemory,
 } from '../domain/openclaw/schemas.js';
@@ -58,8 +54,42 @@ import { shopifyAssetsTool } from '../tools/shopify-assets-tool.js';
 import { visualDirectionTool } from '../tools/visual-direction-tool.js';
 import { logRuntime } from '../utils/runtime-log.js';
 
-function readMem0(launchId: string): OpenClawMemory {
-  return mem0.read(launchId);
+function setNestedValue(target: Record<string, unknown>, path: string, value: unknown) {
+  const parts = path.split('.');
+  let cursor: Record<string, unknown> = target;
+
+  for (const [index, part] of parts.entries()) {
+    if (index === parts.length - 1) {
+      cursor[part] = value;
+      return;
+    }
+
+    const next = cursor[part];
+    if (!next || typeof next !== 'object' || Array.isArray(next)) {
+      cursor[part] = {};
+    }
+
+    cursor = cursor[part] as Record<string, unknown>;
+  }
+}
+
+async function readMem0Paths(launchId: string, paths: string[]): Promise<OpenClawMemory> {
+  const values = await mem0.readPaths(launchId, paths);
+  const partial: Record<string, unknown> = {};
+
+  for (const [path, value] of Object.entries(values)) {
+    setNestedValue(partial, path, value);
+  }
+
+  return partial as OpenClawMemory;
+}
+
+async function readStepMemory(launchId: string, paths: string[]): Promise<OpenClawMemory> {
+  if (!isDevMode()) {
+    return mem0.hydrateSharedMemory(launchId);
+  }
+
+  return readMem0Paths(launchId, paths);
 }
 
 function memoryOptions(agentId: string, launchId: string) {
@@ -77,6 +107,16 @@ function logMemoryUsage(launchId: string, agent: string, sections: Record<string
     agent,
     using_memory_sections: Object.keys(sections),
     memory_inputs: sections,
+  });
+}
+
+function logMemoryPaths(launchId: string, agent: string, paths: string[], memory: OpenClawMemory) {
+  logRuntime('agent.memory-input', {
+    launchId,
+    agent,
+    requested_paths: paths,
+    using_memory_sections: Object.keys(memory).filter(key => memory[key as keyof OpenClawMemory] !== null),
+    memory_inputs: memory,
   });
 }
 
@@ -142,7 +182,6 @@ async function resolveResearchMemory(
   idea: string,
   launchId: string,
   memory: OpenClawMemory,
-  mem0Context: string[],
 ): Promise<z.infer<typeof researchMemorySchema>> {
   const searchQuery = `${idea} India competitors market size keywords`;
   const search = await (researchTool.execute as any)({ query: searchQuery }, {});
@@ -170,9 +209,6 @@ async function resolveResearchMemory(
     `Synthesize India market research for this launch idea using the evidence pack below.
 
 Idea: ${idea}
-Relevant Mem0 context:
-${mem0Context.join('\n') || 'None'}
-
 Search results:
 ${JSON.stringify(search.results)}
 
@@ -220,7 +256,7 @@ const clarificationGateStep = createStep({
   inputSchema: launchInputSchema,
   outputSchema: launchInputSchema,
   suspendSchema: z.object({
-    questions: z.array(clarificationPromptSchema).min(1).max(3),
+    questions: z.array(clarificationPromptSchema).min(1).max(5),
     reason: z.string(),
   }),
   resumeSchema: z.object({
@@ -266,6 +302,7 @@ const orchestratorStep = createStep({
       throw new Error(`Launch ${launchId} cannot start before upfront clarification answers are captured.`);
     }
     mem0.updateStatus(launchId, 'orchestrator-agent');
+    await mem0.write(launchId, 'brief', run.memory.brief, 'orchestrator-agent', 'write:brief');
     const clarificationAnswers = run.clarificationAnswers;
     const ideaMemory = {
       raw: idea,
@@ -289,15 +326,17 @@ const researchStep = createStep({
   outputSchema: launchTokenSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'research-agent');
-    const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${inputData.idea} competitors market size keywords India`, inputData.launchId);
-    logMemoryUsage(inputData.launchId, 'research-agent', {
-      idea: memory.idea,
-      brief: memory.brief,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'idea.category',
+      'idea.brand_name_candidates',
+      'brief.answers',
+      'brief.founder_brief',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'research-agent', memoryPaths, memory);
     const research = isDevMode()
-      ? await resolveResearchMemory(inputData.idea, inputData.launchId, memory, mem0Context)
+      ? await resolveResearchMemory(inputData.idea, inputData.launchId, memory)
       : buildResearch(inputData.idea, memory);
 
     await mem0.write(inputData.launchId, 'research', research, 'research-agent');
@@ -314,11 +353,15 @@ const domainStep = createStep({
   outputSchema: launchTokenSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'domain-agent');
-    const memory = readMem0(inputData.launchId);
-    logMemoryUsage(inputData.launchId, 'domain-agent', {
-      idea: memory.idea,
-      brief: memory.brief,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'idea.category',
+      'idea.brand_name_candidates',
+      'brief.answers',
+      'brief.founder_brief',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'domain-agent', memoryPaths, memory);
     const domains = isDevMode()
       ? await resolveDomainOptions(memory)
       : buildDomainOptions(memory);
@@ -341,14 +384,18 @@ const visualStep = createStep({
   execute: async ({ inputData, mastra }) => {
     const launchId = inputData.research.launchId;
     mem0.updateStatus(launchId, 'visual-agent');
-    const memory = readMem0(launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} visual brand palette logo`, launchId);
-    logMemoryUsage(launchId, 'visual-agent', {
-      research: memory.research,
-      domains: memory.domains,
-      brief: memory.brief,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'idea.brand_name_candidates',
+      'brief.answers',
+      'brief.founder_brief',
+      'research.whitespace',
+      'research.india_insight',
+      'domains.recommended',
+      'domains.top5',
+    ];
+    const memory = await readStepMemory(launchId, memoryPaths);
+    logMemoryPaths(launchId, 'visual-agent', memoryPaths, memory);
     const visual = isDevMode()
       ? await generateStructured(
           visualAgent,
@@ -356,12 +403,12 @@ const visualStep = createStep({
 
 Input:
 ${JSON.stringify(
-  visualGenerationInputSchema.parse({
+  {
     idea: memory.idea?.raw,
     research: memory.research,
     domains: memory.domains,
-    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
-  }),
+    mem0_context: [memory.brief?.founder_brief ?? ''].filter(Boolean),
+  },
 )}
 
 Use the founder brief to shape mood, palette, and references.
@@ -431,15 +478,20 @@ const gtmStep = createStep({
   outputSchema: launchTokenSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'gtm-agent');
-    const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} go to market india`, inputData.launchId);
-    logMemoryUsage(inputData.launchId, 'gtm-agent', {
-      research: memory.research,
-      visual: memory.visual,
-      domains: memory.domains,
-      brief: memory.brief,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'brief.answers',
+      'brief.founder_brief',
+      'research.keywords',
+      'research.whitespace',
+      'visual.brand_name',
+      'visual.mood',
+      'visual.palette',
+      'domains.recommended',
+      'domains.top5',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'gtm-agent', memoryPaths, memory);
     const gtm = isDevMode()
       ? await generateStructured(
           gtmAgent,
@@ -447,13 +499,13 @@ const gtmStep = createStep({
 
 Input:
 ${JSON.stringify(
-  gtmGenerationInputSchema.parse({
+  {
     idea: memory.idea?.raw,
     research: memory.research,
     visual: memory.visual,
     domains: memory.domains,
-    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
-  }),
+    mem0_context: [memory.brief?.founder_brief ?? ''].filter(Boolean),
+  },
 )}
 
 Rules:
@@ -481,14 +533,16 @@ const shopifyStep = createStep({
   outputSchema: launchTokenSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'shopify-agent');
-    const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} shopify storefront`, inputData.launchId);
-    logMemoryUsage(inputData.launchId, 'shopify-agent', {
-      research: memory.research,
-      visual: memory.visual,
-      gtm: memory.gtm,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'research.keywords',
+      'visual.brand_name',
+      'visual.palette',
+      'visual.font_pairing',
+      'gtm.launch_cities',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'shopify-agent', memoryPaths, memory);
     const shopify = isDevMode()
       ? await generateStructured(
           shopifyAgent,
@@ -496,16 +550,27 @@ const shopifyStep = createStep({
 
 Input:
 ${JSON.stringify(
-  shopifyGenerationInputSchema.parse({
+  {
     idea: memory.idea?.raw,
     research: memory.research,
     visual: memory.visual,
     gtm: memory.gtm,
-    mem0_context: mem0Context,
-  }),
+    mem0_context: [],
+  },
 )}
 
-Return structured output only. Theme colors must come from the visual palette and product descriptions must reflect research keywords.`,
+Return structured output only.
+
+Requirements:
+- Theme colors must come from the visual palette.
+- Product descriptions must reflect research keywords and the founder's tone.
+- The templates field must contain Dawn-compatible structured content for:
+  - config_settings_data -> config/settings_data.json
+  - templates_index -> templates/index.json
+  - locales_en_default -> locales/en.default.json
+  - readme_markdown -> README.md
+- Use Dawn-style keys such as color_button, color_background, color_text, type_header_font, type_body_font, heading, text, button_label_1, and button_link_1.
+- The files array must contain those rendered Shopify files with the same paths.`,
           shopifyMemorySchema,
           inputData.launchId,
         )
@@ -525,14 +590,14 @@ const adsStep = createStep({
   outputSchema: launchTokenSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'ads-agent');
-    const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} paid ads india`, inputData.launchId);
-    logMemoryUsage(inputData.launchId, 'ads-agent', {
-      research: memory.research,
-      visual: memory.visual,
-      gtm: memory.gtm,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'research.keywords',
+      'visual.brand_name',
+      'gtm.launch_cities',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'ads-agent', memoryPaths, memory);
     const ads = isDevMode()
       ? await generateStructured(
           adsAgent,
@@ -540,13 +605,13 @@ const adsStep = createStep({
 
 Input:
 ${JSON.stringify(
-  adsGenerationInputSchema.parse({
+  {
     idea: memory.idea?.raw,
     research: memory.research,
     visual: memory.visual,
     gtm: memory.gtm,
-    mem0_context: mem0Context,
-  }),
+    mem0_context: [],
+  },
 )}
 
 Return only structured output.`,
@@ -573,16 +638,20 @@ const seoStep = createStep({
   execute: async ({ inputData, mastra }) => {
     const launchId = inputData.shopify.launchId;
     mem0.updateStatus(launchId, 'seo-agent');
-    const memory = readMem0(launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} SEO GEO India`, launchId);
-    logMemoryUsage(launchId, 'seo-agent', {
-      research: memory.research,
-      visual: memory.visual,
-      shopify: memory.shopify,
-      ads: memory.ads,
-      brief: memory.brief,
-      mem0_context: mem0Context,
-    });
+    const memoryPaths = [
+      'idea.raw',
+      'brief.answers',
+      'brief.founder_brief',
+      'research.keywords',
+      'visual.brand_name',
+      'shopify.homepage',
+      'shopify.products',
+      'ads.meta_ads',
+      'ads.google_campaigns',
+      'gtm.launch_cities',
+    ];
+    const memory = await readStepMemory(launchId, memoryPaths);
+    logMemoryPaths(launchId, 'seo-agent', memoryPaths, memory);
     const seo = isDevMode()
       ? await generateStructured(
           seoAgent,
@@ -590,14 +659,14 @@ const seoStep = createStep({
 
 Input:
 ${JSON.stringify(
-  seoGenerationInputSchema.parse({
+  {
     idea: memory.idea?.raw,
     research: memory.research,
     visual: memory.visual,
     shopify: memory.shopify,
     ads: memory.ads,
-    mem0_context: [...mem0Context, memory.brief?.founder_brief ?? ''],
-  }),
+    mem0_context: [memory.brief?.founder_brief ?? ''].filter(Boolean),
+  },
 )}
 
 Differentiate classic SEO from GEO, and use the founder brief plus upstream memory to make city-aware, citation-ready pages. Return only structured output.`,
@@ -620,24 +689,77 @@ const reportStep = createStep({
   outputSchema: launchBibleSchema,
   execute: async ({ inputData, mastra }) => {
     mem0.updateStatus(inputData.launchId, 'launch-report-agent');
-    const memory = readMem0(inputData.launchId);
-    const mem0Context = await mem0.recall(`${memory.idea?.raw} final launch bible`, inputData.launchId);
+    const memoryPaths = [
+      'idea.raw',
+      'idea.category',
+      'research.competitors',
+      'research.market_size_inr',
+      'research.whitespace',
+      'research.keywords',
+      'research.india_insight',
+      'visual.brand_name',
+      'visual.logo_concepts',
+      'visual.palette',
+      'visual.mood',
+      'domains.recommended',
+      'domains.top5',
+      'gtm.launch_cities',
+      'gtm.channels',
+      'gtm.reel_ideas',
+      'gtm.influencer_brief',
+      'gtm.week1_checklist',
+      'shopify.theme_settings',
+      'shopify.products',
+      'shopify.homepage',
+      'shopify.collections',
+      'shopify.templates',
+      'shopify.files',
+      'shopify.package_summary',
+      'ads.meta_ads',
+      'ads.google_campaigns',
+      'ads.pacing_plan',
+      'seo.keywords',
+      'seo.geo_faqs',
+      'seo.content_calendar',
+      'seo.geo_pages',
+    ];
+    const memory = await readStepMemory(inputData.launchId, memoryPaths);
+    logMemoryPaths(inputData.launchId, 'launch-report-agent', memoryPaths, memory);
     const report = isDevMode()
-      ? await generateStructured(
+      ? normalizeLaunchBible(
+          memory,
+          await generateStructured(
           launchReportAgent,
           `Create the final brand launch bible.
 
 Input:
 ${JSON.stringify(
-  launchBibleInputSchema.parse({
+  {
     memory,
-    mem0_context: mem0Context,
-  }),
+    mem0_context: [],
+  },
 )}
 
-Return only structured output.`,
-          launchBibleSchema,
+Return only structured output.
+
+The report must not collapse important downstream details into a short executive summary.
+Be explicit and concrete in the final report, especially in the markdown field.
+
+The markdown must include:
+- Brand overview with founder brief assumptions
+- Domain recommendation with alternates and why the winner fits
+- Visual identity with palette, mood, font pairing, and concept options
+- GTM with launch cities, channel plan, at least 5 reel/content ideas, influencer brief, and week 1 checklist
+- Shopify with theme direction, homepage copy, collections, and product titles with pricing
+- Advertising with all Meta ad hooks, Google campaign names/budgets, and pacing milestones
+- SEO / GEO with primary keywords, geo FAQs, content calendar, and city page intent
+- 90-day roadmap
+- Artifact list
+
+Do not omit details that already exist in memory.`,
+          launchBibleGenerationSchema,
           inputData.launchId,
+        ),
         )
       : await (launchReportTool.execute as any)({ memory }, {});
 

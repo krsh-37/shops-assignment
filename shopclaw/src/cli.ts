@@ -2,7 +2,13 @@
 import { createInterface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 import { spawn } from 'node:child_process';
+import { resolve } from 'node:path';
 import { getLaunchRun, getLaunchStatus, resumeLaunch, selectVisualConcept, startLaunch } from './mastra/services/openclaw-launch-service.js';
+
+function printAgentArtifactPath(launchId: string, agent: string): void {
+  const filePath = resolve(process.cwd(), '.openclaw', 'agent-run', launchId, `${agent}.json`);
+  output.write(`\n${agent} output written to ${filePath}\n`);
+}
 
 function parseIdeaFromArgs(): string | undefined {
   const args = process.argv.slice(2);
@@ -45,6 +51,7 @@ function printStatus(launchId: string): void {
 
 async function withStatusUpdates<T>(launchId: string, action: () => Promise<T>): Promise<T> {
   let previousSnapshot = '';
+  const seenCompletedAgents = new Set<string>(getLaunchStatus(launchId).completed_agents ?? []);
   const interval = setInterval(() => {
     try {
       const status = getLaunchStatus(launchId);
@@ -53,13 +60,32 @@ async function withStatusUpdates<T>(launchId: string, action: () => Promise<T>):
         previousSnapshot = snapshot;
         printStatus(launchId);
       }
+
+      for (const agent of status.completed_agents ?? []) {
+        if (seenCompletedAgents.has(agent)) {
+          continue;
+        }
+
+        seenCompletedAgents.add(agent);
+        printAgentArtifactPath(launchId, agent);
+      }
     } catch {
       return;
     }
   }, 500);
 
   try {
-    return await action();
+    const result = await action();
+    const status = getLaunchStatus(launchId);
+    for (const agent of status.completed_agents ?? []) {
+      if (seenCompletedAgents.has(agent)) {
+        continue;
+      }
+
+      seenCompletedAgents.add(agent);
+      printAgentArtifactPath(launchId, agent);
+    }
+    return result;
   } finally {
     clearInterval(interval);
   }

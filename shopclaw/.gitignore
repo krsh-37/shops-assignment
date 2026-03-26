@@ -9,3 +9,5 @@ dist
 .netlify
 .vercel
 */.openclaw
+.openclaw/runs.json
+.openclaw/agent-run

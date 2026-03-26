@@ -1,90 +1,102 @@
 # AGENTS.md
 
-This document provides guidance for AI coding agents working in this repository.
-
-## CRITICAL: Mastra Skill Required
-
-**BEFORE doing ANYTHING with Mastra code or answering Mastra questions, load the Mastra skill FIRST.**
-
-See [Mastra Skills section](#mastra-skills) for loading instructions.
+This document gives repository-specific guidance for coding agents working on OpenClaw.
 
 ## Project Overview
 
-This is a **Mastra** project written in TypeScript. Mastra is a framework for building AI-powered applications and agents with a modern TypeScript stack.
+OpenClaw is a Mastra-based multi-agent launch workflow for the ShopOS assignment.
+
+The system is not just "chat plus tools". It has:
+
+- a durable launch run registry in `.openclaw/runs.json`
+- per-agent output files in `.openclaw/agent-run/<launchId>/`
+- a control plane for start, resume, visual selection, and status
+- a two-stage workflow split into pre-visual and post-visual execution
+- shared launch memory that later steps read directly
+- Mem0 conversation-style traces for external memory and observability
 
 ## Commands
 
-Use these commands to interact with the project.
+Use these commands most often.
 
-### Installation
+### CLI Demo
 
 ```bash
-npm install
+npm run cli
 ```
 
-### Development
-
-Start the Mastra Studio at localhost:4111 by running the `dev` script:
+### Mastra Studio / API
 
 ```bash
 npm run dev
 ```
 
-### Build
-
-In order to build a production-ready server, run the `build` script:
+### Typecheck
 
 ```bash
-npm run build
+npm run typecheck
 ```
+
+### Tests
+
+```bash
+npm test
+```
+
+### Live Integration Checks
+
+```bash
+npm run test:cli-live
+npm run test:workflow-live
+```
+
+## Modes
+
+### `OPENCLAW_MODE=staging`
+
+- deterministic local builders
+- stubbed providers
+- best for repeatable local tests
+
+### `OPENCLAW_MODE=dev`
+
+- real provider-backed research and domain execution
+- model-driven GTM, Shopify, Ads, SEO, and report generation
+- staging-only builder tools are blocked
 
 ## Project Structure
 
-Folders organize your agent's resources, like agents, tools, and workflows.
+Folders organize the launch engine by role.
 
 | Folder                 | Description                                                                                                                              |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/mastra`           | Entry point for all Mastra-related code and configuration.                                                                               |
-| `src/mastra/agents`    | Define and configure your agents - their behavior, goals, and tools.                                                                     |
-| `src/mastra/workflows` | Define multi-step workflows that orchestrate agents and tools together.                                                                  |
-| `src/mastra/tools`     | Create reusable tools that your agents can call                                                                                          |
-| `src/mastra/mcp`       | (Optional) Implement custom MCP servers to share your tools with external agents                                                         |
-| `src/mastra/scorers`   | (Optional) Define scorers for evaluating agent performance over time                                                                     |
-| `src/mastra/public`    | (Optional) Contents are copied into the `.build/output` directory during the build process, making them available for serving at runtime |
+| `src/cli.ts`           | Interactive terminal flow for the assignment demo                                                                                         |
+| `src/mastra/agents`    | Orchestrator plus specialist agents                                                                                                       |
+| `src/mastra/api`       | HTTP routes                                                                                                                               |
+| `src/mastra/memory`    | Durable run registry and Mem0-backed memory layer                                                                                         |
+| `src/mastra/services`  | Launch control services                                                                                                                   |
+| `src/mastra/tools`     | Control tools and staging helper tools                                                                                                    |
+| `src/mastra/workflows` | Pre-visual and post-visual workflows                                                                                                      |
+| `src/mastra/domain`    | Schemas, normalization, and deterministic staging builders                                                                                |
+| `src/mastra/providers` | Tavily, RDAP, Mem0, and related adapters                                                                                                  |
+| `src/mastra/utils`     | Runtime logging helpers                                                                                                                   |
 
-### Top-level files
+## Architecture Notes
 
-Top-level files define how your Mastra project is configured, built, and connected to its environment.
+- The authoritative control state for a launch is the local run record.
+- Exact step inputs come from launch memory; Mem0 stores conversation-style summaries of inputs, rationale, and outputs.
+- The workflow no longer does pre-step semantic Mem0 recall.
+- `shopify-agent` writes both a JSON artifact and rendered Shopify files under `.openclaw/agent-run/<launchId>/shopify/`.
+- The report step normalizes generated output back against launch memory before final launch-bible validation.
+- In Studio/API flows, the chat thread is bound to the launch so follow-up actions can omit `launchId`.
+- The CLI is the most reliable end-to-end demo path because it keeps one active session and waits for the next checkpoint.
 
-| File                  | Description                                                                                                       |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `src/mastra/index.ts` | Central entry point where you configure and initialize Mastra.                                                    |
-| `.env.example`        | Template for environment variables - copy and rename to `.env` to add your secret [model provider](/models) keys. |
-| `package.json`        | Defines project metadata, dependencies, and available npm scripts.                                                |
-| `tsconfig.json`       | Configures TypeScript options such as path aliases, compiler settings, and build output.                          |
+## Working Rules
 
-## Mastra Skills
+- Prefer the CLI path when verifying real launch behavior.
+- Before debugging a bad step output, inspect the corresponding `.openclaw/agent-run/<launchId>/<agent>.json` file.
+- For Shopify issues, inspect both the JSON artifact and the rendered files in `.openclaw/agent-run/<launchId>/shopify/`.
+- When debugging control-flow issues, inspect both `.openclaw/runs.json` and the normalized `/status` output.
+- Runtime logs are intentionally verbose and now show writes, memory-input dependencies, agent completions, and artifact paths.
 
-Skills are modular capabilities that extend agent functionalities. They provide pre-built tools, integrations, and workflows that agents can leverage to accomplish tasks more effectively.
-
-This project has skills installed for the following agents:
-
-- Claude Code
-- Cursor
-- Codex
-- Antigravity
-
-### Loading Skills
-
-1. **Load the Mastra skill FIRST** - Use `/mastra` command or Skill tool
-2. **Never rely on cached knowledge** - Mastra APIs change frequently between versions
-3. **Always verify against current docs** - The skill provides up-to-date documentation
-
-**Why this matters:** Your training data about Mastra is likely outdated. Constructor signatures, APIs, and patterns change rapidly. Loading the skill ensures you use current, correct APIs.
-
-Skills are automatically available to agents in your project once installed. Agents can access and use these skills without additional configuration.
-
-## Resources
-
-- [Mastra Documentation](https://mastra.ai/llms.txt)
-- [Mastra .well-known skills discovery](https://mastra.ai/.well-known/skills/index.json)
+For user-facing setup and architecture, see [README.md](/Users/kay/Documents/shopos/shops-assignment/shopclaw/README.md) and [DESIGN.md](/Users/kay/Documents/shopos/shops-assignment/shopclaw/DESIGN.md).
