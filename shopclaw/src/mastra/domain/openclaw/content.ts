@@ -112,6 +112,20 @@ export function buildClarifications(idea: string): Clarification[] {
       assumption: 'Assuming an accessible premium launch price band of Rs 399 to Rs 799.',
     },
     {
+      question: 'Who is the first core customer segment we should optimize for?',
+      assumption:
+        category === 'restaurant'
+          ? 'Assuming urban millennials, Gen Z professionals, and weekend family diners.'
+          : 'Assuming urban Gen Z and millennial shoppers who care about convenience and brand distinctiveness.',
+    },
+    {
+      question: 'What tone and visual direction should we lean into, including any colors to prefer or avoid?',
+      assumption:
+        category === 'restaurant'
+          ? 'Assuming warm, modern, and inviting with earthy reds, spice tones, and no neon palette.'
+          : 'Assuming playful, energetic, and modern with bold warm colors and no muted corporate palette.',
+    },
+    {
       question: 'Is this direct-to-consumer only or open to quick-commerce channels?',
       assumption:
         category === 'quick-commerce fashion'
@@ -134,7 +148,6 @@ function dedupePrompts(prompts: ClarificationPrompt[]): ClarificationPrompt[] {
 
 export function collectLaunchClarifications(idea: string): ClarificationPrompt[] {
   const category = inferCategory(idea);
-  const normalized = idea.toLowerCase();
 
   const prompts: ClarificationPrompt[] = [
     {
@@ -154,27 +167,39 @@ export function collectLaunchClarifications(idea: string): ClarificationPrompt[]
       target_sections: ['brief', 'research', 'gtm', 'shopify', 'ads'],
       assumption: 'Assume Rs 399 to Rs 799.',
     },
-  ];
-
-  if (normalized.includes('sock') || normalized.includes('fashion') || normalized.includes('brand')) {
-    prompts.push({
+    {
+      id: 'customer-segment',
+      question: 'Who is the first core customer segment we should optimize for?',
+      rationale: 'Research framing, GTM hooks, merchandising, and SEO all depend on a clear first audience.',
+      target_sections: ['brief', 'research', 'gtm', 'shopify', 'ads', 'seo'],
+      assumption:
+        category === 'restaurant'
+          ? 'Assume urban millennials, Gen Z professionals, and weekend family diners.'
+          : 'Assume urban Gen Z and millennial buyers who care about convenience and distinct design.',
+    },
+    {
       id: 'brand-tone',
-      question: 'Should the brand feel serious and premium, or fun and quirky? Also include any colors to prefer or avoid and any brand references you admire.',
-      rationale: 'Visual direction needs a concrete tone, palette constraint, and stylistic reference.',
+      question: 'What tone and visual direction should we lean into, including any colors to prefer or avoid?',
+      rationale: 'Visual direction needs explicit tone and palette constraints before logo, Shopify, and ad creative work starts.',
       target_sections: ['brief', 'visual', 'shopify', 'ads'],
-      assumption: 'Assume playful, energetic, and modern.',
-    });
-  } else {
-    prompts.push({
+      assumption:
+        category === 'restaurant'
+          ? 'Assume warm, modern, and inviting with earthy reds and spice tones, and avoid neon colors.'
+          : 'Assume playful, energetic, and modern with bold warm colors, and avoid muted corporate tones.',
+    },
+    {
       id: 'channel-strategy',
       question: 'Should we plan for D2C-only at launch, or include quick-commerce and marketplace channels?',
       rationale: 'Channel strategy changes domain language, GTM sequencing, ads, and SEO landing pages.',
       target_sections: ['brief', 'domains', 'gtm', 'ads', 'seo'],
-      assumption: 'Assume D2C-first with quick-commerce explored next.',
-    });
-  }
+      assumption:
+        category === 'quick-commerce fashion'
+          ? 'Assume D2C-first with quick-commerce explored immediately after launch.'
+          : 'Assume D2C-first with quick-commerce and marketplaces explored next.',
+    },
+  ];
 
-  return dedupePrompts(prompts).slice(0, 3);
+  return dedupePrompts(prompts).slice(0, 5);
 }
 
 export function normalizeClarificationAnswers(
@@ -765,28 +790,57 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
     `- Idea: ${memory.idea.raw}`,
     `- Category: ${memory.idea.category}`,
     `- Recommended Brand Name: ${memory.visual.brand_name}`,
+    `- Founder Brief: ${memory.brief?.founder_brief ?? 'Founder brief not captured.'}`,
     '',
     '## Domain Recommendation',
     `- Recommended Domain: ${memory.domains.recommended}`,
     `- Alternates: ${memory.domains.top5.slice(1).map(option => option.domain).join(', ')}`,
+    `- Why This Domain: ${memory.domains.top5[0]?.reasoning ?? 'Strongest available brand-domain fit from the shortlist.'}`,
     '',
     '## Visual Identity',
     `- Mood: ${memory.visual.mood}`,
     `- Palette: ${memory.visual.palette.join(', ')}`,
+    `- Font Pairing: ${memory.visual.font_pairing}`,
+    `- Concepts: ${memory.visual.logo_concepts.map(concept => `${concept.name} (${concept.mood})`).join(', ')}`,
     '',
     '## GTM',
     `- Priority Cities: ${memory.gtm.launch_cities.join(', ')}`,
     `- Channel Split: Instagram ${memory.gtm.channels.instagram}, WhatsApp ${memory.gtm.channels.whatsapp}, Google ${memory.gtm.channels.google}`,
+    `- Reel Ideas: ${memory.gtm.reel_ideas.slice(0, 5).join(' | ')}`,
+    `- Influencer Brief: ${memory.gtm.influencer_brief}`,
+    `- Week 1 Checklist: ${memory.gtm.week1_checklist.join(' | ')}`,
     '',
     '## Shopify',
     `- Hero: ${memory.shopify.homepage.hero_headline}`,
+    `- Hero Subheadline: ${memory.shopify.homepage.hero_subheadline}`,
     `- Products: ${memory.shopify.products.map(product => product.title).join(', ')}`,
+    `- Collections: ${memory.shopify.collections.map(collection => collection.name).join(', ')}`,
+    `- Theme CTA: ${memory.shopify.theme_settings.hero_cta}`,
     '',
     '## Ads',
     `- Lead Hook: ${memory.ads.meta_ads[0]?.hook ?? 'N/A'}`,
+    `- Meta Hooks: ${memory.ads.meta_ads.map(ad => ad.hook).join(' | ')}`,
+    `- Google Campaigns: ${memory.ads.google_campaigns.map(campaign => `${campaign.name} (Rs ${campaign.budget_day_inr}/day)`).join(', ')}`,
+    `- Pacing Milestones: ${memory.ads.pacing_plan.milestones.join(' | ')}`,
     '',
     '## SEO / GEO',
     `- Primary Keywords: ${memory.seo.keywords.slice(0, 5).join(', ')}`,
+    `- GEO FAQs: ${memory.seo.geo_faqs.join(' | ')}`,
+    `- Content Calendar: ${memory.seo.content_calendar.join(' | ')}`,
+    `- GEO Pages: ${memory.seo.geo_pages.map(page => `${page.title} -> ${page.target_query}`).join(' | ')}`,
+    '',
+    '## 90-Day Roadmap',
+    '1. Days 1-30: validate launch positioning, content hooks, and first-city conversion.',
+    '2. Days 31-60: scale best-performing acquisition paths and refine merchandising.',
+    '3. Days 61-90: deepen retention loops and prepare expansion to next cities/channels.',
+    '',
+    '## Artifacts',
+    ...[
+      '/shopify/theme-settings.json',
+      '/shopify/products.json',
+      '/shopify/homepage-sections.json',
+      '/seo/geo-pages.json',
+    ].map(path => `- ${path}`),
   ].join('\n');
 
   return {

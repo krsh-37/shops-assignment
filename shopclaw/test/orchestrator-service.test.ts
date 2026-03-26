@@ -10,7 +10,7 @@ test('orchestrator message starts a launch and returns a clarification batch', a
 
   assert.equal(result.control.phase, 'clarification');
   assert.equal(result.control.next_action, 'answer-clarifications');
-  assert.equal(result.control.pending_questions?.length, 3);
+  assert.equal(result.control.pending_questions?.length, 5);
 });
 
 test('orchestrator message handles clarification answers and returns visual selection', async () => {

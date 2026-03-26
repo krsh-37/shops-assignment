@@ -26,7 +26,7 @@ export const orchestratorAgent = createOpenClawAgent({
 
 When the user gives a founder idea:
 1. Create one upfront bulk clarification batch before starting the workflow.
-2. Ask at most 3 high-signal clarification questions in one batch.
+2. Ask 5 high-signal clarification questions in one batch.
 3. Do not start the workflow until those answers are captured.
 4. Read shared memory before delegating or starting a workflow.
 5. If the user asks for a specific sub-task, delegate to the most appropriate specialist agent.

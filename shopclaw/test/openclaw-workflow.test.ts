@@ -27,7 +27,7 @@ test('startLaunch creates a draft launch and returns upfront clarification quest
   const draft = await startLaunch(sampleIdea);
   assert.equal(draft.status, 'awaiting-user-input');
   assert.equal(draft.phase, 'clarification');
-  assert.equal(draft.pendingQuestions.length, 3);
+  assert.equal(draft.pendingQuestions.length, 5);
 });
 
 test('resumeLaunch advances the launch to visual selection after answers are captured', async () => {

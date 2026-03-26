@@ -347,14 +347,14 @@ export const writeMem0OutputSchema = z.object({
 
 export const askUserInputSchema = z.object({
   launchId: z.string().optional(),
-  questions: z.array(clarificationPromptSchema).min(1).max(3),
+  questions: z.array(clarificationPromptSchema).min(1).max(5),
   reason: z.string(),
 });
 
 export const askUserOutputSchema = z.object({
   launchId: z.string().optional(),
   status: z.enum(['awaiting-user-input']),
-  questions: z.array(clarificationPromptSchema).min(1).max(3),
+  questions: z.array(clarificationPromptSchema).min(1).max(5),
   reason: z.string(),
 });
 
