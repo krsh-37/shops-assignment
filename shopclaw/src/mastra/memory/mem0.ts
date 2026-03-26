@@ -776,17 +776,18 @@ export class OpenClawMem0 {
       hydrated[persisted.key] = persisted.value as never;
     }
 
-    if (!hydrated.idea && run.memory.idea) {
-      hydrated.idea = run.memory.idea;
+    for (const [section, value] of Object.entries(run.memory)) {
+      if (section === 'audit_log' || value === null) {
+        continue;
+      }
+
+      const key = section as WritableSection;
+      if (hydrated[key] === null) {
+        hydrated[key] = value as never;
+      }
     }
 
-    if (!hydrated.brief && run.memory.brief) {
-      hydrated.brief = run.memory.brief;
-    }
-
-    if (!hydrated.visual && run.memory.visual) {
-      hydrated.visual = run.memory.visual;
-    } else if (hydrated.visual && run.selectedVisualConcept !== null) {
+    if (hydrated.visual && run.selectedVisualConcept !== null) {
       hydrated.visual.chosen_concept = run.selectedVisualConcept;
     }
 
@@ -796,6 +797,7 @@ export class OpenClawMem0 {
         .filter(([key, value]) => key !== 'audit_log' && value !== null)
         .map(([key]) => key),
       source: 'mem0',
+      fallback_source: 'local-run-memory-for-missing-sections',
     });
 
     return hydrated;

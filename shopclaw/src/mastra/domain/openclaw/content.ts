@@ -247,7 +247,43 @@ export function generateBrandCandidates(idea: string): string[] {
 }
 
 export function buildResearch(idea: string, memory: BuilderMemory): ResearchMemory {
+  const category = memory.idea?.category ?? inferCategory(idea);
   const baseKeyword = idea.toLowerCase().includes('sock') ? 'custom socks india' : `${slugify(idea)} india`;
+
+  if (category === 'restaurant') {
+    return {
+      competitors: [
+        {
+          name: 'Barbeque Nation',
+          region: 'India',
+          positioning: 'experience-led casual dining chain',
+          notes: 'Strong group dining proposition and broad urban recall.',
+        },
+        {
+          name: 'Social',
+          region: 'India',
+          positioning: 'urban dining and community-first hospitality brand',
+          notes: 'Wins with atmosphere, all-day occasions, and strong city-specific relevance.',
+        },
+        {
+          name: 'Rebel Foods',
+          region: 'India',
+          positioning: 'cloud-kitchen and digital-first food brand operator',
+          notes: 'Sets consumer expectations on convenience, delivery discovery, and menu experimentation.',
+        },
+      ],
+      market_size_inr:
+        'India foodservice is a multi-lakh-crore market, with organized casual dining and branded restaurant concepts growing on rising urban disposable income and delivery-enabled demand.',
+      whitespace:
+        'Own the gap between approachable everyday dining and a warm, design-forward full-service restaurant experience for urban Indian diners.',
+      keywords: {
+        primary: [baseKeyword, 'restaurant market india', 'casual dining india'],
+        secondary: ['best restaurants india', 'full service restaurant india', 'restaurant launch india', category],
+      },
+      india_insight:
+        'Indian restaurant brands that combine recognizable regional flavors, consistent in-store experience, and digital ordering convenience can scale faster in metro markets than generic dining concepts.',
+    };
+  }
 
   return {
     competitors: [
@@ -465,10 +501,42 @@ export function buildVisualDirection(memory: BuilderMemory): VisualMemory {
 }
 
 export function buildGTM(memory: BuilderMemory): GTMMemory {
+  const category = memory.idea?.category ?? inferCategory(memory.idea?.raw ?? '');
   const brandName =
     memory.visual?.brand_name ?? memory.domains?.top5[0]?.name ?? memory.idea?.brand_name_candidates?.[0] ?? 'Sockzy';
   const parsedCities = extractFounderCities(memory);
   const pricingAnswer = memory.brief?.answers.find(answer => answer.question_id === 'price-band')?.answer ?? 'Rs 399 to Rs 799';
+
+  if (category === 'restaurant') {
+    return {
+      launch_cities: parsedCities.slice(0, 4),
+      channels: {
+        instagram: '40%',
+        whatsapp: '25%',
+        google: '35%',
+      },
+      reel_ideas: [
+        `Signature plating moments from ${brandName} in ${parsedCities[0] ?? 'your first launch city'}.`,
+        'Behind-the-pass kitchen shots that build trust and appetite.',
+        'Founding story: why this restaurant concept belongs in this city right now.',
+        'Chef-led menu walkthrough of hero dishes and regional influences.',
+        'Family and group dining moments that show ambience and hospitality.',
+        'Day-to-night transition reel showing the full in-store mood.',
+        'Weekend special spotlight with limited-menu urgency.',
+        'Local sourcing and ingredient freshness stories.',
+        'Customer reactions to the hero thali, curry, and breakfast items.',
+        `${brandName} table-to-camera tasting flight challenge.`,
+      ],
+      influencer_brief: `Prioritise food creators and hyperlocal city storytellers in ${parsedCities.slice(0, 3).join(', ')}. Anchor the launch story around ${pricingAnswer}, approachable dine-in value, warm hospitality, and memorable regional flavor for ${brandName}.`,
+      week1_checklist: [
+        'Lock launch menu, hero dishes, and reservation flow.',
+        'Set up Google Business Profile, maps listings, and launch-city review capture.',
+        'Invite 15 to 20 food creators for preview tastings and short-form content.',
+        'Publish opening-week reels, stories, and founder notes across Instagram and WhatsApp.',
+        'Track walk-ins, reservations, repeat diners, and city-level conversion by day.',
+      ],
+    };
+  }
 
   return {
     launch_cities: parsedCities.slice(0, 4),
@@ -732,7 +800,83 @@ export function buildShopify(memory: BuilderMemory): ShopifyMemory {
 }
 
 export function buildAds(memory: BuilderMemory): AdsMemory {
+  const category = memory.idea?.category ?? inferCategory(memory.idea?.raw ?? '');
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
+
+  if (category === 'restaurant') {
+    const cityString = memory.gtm?.launch_cities.join(', ') ?? 'Bengaluru, Mumbai, and Delhi';
+    return {
+      meta_ads: [
+        {
+          format: 'Reel',
+          hook: 'Warm Indian comfort food, built for repeat city dining.',
+          body: `${brandName} pairs a strong in-store mood with recognizable regional dishes and approachable pricing across ${cityString}.`,
+          cta: 'Reserve your table',
+          audience: 'Urban millennials, Gen Z professionals, and family diners in launch cities',
+          budget_day_inr: 1200,
+        },
+        {
+          format: 'Carousel',
+          hook: 'The launch menu your group chat will keep rebooking.',
+          body: `Show the hero thali, signature curry, and breakfast or snack occasions that make ${brandName} a repeat visit brand.`,
+          cta: 'See the menu',
+          audience: 'Food-led social groups, office-goers, and weekend family diners',
+          budget_day_inr: 1500,
+        },
+        {
+          format: 'Story',
+          hook: 'Tonight’s dinner plan is solved.',
+          body: `${brandName} blends regional flavor, warm hospitality, and a design-forward dining space for city-first restaurant discovery.`,
+          cta: 'Book now',
+          audience: 'People within delivery and dine-in catchments around launch locations',
+          budget_day_inr: 1000,
+        },
+      ],
+      google_campaigns: [
+        {
+          name: 'Restaurant Brand Intent',
+          budget_day_inr: 900,
+          ad_groups: [
+            {
+              name: 'Brand And Menu',
+              keywords: [`${slugify(brandName)} restaurant`, `${slugify(brandName)} menu`, `${slugify(brandName)} reservations`],
+              match_type: 'phrase',
+            },
+            {
+              name: 'City Dining Intent',
+              keywords: ['best restaurant near me', 'casual dining restaurant', 'family dining restaurant'],
+              match_type: 'exact',
+            },
+          ],
+        },
+        {
+          name: 'Cuisine Discovery',
+          budget_day_inr: 750,
+          ad_groups: [
+            {
+              name: 'Indian Dining',
+              keywords: ['indian restaurant', 'regional indian food', 'best indian dinner'],
+              match_type: 'phrase',
+            },
+            {
+              name: 'Occasion Dining',
+              keywords: ['weekend dinner restaurant', 'group dining restaurant', 'restaurant reservations'],
+              match_type: 'broad',
+            },
+          ],
+        },
+      ],
+      pacing_plan: {
+        start_budget_day_inr: 1200,
+        scale_trigger: 'Increase budget once reservation-led CAC and repeat booking rate hold for one full operating week.',
+        milestones: [
+          'Days 1-7: validate the strongest hook, top city audience, and reservation conversion rate.',
+          'Days 8-15: move spend toward best-performing menu angle and highest-intent search clusters.',
+          'Days 16-30: scale retargeting, occasion-based creatives, and creator-backed social proof.',
+        ],
+      },
+    };
+  }
 
   return {
     meta_ads: [
@@ -808,8 +952,13 @@ export function buildAds(memory: BuilderMemory): AdsMemory {
 }
 
 export function buildSEO(memory: BuilderMemory): SEOMemory {
+  const category = memory.idea?.category ?? inferCategory(memory.idea?.raw ?? '');
   const brandName = memory.visual?.brand_name ?? 'Sockzy';
-  const primary = memory.research?.keywords.primary ?? ['custom socks india', '10 minute delivery socks'];
+  const brandKeyword =
+    slugify(brandName) === 'restaurant' ? `${slugify(brandName)} india` : `${slugify(brandName)} ${category === 'restaurant' ? 'restaurant' : 'socks'}`;
+  const primary =
+    memory.research?.keywords.primary ??
+    (category === 'restaurant' ? ['restaurant market india', 'casual dining india'] : ['custom socks india', '10 minute delivery socks']);
   const baseCities =
     memory.gtm?.launch_cities && memory.gtm.launch_cities.length > 0
       ? memory.gtm.launch_cities
@@ -823,8 +972,31 @@ export function buildSEO(memory: BuilderMemory): SEOMemory {
       ? 'Hindi + English'
       : 'English-first';
 
+  if (category === 'restaurant') {
+    return {
+      keywords: [...primary, 'best restaurant in india', brandKeyword, 'family dining restaurant'],
+      geo_faqs: cities.slice(0, 5).map(city => `Where should I dine at ${brandName} in ${city}?`),
+      content_calendar: [
+        'Week 1: launch page for the flagship restaurant concept and menu.',
+        'Week 2: FAQ page for reservations, timings, and dine-in expectations.',
+        'Week 3: city food guide covering signature dishes and dining occasions.',
+        `Week 4: ${geoQualifier} landing pages for ${cities.slice(0, 3).join(', ')} with maps-ready local discovery copy.`,
+      ],
+      geo_pages: cities.slice(0, 5).map((city, index) => ({
+        title: `${brandName} in ${city}: answer-ready dining guide`,
+        slug: `${slugify(brandName)}-${slugify(city)}-dining-guide`,
+        target_query: `${brandName} ${city} ${primary[index % primary.length] ?? primary[0]!}`,
+        body: `${brandName} is positioned for ${city} diners looking for ${primary[index % primary.length] ?? primary[0]!}. This page is structured for local restaurant discovery, AI-ready answers, and clear dining occasions such as family meals, casual dinners, and reservation-led visits.`,
+        citation_notes: [
+          `Ground ${city}-specific claims with operating hours, address, and reservation details before publishing.`,
+          'Keep answers concise, menu-aware, and easy for AI and local search engines to cite.',
+        ],
+      })),
+    };
+  }
+
   return {
-    keywords: [...primary, 'best socks brand india 2026', `${slugify(brandName)} socks`, 'gift socks india'],
+    keywords: [...primary, 'best socks brand india 2026', brandKeyword, 'gift socks india'],
     geo_faqs: cities.slice(0, 5).map(city => `Where can I buy ${brandName} in ${city}?`),
     content_calendar: [
       'Week 1: launch page for custom socks India.',
@@ -850,6 +1022,7 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
     throw new Error('Launch memory is incomplete.');
   }
 
+  const category = memory.idea.category;
   const markdown = [
     '# OpenClaw Launch Bible',
     '',
@@ -897,9 +1070,17 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
     `- GEO Pages: ${memory.seo.geo_pages.map(page => `${page.title} -> ${page.target_query}`).join(' | ')}`,
     '',
     '## 90-Day Roadmap',
-    '1. Days 1-30: validate launch positioning, content hooks, and first-city conversion.',
-    '2. Days 31-60: scale best-performing acquisition paths and refine merchandising.',
-    '3. Days 61-90: deepen retention loops and prepare expansion to next cities/channels.',
+    ...(category === 'restaurant'
+      ? [
+          '1. Days 1-30: validate launch-city demand, reservation flow, and hero dish mix.',
+          '2. Days 31-60: sharpen repeat dining loops, creator partnerships, and menu merchandising.',
+          '3. Days 61-90: expand city marketing, optimize unit economics, and prepare the next location or format.',
+        ]
+      : [
+          '1. Days 1-30: validate launch positioning, content hooks, and first-city conversion.',
+          '2. Days 31-60: scale best-performing acquisition paths and refine merchandising.',
+          '3. Days 61-90: deepen retention loops and prepare expansion to next cities/channels.',
+        ]),
     '',
     '## Artifacts',
     ...[
@@ -916,7 +1097,9 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
       category: memory.idea.category,
       brand_name: memory.visual.brand_name,
       summary:
-        'An India-first fast-delivery D2C launch that combines expressive brand identity, urgency-led merchandising, and cross-agent memory compounding.',
+        category === 'restaurant'
+          ? 'An India-first restaurant launch that combines city-specific hospitality positioning, a differentiated dining brand system, and coordinated execution across research, GTM, Shopify, ads, and SEO.'
+          : 'An India-first fast-delivery D2C launch that combines expressive brand identity, urgency-led merchandising, and cross-agent memory compounding.',
     },
     visual: {
       logo_urls: memory.visual.logo_concepts.map(concept => concept.image_url),
@@ -932,9 +1115,17 @@ export function buildLaunchBible(memory: BuilderMemory): LaunchBible {
     ads: memory.ads,
     seo_geo: memory.seo,
     roadmap_90d: [
-      'Days 1-30: validate creative hooks, city demand, and hero SKU conversion.',
-      'Days 31-60: scale winning campaigns and deepen gifting bundles.',
-      'Days 61-90: expand to new cities and introduce repeat-purchase mechanics.',
+      ...(category === 'restaurant'
+        ? [
+            'Days 1-30: validate launch-city demand, reservation flow, and hero dish mix.',
+            'Days 31-60: sharpen repeat dining loops, creator partnerships, and menu merchandising.',
+            'Days 61-90: expand city marketing, optimize unit economics, and prepare the next location or format.',
+          ]
+        : [
+            'Days 1-30: validate creative hooks, city demand, and hero SKU conversion.',
+            'Days 31-60: scale winning campaigns and deepen gifting bundles.',
+            'Days 61-90: expand to new cities and introduce repeat-purchase mechanics.',
+          ]),
     ],
     artifacts: [
       { path: '/shopify/config/settings_data.json', description: 'Dawn-compatible theme settings for palette, typography, and core theme tokens.' },
