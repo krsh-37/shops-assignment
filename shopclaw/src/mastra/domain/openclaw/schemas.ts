@@ -70,7 +70,7 @@ export const domainResultSchema = z.object({
   name: z.string(),
   domain: z.string(),
   available: z.boolean(),
-  price_inr: z.number().int().positive(),
+  price_inr: z.number().int().nonnegative(),
   score: z.number().min(0).max(100),
   reasoning: z.string(),
 });
@@ -78,10 +78,11 @@ export const domainResultSchema = z.object({
 export const domainMemorySchema = z.object({
   recommended: z.string(),
   top5: z.array(domainResultSchema).length(5),
+  candidates15: z.array(domainResultSchema).length(15),
 });
 
 export const gtmMemorySchema = z.object({
-  launch_cities: z.array(z.string()).min(3),
+  launch_cities: z.array(z.string()).min(1),
   channels: z.object({
     instagram: z.string(),
     whatsapp: z.string(),
@@ -376,8 +377,17 @@ export const startWorkflowInputSchema = z.object({
 });
 
 export const resumeWorkflowInputSchema = z.object({
-  launchId: z.string(),
+  launchId: z.string().trim().default(''),
   answers: z.array(z.string()).min(1),
+});
+
+export const visualSelectionInputSchema = z.object({
+  launchId: z.string().trim().default(''),
+  conceptIndex: z.number().int().min(0).max(2),
+});
+
+export const launchLookupInputSchema = z.object({
+  launchId: z.string().trim().default(''),
 });
 
 export const launchPhaseSchema = z.enum([
@@ -393,8 +403,15 @@ export const workflowControlOutputSchema = z.object({
   launchId: z.string(),
   status: z.string(),
   phase: launchPhaseSchema.optional(),
+  current_agent: z.string().nullable().optional(),
+  completed_agents: z.array(z.string()).optional(),
   pending_questions: z.array(clarificationPromptSchema).optional(),
+  pending_reason: z.string().nullable().optional(),
   answers: z.array(z.string()).optional(),
+  selected_visual_concept: z.number().int().min(0).max(2).nullable().optional(),
+  visual_concepts: z.array(logoConceptSchema).length(3).optional(),
+  error: z.string().nullable().optional(),
+  report_summary: z.string().optional(),
   next_action: z.string().optional(),
 });
 
@@ -476,6 +493,7 @@ export const launchStatusSchema = z.enum(['queued', 'running', 'awaiting-user-in
 export const launchRunSchema = z.object({
   id: z.string(),
   idea: z.string(),
+  conversationThreadId: z.string().nullable().default(null),
   status: launchStatusSchema,
   phase: launchPhaseSchema.default('draft'),
   currentAgent: z.string().nullable(),

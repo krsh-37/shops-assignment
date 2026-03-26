@@ -11,6 +11,7 @@ import {
   type OpenClawMemory,
 } from '../domain/openclaw/schemas.js';
 import { getMem0Client } from '../providers/mem0-client.js';
+import { logRuntime } from '../utils/runtime-log.js';
 
 type WritableSection = Exclude<keyof OpenClawMemory, 'audit_log'>;
 type OpenClawGlobals = typeof globalThis & {
@@ -37,6 +38,7 @@ function normalizePersistedRun(raw: any): LaunchRun {
   raw.pendingQuestions ??= [];
   raw.pendingReason ??= null;
   raw.clarificationAnswers ??= [];
+  raw.conversationThreadId ??= null;
   raw.phase ??= 'draft';
   raw.questionContext ??= raw.pendingQuestions;
   raw.selectedVisualConcept ??= null;
@@ -55,6 +57,25 @@ function normalizePersistedRun(raw: any): LaunchRun {
       { path: '/shopify/collections.json', content: '[]', kind: 'json' },
     ];
     raw.memory.shopify.package_summary ??= 'Migrated legacy Shopify package.';
+  }
+
+  if (raw?.memory?.domains) {
+    raw.memory.domains.candidates15 ??= Array.from({ length: 15 }, (_, index) => {
+      const fallback = raw.memory.domains?.top5?.[index] ?? raw.memory.domains?.top5?.[index % Math.max(raw.memory.domains?.top5?.length ?? 1, 1)] ?? {
+        name: `LegacyBrand${index + 1}`,
+        domain: `legacybrand${index + 1}.in`,
+        available: index % 4 !== 0,
+        price_inr: 699 + index * 50,
+        score: Math.max(40, 90 - index * 3),
+        reasoning: 'Migrated legacy shortlist entry.',
+      };
+
+      return {
+        ...fallback,
+        name: fallback.name ?? `LegacyBrand${index + 1}`,
+        domain: fallback.domain ?? `legacybrand${index + 1}.in`,
+      };
+    });
   }
 
   if (raw?.memory?.seo) {
@@ -248,6 +269,7 @@ export class OpenClawMem0 {
     const run: LaunchRun = {
       id: launchId,
       idea,
+      conversationThreadId: null,
       status: 'queued',
       phase: 'draft',
       currentAgent: null,
@@ -277,6 +299,40 @@ export class OpenClawMem0 {
     return this.runs.get(launchId);
   }
 
+  listRuns(): LaunchRun[] {
+    return [...this.runs.values()].sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
+  }
+
+  findRuns(predicate: (run: LaunchRun) => boolean): LaunchRun[] {
+    return this.listRuns().filter(predicate);
+  }
+
+  bindThreadToLaunch(launchId: string, threadId: string): LaunchRun {
+    const run = this.requireRun(launchId);
+    run.conversationThreadId = threadId;
+    run.updatedAt = nowIso();
+    this.persist();
+    return run;
+  }
+
+  getActiveLaunchForThread(threadId: string, phase?: LaunchRun['phase']): LaunchRun | undefined {
+    return this.findRuns(run => {
+      if (run.conversationThreadId !== threadId) {
+        return false;
+      }
+
+      if (phase) {
+        return run.phase === phase;
+      }
+
+      return run.status === 'awaiting-user-input' || run.status === 'running' || run.status === 'queued';
+    })[0];
+  }
+
+  getLatestLaunchForThread(threadId: string): LaunchRun | undefined {
+    return this.findRuns(run => run.conversationThreadId === threadId)[0];
+  }
+
   requireRun(launchId: string): LaunchRun {
     const run = this.getRun(launchId);
     if (!run) {
@@ -295,7 +351,14 @@ export class OpenClawMem0 {
 
   async recall(query: string, launchId: string): Promise<string[]> {
     const results = await this.client.search(query, launchId, 5);
-    return results.map(result => result.memory);
+    const memories = results.map(result => result.memory);
+    logRuntime('mem0.recall', {
+      launchId,
+      query,
+      hit_count: memories.length,
+      results: memories,
+    });
+    return memories;
   }
 
   async write<TKey extends WritableSection>(
@@ -310,6 +373,13 @@ export class OpenClawMem0 {
     this.appendAuditLog(launchId, agent, action, [String(key)]);
     run.updatedAt = nowIso();
     this.persist();
+    logRuntime('mem0.write', {
+      launchId,
+      agent,
+      action,
+      section: key,
+      value,
+    });
     await this.client.add(
       [
         {
@@ -377,6 +447,19 @@ export class OpenClawMem0 {
     return run;
   }
 
+  requestVisualSelection(launchId: string, agent = 'visual-agent'): LaunchRun {
+    const run = this.requireRun(launchId);
+    run.status = 'awaiting-user-input';
+    run.phase = 'visual-selection';
+    run.currentAgent = agent;
+    run.pendingQuestions = [];
+    run.questionContext = [];
+    run.pendingReason = 'Select one of the three visual concepts before continuing the launch.';
+    run.updatedAt = nowIso();
+    this.persist();
+    return run;
+  }
+
   recordHumanAnswers(
     launchId: string,
     answers: string[],
@@ -401,6 +484,12 @@ export class OpenClawMem0 {
 
     run.updatedAt = nowIso();
     this.persist();
+    logRuntime('mem0.answers', {
+      launchId,
+      agent,
+      answers,
+      normalized_answers: normalizedAnswers,
+    });
     return run;
   }
 
@@ -419,6 +508,17 @@ export class OpenClawMem0 {
     }
     run.updatedAt = nowIso();
     this.persist();
+    const writtenSections = Object.entries(run.memory)
+      .filter(([key, value]) => key !== 'audit_log' && value !== null)
+      .map(([key]) => key);
+    const sectionKey = agentSectionKey(agent);
+    logRuntime('agent.completed', {
+      launchId,
+      agent,
+      completed_agents: run.completedAgents,
+      available_sections: writtenSections,
+      latest_output: sectionKey ? run.memory[sectionKey] : null,
+    });
     return run;
   }
 
@@ -432,6 +532,10 @@ export class OpenClawMem0 {
     this.markAgentCompleted(launchId, 'launch-report-agent');
     run.updatedAt = nowIso();
     this.persist();
+    logRuntime('launch.completed', {
+      launchId,
+      report,
+    });
     await this.client.add(
       [
         {
@@ -465,10 +569,47 @@ export class OpenClawMem0 {
   setSelectedVisualConcept(launchId: string, conceptIndex: number): LaunchRun {
     const run = this.requireRun(launchId);
     run.selectedVisualConcept = conceptIndex;
-    run.phase = 'visual-selection';
+    run.pendingReason = null;
+    run.pendingQuestions = [];
+    run.questionContext = [];
+    run.status = 'queued';
+    run.phase = 'workflow';
+
+    if (run.memory.visual) {
+      run.memory.visual.chosen_concept = conceptIndex;
+    }
+
     run.updatedAt = nowIso();
     this.persist();
+    logRuntime('visual.selected', {
+      launchId,
+      conceptIndex,
+      concept: run.memory.visual?.logo_concepts?.[conceptIndex] ?? null,
+    });
     return run;
+  }
+}
+
+function agentSectionKey(agent: string): keyof OpenClawMemory | null {
+  switch (agent) {
+    case 'orchestrator-agent':
+      return 'idea';
+    case 'research-agent':
+      return 'research';
+    case 'visual-agent':
+      return 'visual';
+    case 'domain-agent':
+      return 'domains';
+    case 'gtm-agent':
+      return 'gtm';
+    case 'shopify-agent':
+      return 'shopify';
+    case 'ads-agent':
+      return 'ads';
+    case 'seo-agent':
+      return 'seo';
+    default:
+      return null;
   }
 }
 

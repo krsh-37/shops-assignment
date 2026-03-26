@@ -30,6 +30,7 @@ import {
   mem0WriteTool,
   researchTool,
   resumeLaunchWorkflowTool,
+  selectVisualConceptTool,
   seoGeoTool,
   shopifyAssetsTool,
   startLaunchWorkflowTool,
@@ -75,6 +76,7 @@ export const mastra = new Mastra({
     delegateToAgentTool,
     startLaunchWorkflowTool,
     resumeLaunchWorkflowTool,
+    selectVisualConceptTool,
     getLaunchStatusTool,
   },
   storage: new LibSQLStore({

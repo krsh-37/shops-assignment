@@ -5,9 +5,9 @@ import { domainRankingTool } from '../tools/domain-ranking-tool.js';
 export const domainAgent = createOpenClawAgent({
   id: 'domain-agent',
   name: 'Domain Agent',
-  description: 'Generates brand name and domain recommendations with ranking rationale.',
+  description: 'Generates 15 brand name and domain candidates, then returns a ranked shortlist with rationale.',
   instructions:
-    'Ideate candidate names, check availability, and return only the final ranked domain shortlist object. Do not call any memory-writing tool or workflow-control tool.',
+    'Ideate 15 candidate names, check availability, and return the full candidate set plus the final ranked top-five shortlist object. Do not call any memory-writing tool or workflow-control tool.',
   model: defaultModel,
   tools: { domainRankingTool, domainIdeationTool },
 });

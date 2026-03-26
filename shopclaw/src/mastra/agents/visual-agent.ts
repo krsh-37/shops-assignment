@@ -1,6 +1,7 @@
-import { createOpenClawAgent, defaultModel } from './_shared.js';
+import { isDevMode } from '../config/openclaw-config.js';
 import { logoGenerationTool } from '../tools/logo-generation-tool.js';
 import { visualDirectionTool } from '../tools/visual-direction-tool.js';
+import { createOpenClawAgent, defaultModel } from './_shared.js';
 
 export const visualAgent = createOpenClawAgent({
   id: 'visual-agent',
@@ -9,5 +10,7 @@ export const visualAgent = createOpenClawAgent({
   instructions:
     'Generate three distinct logo directions with the logo generation tool, then return only the final visual object. Do not call any memory-writing tool or workflow-control tool.',
   model: defaultModel,
-  tools: { logoGenerationTool, visualDirectionTool },
+  ...(isDevMode()
+    ? { tools: { logoGenerationTool } }
+    : { tools: { logoGenerationTool, visualDirectionTool } }),
 });

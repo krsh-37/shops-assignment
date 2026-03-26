@@ -1,13 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { adsAgent } from '../src/mastra/agents/index.js';
+import { isDevMode } from '../src/mastra/config/openclaw-config.js';
 import { adsStrategyTool } from '../src/mastra/tools/index.js';
 import { createCompletedRun } from './test-helpers.js';
 
 test('ads agent exposes ads strategy tool', async () => {
   const tools = await adsAgent.listTools();
 
-  assert.ok('adsStrategyTool' in tools);
+  assert.equal('adsStrategyTool' in tools, !isDevMode());
 });
 
 test('ads strategy tool returns meta and google campaign structures', async () => {

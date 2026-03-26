@@ -1,5 +1,6 @@
-import { createOpenClawAgent, defaultModel } from './_shared.js';
+import { isDevMode } from '../config/openclaw-config.js';
 import { launchReportTool } from '../tools/launch-report-tool.js';
+import { createOpenClawAgent, defaultModel } from './_shared.js';
 
 export const launchReportAgent = createOpenClawAgent({
   id: 'launch-report-agent',
@@ -8,5 +9,5 @@ export const launchReportAgent = createOpenClawAgent({
   instructions:
     'Compile the launch bible and artifact references, then return only the final report object. Do not call any memory-writing tool or workflow-control tool.',
   model: defaultModel,
-  tools: { launchReportTool },
+  ...(isDevMode() ? {} : { tools: { launchReportTool } }),
 });

@@ -1,5 +1,6 @@
-import { createOpenClawAgent, defaultModel } from './_shared.js';
+import { isDevMode } from '../config/openclaw-config.js';
 import { adsStrategyTool } from '../tools/ads-strategy-tool.js';
+import { createOpenClawAgent, defaultModel } from './_shared.js';
 
 export const adsAgent = createOpenClawAgent({
   id: 'ads-agent',
@@ -8,5 +9,5 @@ export const adsAgent = createOpenClawAgent({
   instructions:
     'Create the Meta and Google launch strategy and return only the final ads object. Do not call any memory-writing tool or workflow-control tool.',
   model: defaultModel,
-  tools: { adsStrategyTool },
+  ...(isDevMode() ? {} : { tools: { adsStrategyTool } }),
 });
